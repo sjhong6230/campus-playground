@@ -1,0 +1,232 @@
+:root {
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  color: #243a43;
+  background: #e4e9e7;
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid #a76332;
+  outline-offset: 3px;
+}
+[hidden] {
+  display: none !important;
+}
+.lobby {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  background:
+    radial-gradient(ellipse at 80% 15%, #c8d9dd, transparent 60%), #e4e9e7;
+}
+.content {
+  width: min(1060px, 100%);
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #526c77;
+  margin: 0 0 22px;
+}
+h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.28;
+  letter-spacing: -2px;
+  margin: 0 0 20px;
+}
+.intro {
+  color: #5f7074;
+  font-size: 14px;
+  line-height: 1.9;
+  margin: 0 0 32px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+.card {
+  text-align: left;
+  position: relative;
+  min-height: 230px;
+  border: 1px solid #b8c6c7;
+  border-radius: 16px;
+  background: #f5f6f1;
+  padding: 30px;
+  color: #243a43;
+  box-shadow: 0 10px 30px #20383d08;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px #20383d18;
+}
+.initials {
+  display: block;
+  font:
+    600 34px/1.2 Consolas,
+    monospace;
+  letter-spacing: 2px;
+  color: #976641;
+}
+.card.gyeonggi .initials {
+  color: #326e8c;
+}
+.card.incheon .initials {
+  color: #467666;
+}
+.card strong {
+  display: block;
+  font-size: 23px;
+  letter-spacing: -1px;
+  margin: 14px 0 8px;
+}
+.location {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: #73858b;
+}
+.start {
+  display: block;
+  margin-top: 30px;
+  font-size: 13px;
+}
+.note {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #66787d;
+  margin-top: 25px;
+}
+.bar {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  background: #243a43;
+  color: #eff5f3;
+}
+.bar button {
+  border: 1px solid #65808a;
+  background: transparent;
+  color: inherit;
+  border-radius: 5px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+.bar label {
+  font-size: 11px;
+}
+.bar select {
+  border: 1px solid #65808a;
+  background: #314e5a;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 25px 5px 8px;
+  font-size: 12px;
+}
+.bar .tip {
+  margin-left: auto;
+  font-size: 10px;
+  color: #c4d2d5;
+}
+iframe {
+  display: block;
+  border: 0;
+  width: 100%;
+  height: calc(100dvh - 46px);
+  background: #c6cfd2;
+}
+.game {
+  height: 100dvh;
+  overflow: hidden;
+}
+@media (max-width: 750px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: 0 !important;
+    padding: 20px 24px !important;
+  }
+  .initials {
+    float: right;
+  }
+  .start {
+    margin-top: 12px;
+  }
+  .card strong {
+    margin-top: 0;
+  }
+  .lobby {
+    place-items: start center;
+  }
+  .lobby {
+    padding: 28px 20px;
+  }
+  .cards {
+    gap: 12px;
+  }
+  .card {
+    padding: 19px 16px;
+    min-height: 207px;
+  }
+  .card strong {
+    font-size: 17px;
+  }
+  .initials {
+    font-size: 27px;
+  }
+  .location {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+  .intro {
+    font-size: 12px;
+  }
+  .note {
+    font-size: 10px;
+  }
+  .bar {
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .bar .tip {
+    display: none;
+  }
+  .bar label {
+    font-size: 10px;
+  }
+}
+@media (max-width: 360px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: 0;
+  }
+  .start {
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

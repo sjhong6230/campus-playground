@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#243a43" />
+    <title>과학고 부수기 · CAMPUS PLAYGROUND</title>
+    <style>
+      /* LOBBY_CSS */
+    </style>
+  </head>
+  <body>
+    <main id="lobby" class="lobby">
+      <div class="content">
+        <p class="eyebrow">CAMPUS PLAYGROUND</p>
+        <h1>오늘은 어느 학교를<br />부숴볼까요?</h1>
+        <p class="intro">
+          학교를 고르고 마음껏 부순 뒤, 언제든 다시 복구하세요.
+        </p>
+        <div class="cards"></div>
+        <p class="note">
+          학교를 바꾸면 현재 장면은 초기화되며, 최고 점수는 학교별로
+          저장됩니다.<br />인터넷 연결 없이 실행할 수 있습니다. 학교와 관계없는
+          비공식 모형 게임이며 배치·치수·외관은 근사입니다.
+        </p>
+      </div>
+    </main>
+    <section id="game" class="game" hidden aria-label="선택한 학교 게임">
+      <header class="bar">
+        <button id="back">← 학교 선택</button><label for="school">캠퍼스</label
+        ><select id="school"></select>
+        <span class="tip"
+          >학교 변경 시 장면 초기화 · 최고 점수는 각각 저장</span
+        >
+      </header>
+      <div id="stage"></div>
+    </section>
+    <script id="campus-data" type="application/json">
+      /* CAMPUS_DATA */
+    </script>
+    <script>
+      /* LOBBY_JS */
+    </script>
+  </body>
+</html>

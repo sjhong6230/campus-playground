@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko" data-school="{{schoolId}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#e9eee9" />
+    <meta
+      name="description"
+      content="캠퍼스를 모티브로 만든 작은 3D 캠퍼스 샌드박스. 클릭하고, 부수고, 다시 복구해 보세요."
+    />
+    <title>캠퍼스 부수기 · CAMPUS PLAYGROUND</title>
+    <style>
+      /* GAME_CSS */
+    </style>
+  </head>
+  <body>
+    <main id="app">
+      <canvas
+        id="scene"
+        aria-label="캠퍼스 모형. 건물, 나무, 운동장, 시설물을 누르면 선택한 도구가 작동합니다."
+        tabindex="0"
+      ></canvas>
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="캠퍼스 부수기"
+          ><span class="brand-icon">I<span>✳</span></span
+          ><span>CAMPUS<span class="brand-sub">PLAYGROUND</span></span></a
+        >
+        <div class="campus-tag">
+          <span class="live-dot"></span> 캠퍼스 <span class="tag-sep">/</span>
+        </div>
+        <div class="display-options">
+          <label class="quality-label"
+            >화질
+            <select id="quality" aria-label="화질 및 성능">
+              <option value="auto">자동</option>
+              <option value="low">가벼움</option>
+              <option value="high">고화질</option>
+            </select></label
+          ><button
+            id="help"
+            class="icon-button"
+            title="사용 방법"
+            aria-label="사용 방법"
+          >
+            ?
+          </button>
+        </div>
+      </header>
+      <section class="intro">
+        <p class="eyebrow">CAMPUS PLAYGROUND</p>
+        <h1>오늘은,<br />캠퍼스를 <span>부숴보자.</span></h1>
+        <p class="intro-copy">
+          작은 캠퍼스, 커다란 스트레스 해소.<br />마음껏 부수고, 언제든 다시
+          시작하세요.
+        </p>
+        <span class="model-tag">지도 기반 배치 · 크기·높이는 근사</span>
+      </section>
+      <section class="score-panel" aria-label="현재 게임 기록">
+        <div class="score-heading">
+          <span>YOUR SCORE</span><span id="rank">READY</span>
+        </div>
+        <strong id="score">00000</strong>
+        <div class="damage-line">
+          <span>캠퍼스 파괴율</span><b id="percent">0%</b>
+        </div>
+        <div class="progress"><i id="progress"></i></div>
+        <div id="scenery-count" class="scenery-count">환경 요소 준비 중</div>
+        <div class="best">
+          BEST <span id="best">0</span><span id="hit-count">0 HITS</span>
+        </div>
+      </section>
+      <div class="north-indicator" title="지도 기준 북쪽">
+        <span id="north-arrow">↑</span><b>N</b>
+      </div>
+      <div class="view-controls" aria-label="화면 설정">
+        <button id="home" title="처음 시점" aria-label="처음 시점">⌂</button>
+        <button id="top" title="위에서 보기" aria-label="위에서 보기">▱</button>
+        <button
+          id="labels"
+          title="건물 이름"
+          aria-label="건물 이름 표시"
+          aria-pressed="true"
+        >
+          Aa
+        </button>
+        <button
+          id="night"
+          title="밤 모드"
+          aria-label="밤 모드"
+          aria-pressed="false"
+        >
+          ☾
+        </button>
+        <button
+          id="sound"
+          title="소리 켜기"
+          aria-label="소리 켜기"
+          aria-pressed="false"
+        >
+          ♪
+        </button>
+      </div>
+      <div id="labels-layer" aria-hidden="true"></div>
+      <div id="screen-flash" aria-hidden="true"></div>
+      <div id="impact-caption" aria-hidden="true"></div>
+      <div class="hint" id="hint">
+        <span class="hint-dot"></span
+        ><span id="hint-text">건물·나무·운동장을 눌러보세요</span>
+      </div>
+      <section class="bottom-controls">
+        <div class="power-control">
+          <label for="power">POWER</label
+          ><input
+            id="power"
+            type="range"
+            min="1"
+            max="3"
+            step="0.5"
+            value="2"
+          /><output id="power-value">2×</output>
+        </div>
+        <div class="tool-caption">
+          <span>CHOOSE YOUR CHAOS</span
+          ><span id="tool-description"
+            >융단 폭격 · 선택한 곳을 가로질러 연속 투하</span
+          >
+        </div>
+        <nav class="tool-dock" aria-label="도구 선택">
+          <div class="dock-separator"></div>
+          <button id="undo" class="action" title="되돌리기 (Ctrl+Z)" disabled>
+            <span>↶</span>되돌리기
+          </button>
+          <button id="reset" class="action reset">
+            <span>↻</span>전부 복구
+          </button>
+        </nav>
+        <p class="controls-help">
+          클릭 · 도구 사용 <span> / </span> 드래그 · 회전 <span> / </span> 휠 ·
+          확대 <span> / </span> 1–6 · 도구 선택
+        </p>
+      </section>
+      <footer>
+        <span>학교와 관계없는 비공식 팬 게임</span
+        ><a
+          href="https://hong-iron.github.io/SMASH/"
+          target="_blank"
+          rel="noopener"
+          >Inspired by SMASH ↗</a
+        >
+      </footer>
+      <div id="toast" role="status" aria-live="polite"></div>
+      <div id="loading">작은 캠퍼스를 만드는 중…</div>
+      <dialog id="help-dialog">
+        <button class="close" aria-label="닫기">×</button>
+        <p class="eyebrow">WELCOME TO THE PLAYGROUND</p>
+        <h2>부담 없이, 한 번 클릭.</h2>
+        <p>
+          도구를 고르고 건물·나무·운동장·골대·벤치·입구를 눌러보세요.<br />사람이
+          없는 가상의 모형 캠퍼스입니다.
+        </p>
+        <ul></ul>
+        <p>
+          드래그로 회전, 휠 또는 두 손가락으로 확대.<br /><b>Ctrl+Z</b>로
+          되돌리기, <b>R</b>로 전부 복구.
+        </p>
+        <p class="small"></p>
+        <button class="start">시작하기 ↗</button>
+      </dialog>
+      <noscript>이 게임을 실행하려면 JavaScript를 켜주세요.</noscript>
+    </main>
+    <script>
+      /* VENDOR_JS */
+    </script>
+    <script>
+      /* GAME_JS */
+    </script>
+  </body>
+</html>
