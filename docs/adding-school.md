@@ -50,7 +50,7 @@ id는 소문자로 시작하는 영문·숫자·하이픈으로 구성하고 중
 | `elevationAt(x,z)`    | 변형 전 base height                                                |
 | `point(frame,u,v)`    | 회전된 지역 좌표 → world X/Z                                       |
 
-Roof는 `gable`, `barrel`, `hip`을 지원합니다. Hip roof는 현재 정사각형 segment에 맞춘 근사입니다. Segment의 `observatory: true`는 slab에 부착되는 작은 아치형 관측실입니다. Layout의 `observatory`는 별도의 dome 방식이므로 구분하세요.
+Roof는 `flat`, `gable`, `barrel`, `hip`을 지원합니다. `flat`은 `roofColor`로 칠한 평지붕이며, 다른 roof와 같이 아래 slab의 움직임·손상·복구를 따릅니다. Segment의 `color`로 건물 기본 색을 덮어쓸 수 있습니다. Hip roof는 현재 정사각형 segment에 맞춘 근사입니다. Segment의 `observatory: true`는 slab에 부착되는 작은 아치형 관측실입니다. Layout의 `observatory`는 별도의 dome 방식이므로 구분하세요.
 
 `baseY`가 해당 footprint의 `elevationAt()` 값과 맞도록 평탄화하세요. 운동장과 건물이 겹치지 않도록 확인하고, 높이나 명칭이 불확실한 부분은 출처 문서에 근사라고 기록하세요.
 

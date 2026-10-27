@@ -1,0 +1,15 @@
+한국과학영재학교 (KSA)
+
+2026-10-27 사용자가 제공한 KSA-Playground.html의 layout과 ground painter를 이식했습니다.
+건물 9개, 연결부 4개, 운동장, court, 주차장, 정문, 관측 돔과 경사 지형을 유지합니다.
+원본의 flatGreen 지붕은 공통 renderer의 flat roof + roofColor로 표현합니다.
+학교 데이터만 이식하며 도구, audio, damage, Undo, 성능 설정은 현재 공통 엔진을 사용합니다.
+
+원본에 기재된 참고 자료 (이번 이식에서 별도로 지도 대조하지 않음):
+- 사용자 제공 aerial views
+- https://ksa.hs.kr/Home/Sub/14
+- https://ksa.hs.kr/Content/images/camtour/index.html
+- 원본 checked: 2026-10-27
+
+사진의 뒤쪽이 -Z이며 측량된 북쪽 방향이 아닙니다. 건물 치수, 층수, 높이,
+외관, 연결부와 조경은 원본의 게임용 근사입니다. 위성사진 원본은 포함하지 않습니다.

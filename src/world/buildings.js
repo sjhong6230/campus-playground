@@ -33,7 +33,7 @@ export function createBuildings({ T, world, layout, visuals, rng, $ }) {
         nx: segment.w / 3.6,
         nz: segment.d / 3.6,
         floors: segment.floors ?? b.floors,
-        color: b.color,
+        color: segment.color ?? b.color,
       };
       for (const part of fracture.buildingParts(local)) {
         part.building = b;

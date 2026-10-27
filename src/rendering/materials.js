@@ -178,6 +178,24 @@ export const CampusVisuals = {
             );
           }
         }
+        if (s.roof === "flat") {
+          const nu = Math.ceil(s.w / 5),
+            nv = Math.ceil(s.d / 5);
+          for (let j = 0; j < nv; j++)
+            for (let i = 0; i < nu; i++)
+              add(
+                b,
+                s,
+                -s.w / 2 + ((i + 0.5) * s.w) / nu,
+                0.25,
+                -s.d / 2 + ((j + 0.5) * s.d) / nv,
+                s.w / nu - 0.03,
+                0.3,
+                s.d / nv - 0.03,
+                s.roofColor,
+              );
+          continue;
+        }
         if (s.roof === "hip") {
           const half = s.d / 2;
           for (let side = 0; side < 4; side++)
