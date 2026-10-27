@@ -1,3 +1,4 @@
+import { createBlackHoleVisual } from "../effects/blackhole-visual.js";
 /* Stylized black hole: bounded capture field and disposable local geometry. */
 export const CampusBlackHole = {
   pull(body, field, dt) {
@@ -81,76 +82,15 @@ export const CampusBlackHole = {
     let state = null;
     function clear() {
       if (!state) return;
-      root.remove(state.group);
-      const gs = new Set(),
-        ms = new Set();
-      state.group.traverse((o) => {
-        if (o.geometry) gs.add(o.geometry);
-        if (o.material) ms.add(o.material);
-      });
-      gs.forEach((g) => g.dispose());
-      ms.forEach((m) => m.dispose());
+      state.visual.dispose();
       state = null;
     }
     function start(p, power) {
       clear();
-      const group = new T.Group();
-      group.position.copy(p);
-      root.add(group);
-      const core = 3.5 * Math.sqrt(power),
-        sphere = new T.Mesh(
-          new T.SphereGeometry(core, 32, 20),
-          new T.MeshBasicMaterial({ color: 0x010103 }),
-        );
-      group.add(sphere);
-      const material = new T.ShaderMaterial({
-        uniforms: {
-          clock: { value: 0 },
-          inner: { value: core * 1.12 },
-          outer: { value: core * 3.4 },
-        },
-        vertexShader:
-          "varying vec3 local; void main(){local=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
-        fragmentShader: `varying vec3 local;uniform float clock;uniform float inner;uniform float outer;
-    void main(){float r=length(local.xy);float a=atan(local.y,local.x);float t=(r-inner)/(outer-inner);float bands=pow(.5+.5*sin(r*3.8-a*3.0+clock*4.0),3.0);float streak=pow(.5+.5*sin(a*17.0+r*1.7-clock*3.0),7.0);float edge=smoothstep(0.,.06,t)*(1.-smoothstep(.65,1.,t));float brightness=(.5+bands*.7+streak*.8)*edge;vec3 color=mix(vec3(1.,.94,.7),vec3(1.,.21,.035),smoothstep(0.,.8,t));gl_FragColor=vec4(color*brightness,edge*(.7+bands*.25));}`,
-        transparent: true,
-        side: T.DoubleSide,
-        depthWrite: false,
-        blending: T.AdditiveBlending,
-      });
-      const disk = new T.Mesh(
-        new T.RingGeometry(core * 1.12, core * 3.4, 64, 4),
-        material,
-      );
-      disk.rotation.set(-Math.PI / 2 + 0.2, 0, 0.16);
-      group.add(disk);
-      const halo = new T.Mesh(
-        new T.RingGeometry(core * 1.01, core * 1.12, 64),
-        new T.MeshBasicMaterial({
-          color: "#ffe7aa",
-          side: T.DoubleSide,
-          transparent: true,
-          opacity: 0.95,
-          blending: T.AdditiveBlending,
-          depthWrite: false,
-        }),
-      );
-      group.add(halo);
-      const stars = new Float32Array(120 * 3);
-      const geo = new T.BufferGeometry();
-      geo.setAttribute("position", new T.BufferAttribute(stars, 3));
-      const motes = new T.Points(
-        geo,
-        new T.PointsMaterial({
-          color: "#ffcc8d",
-          size: 0.65,
-          transparent: true,
-          opacity: 0.85,
-          blending: T.AdditiveBlending,
-          depthWrite: false,
-        }),
-      );
-      group.add(motes);
+      const core = 3.5 * Math.sqrt(power);
+      const visual = createBlackHoleVisual(T, core);
+      visual.group.position.copy(p);
+      root.add(visual.group);
       state = {
         p: p.clone(),
         power,
@@ -158,12 +98,8 @@ export const CampusBlackHole = {
         radius: 8,
         age: 0,
         captured: new Set(),
-        group,
-        disk,
-        halo,
-        stars,
-        geo,
-        material,
+        group: visual.group,
+        visual,
       };
       return state;
     }
@@ -172,23 +108,7 @@ export const CampusBlackHole = {
       const s = state;
       s.age += dt;
       s.radius = (8 + 16 * Math.min(1, s.age / 1.1)) * Math.sqrt(s.power);
-      s.material.uniforms.clock.value = s.age;
-      s.halo.quaternion.copy(camera.quaternion);
-      s.disk.rotation.z += dt * 0.14;
-      const scale =
-        Math.min(1, s.age / 0.35) *
-        Math.max(0, Math.min(1, (3.2 - s.age) / 0.4));
-      s.group.scale.setScalar(scale);
-      for (let i = 0; i < s.stars.length; i += 3) {
-        const n = i / 3,
-          t = (n * 0.618 + s.age * 0.16) % 1,
-          r = s.core + (1 - t) * s.core * 4.5,
-          a = n * 2.4 + s.age * (1.2 + t * 2.5);
-        s.stars[i] = Math.cos(a) * r;
-        s.stars[i + 1] = Math.sin(n * 5.7) * (1 - t) * 9;
-        s.stars[i + 2] = Math.sin(a) * r;
-      }
-      s.geo.attributes.position.needsUpdate = true;
+      s.visual.update(s.age, camera);
       if (s.age >= 3.2) {
         const p = s.p.clone(),
           power = s.power,
