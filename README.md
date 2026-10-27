@@ -26,6 +26,7 @@ pnpm start         # 이미 빌드한 dist/ 미리보기
 
 | 파일                     | 용도                    |
 | ------------------------ | ----------------------- |
+| `index.html`             | GitHub Pages 시작 화면  |
 | `Campus-Playground.html` | 학교를 선택하는 통합판  |
 | `SSHS-Playground.html`   | 서울과고 단독판         |
 | `GSHS-Playground.html`   | 경기과고 단독판         |
@@ -85,4 +86,12 @@ vendor/                   고정된 Three.js 배포본과 MIT 라이선스
 
 학교별 참고 자료와 근사 범위는 [docs/sources](docs/sources)에 기록했습니다. 위성사진 원본은 게임에 포함하지 않습니다. 디자인의 출발점은 [SMASH](https://hong-iron.github.io/SMASH/)입니다. Three.js는 `vendor/THREE-LICENSE.txt`의 MIT 라이선스를 따릅니다. 자세한 내용은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 보세요.
 
-이 디렉터리가 독립적인 로컬 Git 저장소입니다. 생성물 `dist/`와 의존성 `node_modules/`는 버전 관리에서 제외합니다. 원격 저장소는 연결하지 않았습니다.
+이 디렉터리가 독립적인 Git 저장소입니다. 생성물 `dist/`와 의존성 `node_modules/`는 버전 관리에서 제외합니다.
+
+## GitHub Pages 배포
+
+`.github/workflows/pages.yml`은 `main`에 push할 때 테스트와 빌드를 실행하고, 성공한 `dist/`를 GitHub Pages에 배포합니다. Actions 탭의 **Deploy GitHub Pages → Run workflow**로 수동 배포할 수도 있습니다.
+
+새 저장소로 복사했다면 **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 설정하세요. 개인 토큰을 workflow secret에 추가할 필요는 없습니다. 배포 job은 GitHub가 제공하는 임시 인증을 사용합니다.
+
+배포 주소의 루트에서는 학교 선택 화면이 열립니다. 같은 경로의 `SSHS-Playground.html`, `GSHS-Playground.html`, `ISHS-Playground.html`로 각 학교에 바로 접속할 수 있습니다. HTML 안에 필요한 코드가 들어 있어 프로젝트 경로가 달라도 별도의 base URL 설정이 필요하지 않습니다.

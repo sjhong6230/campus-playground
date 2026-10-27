@@ -6,6 +6,7 @@ import { buildAll, root } from "../scripts/build.mjs";
 import { join } from "node:path";
 test("offline bundle embeds one engine and every registered campus", async () => {
   const { combined, template, metadata } = await buildAll();
+  assert.equal(await readFile(join(root, "dist/index.html"), "utf8"), combined);
   const encoded = combined.match(
     /<script id="campus-data" type="application\/json">([\s\S]*?)<\/script>/,
   )[1];

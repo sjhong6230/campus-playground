@@ -61,6 +61,7 @@ export async function buildAll() {
     .replace("/* CAMPUS_DATA */", () => data)
     .replace("/* LOBBY_JS */", () => safeScript(lobbyJS));
   await mkdir(join(root, "dist"), { recursive: true });
+  await writeFile(join(root, "dist/index.html"), combined);
   await writeFile(join(root, "dist/Campus-Playground.html"), combined);
   for (const school of schools)
     await writeFile(

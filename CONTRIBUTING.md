@@ -19,4 +19,4 @@ Canvas의 `data-fps`, `data-render-ratio`, `data-draw-calls`, `data-settled` 등
 
 ## Git
 
-`node_modules/`, `dist/`, 로그는 제외합니다. 소스·문서·테스트·vendor 라이선스·`pnpm-lock.yaml`은 함께 관리합니다. 패키지를 바꿨으면 lockfile도 갱신하세요. 이 저장소는 원격을 자동 생성하거나 업로드하지 않습니다.
+`node_modules/`, `dist/`, 로그는 제외합니다. 소스·문서·테스트·vendor 라이선스·`pnpm-lock.yaml`은 함께 관리합니다. 패키지를 바꿨으면 lockfile도 갱신하세요. `main`에 push하면 GitHub Actions가 테스트·빌드 후 GitHub Pages를 갱신합니다.
