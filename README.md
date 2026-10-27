@@ -2,6 +2,8 @@
 
 서울과학고등학교·경기과학고등학교·인천과학고등학교 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 학교와 관계없는 비공식 게임이며, 공개 지도에 기반한 건물 배치와 치수·외관은 근사입니다.
 
+**[웹에서 플레이](https://sjhong6230.github.io/campus-playground/)** · [GitHub 저장소](https://github.com/sjhong6230/campus-playground)
+
 ## 실행
 
 개발에는 **Node.js 22 이상**과 **pnpm 11**이 필요합니다.
