@@ -20,7 +20,7 @@ export const createCampusShockwave = function (
     clear();
     const rings = [];
     for (let i = 0; i < 3; i++) {
-      const geometry = new T.RingGeometry(0.965, 1, 128),
+      const geometry = new T.RingGeometry(0.965, 1, 64),
         mesh = new T.Mesh(
           geometry,
           new T.MeshBasicMaterial({
@@ -41,7 +41,7 @@ export const createCampusShockwave = function (
       p: p.clone(),
       power,
       age: 0,
-      maxRadius: 92 * Math.sqrt(power),
+      maxRadius: 32 * Math.sqrt(power),
       lastRadius: 0,
       rings,
     };
@@ -51,7 +51,7 @@ export const createCampusShockwave = function (
     if (!run) return;
     const r = run;
     r.age += dt;
-    const t = Math.min(1, r.age / 1.35),
+    const t = Math.min(1, r.age / 0.9),
       radius = r.maxRadius * t;
     r.rings.forEach((m, i) => {
       const rr = Math.max(0.01, radius - i * 5),

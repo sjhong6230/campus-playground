@@ -66,9 +66,13 @@ export const createCampusFire = function (T, root) {
   function put(b, p, w, h, seed, alpha) {
     if (b.count >= b.cap) return;
     const i = b.count++;
-    b.a.set([p.x, p.y, p.z], i * 3);
-    b.b.set([w, h], i * 2);
-    b.c.set([seed, alpha], i * 2);
+    b.a[i * 3] = p.x;
+    b.a[i * 3 + 1] = p.y;
+    b.a[i * 3 + 2] = p.z;
+    b.b[i * 2] = w;
+    b.b[i * 2 + 1] = h;
+    b.c[i * 2] = seed;
+    b.c[i * 2 + 1] = alpha;
   }
   function touch(p, strength = 1, key = "default") {
     let f = sources.get(key);
@@ -90,6 +94,7 @@ export const createCampusFire = function (T, root) {
   }
   function update(dt) {
     clock += dt;
+    if (!sources.size && !smoke.length && !sparks.length) return;
     for (const b of batches) b.count = 0;
     for (const [key, f] of sources) {
       const fade = Math.max(0, 1 - (clock - f.seen) / 0.75);
@@ -106,7 +111,16 @@ export const createCampusFire = function (T, root) {
         f.seed,
         fade,
       );
-      for (let i = 0; i < (performanceSettings?.detail === 1 ? 3 : 2); i++) {
+      for (
+        let i = 0;
+        i <
+        (performanceSettings.detail < 0.5
+          ? 1
+          : performanceSettings.detail === 1
+            ? 3
+            : 2);
+        i++
+      ) {
         const phase = clock * (2.8 + i * 0.45) + f.seed + i * 3.2,
           height = (3.8 + i * 0.9) * s * (0.78 + 0.22 * Math.sin(phase)),
           a = f.seed + i * 2.4;
@@ -124,7 +138,10 @@ export const createCampusFire = function (T, root) {
         );
       }
       if (clock > f.smokeAt) {
-        f.smokeAt = clock + 0.6 + Math.random() * 0.35;
+        f.smokeAt =
+          clock +
+          (performanceSettings.detail < 0.5 ? 1.1 : 0.6) +
+          Math.random() * 0.35;
         smoke.push({
           p: f.p.clone().add(new T.Vector3(0, 2.8 * s, 0)),
           age: 0,
@@ -132,12 +149,19 @@ export const createCampusFire = function (T, root) {
           s: 3.8 * s,
           seed: f.seed,
         });
-        if (smoke.length > (performanceSettings?.detail === 1 ? 384 : 192))
+        if (
+          smoke.length >
+          (performanceSettings.detail < 0.5
+            ? 96
+            : performanceSettings.detail === 1
+              ? 384
+              : 192)
+        )
           smoke.shift();
       }
       if (clock > f.emberAt) {
         f.emberAt = clock + 0.6;
-        for (let i = 0; i < 2; i++)
+        for (let i = 0; i < (performanceSettings.detail < 0.5 ? 1 : 2); i++)
           sparks.push({
             p: f.p.clone(),
             age: 0,
@@ -180,8 +204,14 @@ export const createCampusFire = function (T, root) {
     }
     for (const b of batches) {
       b.geometry.instanceCount = b.count;
-      for (const k of ["center", "extent", "phase"])
-        b.geometry.attributes[k].needsUpdate = true;
+      b.mesh.visible = b.count > 0;
+      if (b.count)
+        for (const k of ["center", "extent", "phase"]) {
+          const attribute = b.geometry.attributes[k];
+          attribute.setUsage(T.DynamicDrawUsage);
+          attribute.addUpdateRange(0, b.count * attribute.itemSize);
+          attribute.needsUpdate = true;
+        }
       b.material.uniforms.time.value = clock;
     }
   }
@@ -194,6 +224,7 @@ export const createCampusFire = function (T, root) {
     fire: touch,
     update,
     clear,
+    active: () => sources.size > 0 || smoke.length > 0 || sparks.length > 0,
     stats: () => ({
       sources: sources.size,
       smoke: smoke.length,

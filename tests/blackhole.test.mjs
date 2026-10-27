@@ -10,12 +10,12 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
     camera = new T.PerspectiveCamera();
   let finishes = 0;
   const hole = B.create(T, root, () => finishes++);
-  const field = hole.start(new T.Vector3(0, 24, 0), 2);
+  const field = hole.start(new T.Vector3(0, 14, 0), 2);
   let disposed = 0;
   root.traverse((o) => {
     if (o.geometry) o.geometry.addEventListener("dispose", () => disposed++);
   });
-  const bodies = [5, 20, 35, 50].map((x) => ({
+  const bodies = [5, 12, 20, 28].map((x) => ({
     p: new T.Vector3(x, 6, 0),
     v: new T.Vector3(),
     r: new T.Vector3(),
@@ -23,7 +23,7 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
     sleep: true,
   }));
   let deformed = false;
-  for (let i = 0; i < 450; i++) {
+  for (let i = 0; i < 180; i++) {
     hole.update(1 / 60, camera);
     const f = hole.field();
     if (f)
@@ -39,7 +39,14 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
   );
   assert(deformed);
   assert(bodies.every((b) => b.drawScale === 0));
-  hole.update(1, camera);
+  assert(field.radius <= 24 * Math.sqrt(2));
+  const distant = { p: new T.Vector3(60, 14, 0) };
+  assert.equal(
+    B.pull(distant, field, 1 / 60),
+    false,
+    "Distant debris stays untouched",
+  );
+  hole.update(0.21, camera);
   assert(
     bodies.every(
       (b) =>
@@ -94,7 +101,7 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
       (f, i) => f.power === 2 && (!i || f.radius > fronts[i - 1].radius),
     ),
   );
-  assert(Math.abs(fronts.at(-1).radius - 92 * Math.sqrt(2)) < 1e-8);
+  assert(Math.abs(fronts.at(-1).radius - 32 * Math.sqrt(2)) < 1e-8);
   wave.start(new T.Vector3(), 1);
   wave.update(0.2);
   wave.clear();

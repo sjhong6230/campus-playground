@@ -3,10 +3,10 @@ export const tools = [
   {
     id: "bombing",
     key: "1",
-    label: "융단 폭격",
-    icon: "✈",
-    description: "융단 폭격 · 선택한 곳을 가로질러 연속 투하",
-    help: "21발을 세 줄로 투하해 Explosion, crater와 화재를 남깁니다.",
+    label: "폭탄",
+    icon: "◆",
+    description: "폭탄 · 선택한 지점에 한 발 투하",
+    help: "한 발이 떨어져 주변에 Explosion, crater와 화재를 남깁니다.",
   },
   {
     id: "meteor",
@@ -31,7 +31,7 @@ export const tools = [
     label: "블랙홀",
     icon: "◎",
     description: "블랙홀 · 주변 구조물을 끌어당겨 집어삼키기",
-    help: "Accretion disk로 잔해를 흡수하고 마지막 Shockwave와 함께 방출합니다.",
+    help: "좁은 범위의 debris를 흡수하고 약 3초 뒤 Shockwave와 함께 방출합니다.",
   },
   {
     id: "quake",

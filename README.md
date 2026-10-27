@@ -80,7 +80,11 @@ vendor/                   고정된 Three.js 배포본과 MIT 라이선스
 
 ## 검증 범위
 
-자동 테스트는 세 학교의 초기 terrain·환경 요소가 리팩터링 이전과 같은지 확인합니다. 파괴와 복구, roof 부착물, idle 상태의 불필요한 GPU upload 방지, Black hole capture/ejection, Shockwave, 융단 폭격 취소, 화산폭발 및 fire 제한도 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다.
+자동 테스트는 세 학교의 초기 terrain·환경 요소가 리팩터링 이전과 같은지 확인합니다. 파괴와 복구, roof 부착물, idle 상태의 불필요한 GPU upload 방지, Black hole capture/ejection, Shockwave, 단일 폭탄 투하·취소, 화산폭발 및 fire 제한도 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다.
+
+폭탄은 클릭당 한 발입니다. Black hole은 약 3.2초 동안 주변을 흡수한 뒤 debris를 방출합니다. 최대 capture radius는 `24 × √POWER`, Shockwave radius는 `32 × √POWER` world units입니다. 도구별 사운드는 외부 파일 없이 합성하고 버퍼를 재사용하며, 소리는 오른쪽 버튼으로 켤 수 있습니다.
+
+자동 화질은 FPS가 낮을 때 해상도와 particle 밀도를 함께 줄입니다. scenery는 변경된 instance만 GPU에 보내고, camera가 정지해 있으면 label 위치를 다시 계산하지 않습니다. 장면이 정지하면 3D 재렌더링을 쉬고, camera 입력·복구·효과 발생 시 다시 그립니다. 낮은 화질에서는 fire·smoke 수와 그림자 갱신도 줄입니다.
 
 자동 테스트는 Node에서 WebGL 없이 실행하므로 화면 품질·FPS를 보장하지 않습니다. UI와 실제 렌더링은 브라우저에서 함께 확인해야 합니다. 기능별 smoke test는 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요.
 

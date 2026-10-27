@@ -70,6 +70,7 @@ test("quality adaptation and low/high shadow restoration", () => {
     q.record(0.1, time);
   }
   assert(renderer.ratio < 1.25);
+  assert(q.shadowInterval >= 0.16);
   assert.equal(canvas.dataset.fps, 10);
   select.value = "low";
   select.onchange();
@@ -81,6 +82,7 @@ test("quality adaptation and low/high shadow restoration", () => {
   assert(material.needsUpdate);
   assert(sun.shadow.needsUpdate);
   assert.equal(renderer.ratio, 1.6);
+  assert.equal(q.shadowInterval, 0.08);
   assert.equal(dirty, 2);
 });
 test("catalog shortcuts are unique and all tools have start actions", () => {

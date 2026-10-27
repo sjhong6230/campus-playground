@@ -1,5 +1,6 @@
 import { createMushroomCloud } from "./mushroom.js";
 import { createCampusFire } from "./fire.js";
+import { performanceSettings } from "../core/settings.js";
 /* Bounded, disposable particle effects. All textures are generated locally. */
 export const createCampusFX = function (T, root) {
   const clouds = [],
@@ -42,6 +43,7 @@ export const createCampusFX = function (T, root) {
       spread = 1,
     } = {},
   ) {
+    count = Math.max(8, Math.round(count * performanceSettings.detail));
     const positions = new Float32Array(count * 3),
       velocity = new Float32Array(count * 3),
       colors = new Float32Array(count * 3),
@@ -277,5 +279,21 @@ export const createCampusFX = function (T, root) {
     fireSystem.clear();
     groups.length = ornaments.length = 0;
   }
-  return { burst, ash, trail, fire, dust, nuclear, update, clear };
+  return {
+    burst,
+    ash,
+    trail,
+    fire,
+    dust,
+    nuclear,
+    update,
+    clear,
+    active: () =>
+      !!(
+        clouds.length ||
+        groups.length ||
+        ornaments.length ||
+        fireSystem.active()
+      ),
+  };
 };

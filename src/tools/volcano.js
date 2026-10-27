@@ -213,5 +213,6 @@ export const createCampusVolcano = function (
     snapshot,
     restore,
     active: () => runs.some((r) => !r.complete),
+    animating: () => runs.length > 0,
   };
 };

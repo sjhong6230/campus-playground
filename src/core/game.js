@@ -17,6 +17,7 @@ import { createCampusShockwave } from "../effects/shockwave.js";
 import { CampusVisuals } from "../rendering/materials.js";
 import { createCampusVolcano } from "../tools/volcano.js";
 import { createQualityController } from "../rendering/quality.js";
+import { createFrameGate } from "../rendering/frame-gate.js";
 /* Independent campus sandbox. Rendering: Three.js (MIT). */
 export function createGame(school) {
   "use strict";
@@ -253,6 +254,7 @@ export function createGame(school) {
     });
   }
   function clearEffects() {
+    audio.stop();
     volcano.clear();
     canvas.dataset.volcano = "idle";
     shockwave.clear();
@@ -335,6 +337,10 @@ export function createGame(school) {
   $("reset").onclick = restore;
   $("undo").onclick = undo;
   const audio = createImpactAudio(() => controls.soundEnabled);
+  window.addEventListener("pagehide", () => audio.dispose());
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) audio.stop();
+  });
   function ring(p, color, radius) {
     const mesh = new T.Mesh(
       new T.RingGeometry(0.87, 1, 64),
@@ -391,6 +397,7 @@ export function createGame(school) {
     nukeSequence.prop = null;
   }
   function fire(p) {
+    audio.unlock();
     if (volcano.active()) {
       toast("화산이 분화 중이에요");
       return;
@@ -404,7 +411,7 @@ export function createGame(school) {
       return;
     }
     if (bombing.active()) {
-      toast("융단 폭격이 진행 중이에요");
+      toast("폭탄이 떨어지고 있어요");
       return;
     }
     if (nukeSequence) {
@@ -439,8 +446,8 @@ export function createGame(school) {
       canvas.dataset.bombsDropped = done;
       $("hint-text").textContent =
         done === total
-          ? "융단 폭격 완료 · 다른 곳을 선택해 보세요"
-          : "융단 폭격 " + done + " / " + total;
+          ? "폭탄 impact · 다른 곳을 선택해 보세요"
+          : "폭탄 한 발이 떨어지는 중…";
     },
     (x, z) => {
       world.updateMatrixWorld(true);
@@ -506,7 +513,7 @@ export function createGame(school) {
     canvas.dataset.shockwaveDamage = 0;
     scenery.beginShockwave();
     shockwave.start(p, strength);
-    audio(1.8);
+    audio("shockwave", strength);
     flashLevel = reduce ? 0 : 0.22;
     shake = reduce ? 0 : 3;
     captionLife = 1.5;
@@ -534,6 +541,7 @@ export function createGame(school) {
       nextCapture = 0;
     },
     startNuclear: (p) => {
+      audio("fall", 1.5);
       const target = p.clone();
       target.y = terrain.heightAt(p.x, p.z) + 0.2;
       nukeSequence = {
@@ -576,6 +584,7 @@ export function createGame(school) {
       shadowDirty = true;
     },
   });
+  const shouldRender = createFrameGate();
   function frame(now) {
     if (document.hidden) {
       last = now;
@@ -750,7 +759,7 @@ export function createGame(school) {
     $("impact-caption").style.opacity = Math.min(1, captionLife * 2);
     $("impact-caption").style.transform =
       "translate(-50%," + -12 * (1.5 - captionLife) + "px)";
-    controls.update(time, shake, field);
+    const cameraChanged = controls.update(time, shake, field);
     if (dome)
       dome.visible = !buildings[layout.observatory.building ?? 0].ids.some(
         (i) =>
@@ -760,14 +769,31 @@ export function createGame(school) {
           blocks[i].origin.y > layout.observatory.y - 3,
       );
     if (terrain.flush()) shadowDirty = true;
-    if (renderer.shadowMap.enabled && shadowDirty && time - lastShadow > 0.08) {
+    const animating =
+      canvas.dataset.settled !== "true" ||
+      fx.active() ||
+      volcano.animating() ||
+      fires.length > 0 ||
+      effects.length > 0 ||
+      shake > 0;
+    const renderFrame = shouldRender(animating, cameraChanged || shadowDirty);
+    if (
+      renderer.shadowMap.enabled &&
+      shadowDirty &&
+      time - lastShadow > quality.shadowInterval
+    ) {
       renderer.shadowMap.needsUpdate = true;
       sun.shadow.needsUpdate = true;
       shadowDirty = false;
       lastShadow = time;
     }
-    renderer.render(scene, camera);
-    quality.record(realDelta, time);
+    if (renderFrame) {
+      renderer.render(scene, camera);
+      if (!renderer.shadowMap.enabled) shadowDirty = false;
+    }
+    canvas.dataset.renderState = renderFrame ? "rendering" : "idle";
+    if (animating || cameraChanged) quality.record(realDelta, time);
+    else quality.resetSampling();
     requestAnimationFrame(frame);
   }
   selectTool(tool);

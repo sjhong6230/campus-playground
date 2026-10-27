@@ -18,6 +18,20 @@ export function createDamageSystem({
   updateStats,
   toast,
 }) {
+  // Topology is fixed: cache structural groups instead of mapping every building
+  // repeatedly during lava/impact callbacks. Active state is read live for Undo.
+  const structures = buildings.map((building) => ({
+    building,
+    stories: Array.from({ length: building.floors }, (_, story) => {
+      const members = building.ids
+        .map((i) => blocks[i])
+        .filter((b) => b.story === story);
+      return {
+        supports: members.filter((b) => b.kind === "column"),
+        walls: members.filter((b) => b.kind === "wall"),
+      };
+    }),
+  }));
   function activate(b, p, mode, strength = getPower()) {
     b.delay = 0;
     b.age = 0;
@@ -116,15 +130,10 @@ export function createDamageSystem({
       }
     }
     // Remove support story by story. Heavy slabs lose support before the stories above them.
-    for (const building of buildings) {
+    for (const { building, stories } of structures) {
       let failed = -1;
       for (let story = 0; story < building.floors; story++) {
-        const supports = building.ids
-          .map((i) => blocks[i])
-          .filter((b) => b.story === story && b.kind === "column");
-        const walls = building.ids
-          .map((i) => blocks[i])
-          .filter((b) => b.story === story && b.kind === "wall");
+        const { supports, walls } = stories[story];
         if (
           (supports.length &&
             supports.filter((b) => b.active).length / supports.length >= 0.5) ||
@@ -147,8 +156,8 @@ export function createDamageSystem({
     }
     count += scenery.damage(p, mode, power);
     onScore(count * 10);
+    audio(mode, power);
     if (count) {
-      audio(mode === "meteor" ? 1.5 : 1);
       onShake(
         reduce ? 0 : mode === "quake" ? 3.2 : mode === "meteor" ? 2.4 : 1.2,
       );
@@ -208,7 +217,7 @@ export function createDamageSystem({
               : 0.12;
     const caption =
       (mode === "bombing"
-        ? "CARPET BOMBING"
+        ? "BOMB IMPACT"
         : mode === "nuke"
           ? "TOTAL DESTRUCTION"
           : mode === "meteor"

@@ -3,7 +3,7 @@ export const CampusBlackHole = {
   pull(body, field, dt) {
     if (body.consumed) return true;
     const d = body.p.distanceTo(field.p);
-    if (d > field.radius + 12) return false;
+    if (d > field.radius + 4) return false;
     body.sleep = false;
     body.delay = 0;
     if (d < field.core + 1.2) {
@@ -30,7 +30,10 @@ export const CampusBlackHole = {
       Math.max(0.06, (d - field.core) / (field.core * 1.8)),
     );
     body.stretch = 1 + (1 - body.drawScale) * 2.5;
-    body.pullAxis = { x: dx, y: dy, z: dz };
+    body.pullAxis ||= { x: 0, y: 0, z: 0 };
+    body.pullAxis.x = dx;
+    body.pullAxis.y = dy;
+    body.pullAxis.z = dz;
     body.p.addScaledVector(body.v, dt);
     body.r.addScaledVector(body.spin, dt);
     return true;
@@ -94,9 +97,9 @@ export const CampusBlackHole = {
       const group = new T.Group();
       group.position.copy(p);
       root.add(group);
-      const core = 6.2 * Math.sqrt(power),
+      const core = 3.5 * Math.sqrt(power),
         sphere = new T.Mesh(
-          new T.SphereGeometry(core, 48, 32),
+          new T.SphereGeometry(core, 32, 20),
           new T.MeshBasicMaterial({ color: 0x010103 }),
         );
       group.add(sphere);
@@ -116,13 +119,13 @@ export const CampusBlackHole = {
         blending: T.AdditiveBlending,
       });
       const disk = new T.Mesh(
-        new T.RingGeometry(core * 1.12, core * 3.4, 128, 12),
+        new T.RingGeometry(core * 1.12, core * 3.4, 64, 4),
         material,
       );
       disk.rotation.set(-Math.PI / 2 + 0.2, 0, 0.16);
       group.add(disk);
       const halo = new T.Mesh(
-        new T.RingGeometry(core * 1.01, core * 1.12, 128),
+        new T.RingGeometry(core * 1.01, core * 1.12, 64),
         new T.MeshBasicMaterial({
           color: "#ffe7aa",
           side: T.DoubleSide,
@@ -133,7 +136,7 @@ export const CampusBlackHole = {
         }),
       );
       group.add(halo);
-      const stars = new Float32Array(210 * 3);
+      const stars = new Float32Array(120 * 3);
       const geo = new T.BufferGeometry();
       geo.setAttribute("position", new T.BufferAttribute(stars, 3));
       const motes = new T.Points(
@@ -168,13 +171,13 @@ export const CampusBlackHole = {
       if (!state) return;
       const s = state;
       s.age += dt;
-      s.radius = (12 + 44 * Math.min(1, s.age / 2.6)) * Math.sqrt(s.power);
+      s.radius = (8 + 16 * Math.min(1, s.age / 1.1)) * Math.sqrt(s.power);
       s.material.uniforms.clock.value = s.age;
       s.halo.quaternion.copy(camera.quaternion);
       s.disk.rotation.z += dt * 0.14;
       const scale =
-        Math.min(1, s.age / 0.65) *
-        Math.max(0, Math.min(1, (8 - s.age) / 0.65));
+        Math.min(1, s.age / 0.35) *
+        Math.max(0, Math.min(1, (3.2 - s.age) / 0.4));
       s.group.scale.setScalar(scale);
       for (let i = 0; i < s.stars.length; i += 3) {
         const n = i / 3,
@@ -186,7 +189,7 @@ export const CampusBlackHole = {
         s.stars[i + 2] = Math.sin(a) * r;
       }
       s.geo.attributes.position.needsUpdate = true;
-      if (s.age >= 8) {
+      if (s.age >= 3.2) {
         const p = s.p.clone(),
           power = s.power,
           ejected = CampusBlackHole.eject(s);

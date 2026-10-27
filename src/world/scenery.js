@@ -307,22 +307,71 @@ export const createCampusScenery = function (
   ]);
   root.add(turfBatch.mesh);
   const tint = new T.Color();
+  const rendered = new WeakMap();
   function sync() {
     for (const { mesh, entries } of Object.values(batches)) {
+      let matrixLo = Infinity,
+        matrixHi = 0,
+        colorLo = Infinity,
+        colorHi = 0;
       entries.forEach((p, i) => {
-        dummy.position.copy(p.p);
-        dummy.rotation.set(p.r.x, p.r.y, p.r.z);
-        dummy.scale.copy(p.scale).multiplyScalar(p.drawScale ?? 1);
-        dummy.scale.y *= p.stretch ?? 1;
-        dummy.updateMatrix();
-        mesh.setMatrixAt(i, dummy.matrix);
-        mesh.setColorAt(
-          i,
-          tint.copy(p.color).multiplyScalar(p.charred ? 0.22 : 1),
-        );
+        const previous = rendered.get(p);
+        const scale = p.drawScale ?? 1,
+          stretch = p.stretch ?? 1;
+        const moved =
+          !previous ||
+          previous.x !== p.p.x ||
+          previous.y !== p.p.y ||
+          previous.z !== p.p.z ||
+          previous.rx !== p.r.x ||
+          previous.ry !== p.r.y ||
+          previous.rz !== p.r.z ||
+          previous.scale !== scale ||
+          previous.stretch !== stretch;
+        const recolored = !previous || previous.charred !== p.charred;
+        if (!moved && !recolored) return;
+        if (moved) {
+          dummy.position.copy(p.p);
+          dummy.rotation.set(p.r.x, p.r.y, p.r.z);
+          dummy.scale.copy(p.scale).multiplyScalar(scale);
+          dummy.scale.y *= stretch;
+          dummy.updateMatrix();
+          mesh.setMatrixAt(i, dummy.matrix);
+          matrixLo = Math.min(matrixLo, i);
+          matrixHi = i + 1;
+        }
+        if (recolored) {
+          mesh.setColorAt(
+            i,
+            tint.copy(p.color).multiplyScalar(p.charred ? 0.22 : 1),
+          );
+          colorLo = Math.min(colorLo, i);
+          colorHi = i + 1;
+        }
+        rendered.set(p, {
+          x: p.p.x,
+          y: p.p.y,
+          z: p.p.z,
+          rx: p.r.x,
+          ry: p.r.y,
+          rz: p.r.z,
+          scale,
+          stretch,
+          charred: p.charred,
+        });
       });
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.instanceColor.needsUpdate = true;
+      if (matrixHi) {
+        mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
+        mesh.instanceMatrix.addUpdateRange(
+          matrixLo * 16,
+          (matrixHi - matrixLo) * 16,
+        );
+        mesh.instanceMatrix.needsUpdate = true;
+      }
+      if (colorHi) {
+        mesh.instanceColor.addUpdateRange(colorLo * 3, (colorHi - colorLo) * 3);
+        mesh.instanceColor.needsUpdate = true;
+      }
     }
     turfBatch.sync();
   }
@@ -415,8 +464,8 @@ export const createCampusScenery = function (
           volcano: 24,
           lava: 7,
           volcanicBomb: 9,
-          blackhole: 40,
-          shockwave: 92,
+          blackhole: 24,
+          shockwave: 32,
           quake: 300,
           nuke: 400,
         }[mode] * Math.sqrt(power),
@@ -488,7 +537,11 @@ export const createCampusScenery = function (
         );
       }
       if (p.consumed) continue;
-      if (field && p.active && p.p.distanceTo(field.p) < field.radius + 12)
+      if (
+        field &&
+        p.active &&
+        p.p.distanceToSquared(field.p) < (field.radius + 4) ** 2
+      )
         p.sleep = false;
       if (!p.active || p.sleep) continue;
       moving = true;

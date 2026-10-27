@@ -20,6 +20,15 @@ test("volcano: lifecycle, cancellation and damage invariants", () => {
   fire.clear();
   assert.equal(fire.stats().smoke, 0);
   assert(root.children.every((m) => m.geometry.instanceCount === 0));
+  const versions = root.children.map(
+    (m) => m.geometry.attributes.center.version,
+  );
+  for (let i = 0; i < 120; i++) fire.update(1 / 60);
+  assert.deepEqual(
+    root.children.map((m) => m.geometry.attributes.center.version),
+    versions,
+    "Idle fire must not upload empty GPU buffers",
+  );
   const terrain = { heightAt: () => 6, volcano: () => {} },
     hits = [],
     fx = { fire: () => {}, ash: () => {} };

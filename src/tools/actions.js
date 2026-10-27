@@ -32,18 +32,19 @@ export function createToolActions({
     },
     blackhole(p) {
       const target = p.clone();
-      target.y = terrain.heightAt(p.x, p.z) + 24;
+      target.y = terrain.heightAt(p.x, p.z) + 14;
       resetCapture();
       canvas.dataset.absorbed = 0;
       canvas.dataset.ejected = 0;
       canvas.dataset.shockwaveDamage = 0;
-      audio(0.65);
+      audio("blackhole");
       blackHole.start(target, getPower());
       canvas.dataset.blackhole = "active";
       $("hint-text").textContent = "블랙홀이 주변 구조물을 흡수하는 중…";
       updateStats();
     },
     bombing(p) {
+      audio("fall");
       bombing.start(p, getAzimuth(), getPower());
       updateStats();
     },
@@ -52,6 +53,7 @@ export function createToolActions({
       updateStats();
     },
     meteor(p) {
+      audio("fall", 1.2);
       const mesh = new T.Mesh(
         new T.IcosahedronGeometry(5.5 * Math.sqrt(getPower()), 1),
         new T.MeshStandardMaterial({

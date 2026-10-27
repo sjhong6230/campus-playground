@@ -1,27 +1,13 @@
-/* A bounded cinematic game effect. One sweep is one undoable action. */
+/* One targeted falling bomb per undoable action. Keep the stable tool id. */
 export const CampusBombing = {
-  plan(point, angle) {
-    const dx = Math.cos(angle),
-      dz = -Math.sin(angle),
-      sx = -dz,
-      sz = dx,
-      offsets = [];
-    for (let row = 0; row < 7; row++)
-      for (let lane = 0; lane < 3; lane++) {
-        const along = (row - 3) * 14,
-          across = (lane - 1) * 18;
-        offsets.push({
-          x: dx * along + sx * across,
-          z: dz * along + sz * across,
-          delay: row * 0.36 + lane * 0.1,
-        });
-      }
-    // Translate the entire strip at the boundary, retaining spacing between bombs.
-    const ex = Math.max(...offsets.map((p) => Math.abs(p.x))),
-      ez = Math.max(...offsets.map((p) => Math.abs(p.z)));
-    const cx = Math.max(-70 + ex, Math.min(70 - ex, point.x)),
-      cz = Math.max(-53 + ez, Math.min(53 - ez, point.z));
-    return offsets.map((p) => ({ ...p, x: p.x + cx, z: p.z + cz }));
+  plan(point) {
+    return [
+      {
+        x: Math.max(-70, Math.min(70, point.x)),
+        z: Math.max(-53, Math.min(53, point.z)),
+        delay: 0,
+      },
+    ];
   },
   create(T, root, terrain, onImpact, onProgress, surfaceHeight) {
     let run = null;

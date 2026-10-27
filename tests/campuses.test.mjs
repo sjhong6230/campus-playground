@@ -73,6 +73,23 @@ for (const school of schools)
       );
       const fixture = fixtures[school.id],
         total = scenery.stats().total;
+      const instances = root.children.filter(
+        (m) => m.isInstancedMesh && m.instanceColor,
+      );
+      assert(instances.length > 0);
+      const uploads = instances.map((m) => [
+        m.instanceMatrix.version,
+        m.instanceColor.version,
+      ]);
+      scenery.ground();
+      assert.deepEqual(
+        instances.map((m) => [
+          m.instanceMatrix.version,
+          m.instanceColor.version,
+        ]),
+        uploads,
+        "Unchanged scenery must not rewrite instance buffers",
+      );
       assert(total > 0);
       if (fixture) {
         assert.equal(scenery.stats().total, fixture.scenery);

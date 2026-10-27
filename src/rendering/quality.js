@@ -22,7 +22,7 @@ export function createQualityController({
     perfFrames = 0,
     lastQualityChange = 0;
   Object.assign(performanceSettings, {
-    detail: qualityMode === "high" ? 1 : 0.65,
+    detail: qualityMode === "high" ? 1 : qualityMode === "low" ? 0.4 : 0.65,
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, renderRatio));
   renderer.shadowMap.enabled = qualityMode !== "low";
@@ -36,7 +36,8 @@ export function createQualityController({
     qualityMode = qualitySelect.value;
     renderRatio =
       qualityMode === "low" ? 0.85 : qualityMode === "high" ? 1.6 : 1.25;
-    performanceSettings.detail = qualityMode === "high" ? 1 : 0.65;
+    performanceSettings.detail =
+      qualityMode === "high" ? 1 : qualityMode === "low" ? 0.4 : 0.65;
     renderer.setPixelRatio(Math.min(devicePixelRatio, renderRatio));
     const enabled = qualityMode !== "low";
     if (renderer.shadowMap.enabled !== enabled) {
@@ -65,6 +66,9 @@ export function createQualityController({
   };
 
   return {
+    get shadowInterval() {
+      return qualityMode === "high" ? 0.08 : renderRatio < 1 ? 0.25 : 0.16;
+    },
     get minimumFrameMs() {
       return qualityMode === "low" ? 29 : 14;
     },
@@ -89,6 +93,7 @@ export function createQualityController({
           if (Math.abs(next - renderRatio) > 0.01) {
             renderRatio = next;
             renderer.setPixelRatio(Math.min(devicePixelRatio, renderRatio));
+            performanceSettings.detail = renderRatio < 1 ? 0.4 : 0.65;
             lastQualityChange = time;
           }
         }

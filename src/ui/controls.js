@@ -90,7 +90,8 @@ export function createControls({
     $("sound").setAttribute("aria-pressed", soundEnabled);
     $("sound").title = soundEnabled ? "소리 끄기" : "소리 켜기";
     $("sound").setAttribute("aria-label", $("sound").title);
-    audio();
+    if (soundEnabled) audio("enable");
+    else audio.stop();
     toast(soundEnabled ? "소리를 켰어요" : "소리를 껐어요");
   };
   const dialog = $("help-dialog");
@@ -195,14 +196,30 @@ export function createControls({
   resize();
   home();
   const labelVector = new T.Vector3();
+  const cameraTarget = new T.Vector3(),
+    centerVector = new T.Vector3(),
+    northVector = new T.Vector3();
+  let lastCamera = {},
+    lastField,
+    lastLabels;
   function updateCamera(time, shake) {
-    const target = new T.Vector3(0, 0, 0);
+    if (
+      !shake &&
+      !lastCamera.shake &&
+      lastCamera.width === width &&
+      lastCamera.height === height &&
+      lastCamera.azimuth === azimuth &&
+      lastCamera.elevation === elevation &&
+      lastCamera.distance === distance
+    )
+      return false;
+    lastCamera = { width, height, azimuth, elevation, distance, shake };
     camera.position.set(
       Math.sin(azimuth) * Math.cos(elevation) * distance,
       Math.sin(elevation) * distance,
       Math.cos(azimuth) * Math.cos(elevation) * distance,
     );
-    camera.lookAt(target);
+    camera.lookAt(cameraTarget);
     camera.setViewOffset(
       width,
       height,
@@ -212,12 +229,13 @@ export function createControls({
       height,
     );
     camera.updateMatrixWorld();
-    const center = new T.Vector3().project(camera),
-      north = new T.Vector3(0, 0, -15).project(camera);
+    const center = centerVector.set(0, 0, 0).project(camera),
+      north = northVector.set(0, 0, -15).project(camera);
     $("north-arrow").style.transform =
       "rotate(" +
       Math.atan2((north.x - center.x) * width, (north.y - center.y) * height) +
       "rad)";
+    return true;
   }
 
   return {
@@ -228,7 +246,11 @@ export function createControls({
       return soundEnabled;
     },
     update(time, shake, field = null) {
-      updateCamera(time, shake);
+      const moved = updateCamera(time, shake);
+      if (!moved && field === lastField && labelsVisible === lastLabels)
+        return false;
+      lastField = field;
+      lastLabels = labelsVisible;
       if (labelsVisible)
         for (const b of buildings) {
           labelVector.set(b.x, b.baseY + b.floors * 3 + 5, b.z).project(camera);
@@ -241,6 +263,7 @@ export function createControls({
               ? "none"
               : "";
         }
+      return moved;
     },
   };
 }
