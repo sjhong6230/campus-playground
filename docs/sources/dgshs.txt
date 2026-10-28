@@ -1,0 +1,18 @@
+대구과학고등학교 (DGSHS) · checked 2026-10-28
+
+References
+- https://map.naver.com/p/search/대구과학고등학교
+  Naver satellite view, north up: main building west of the northern dirt field;
+  Gungri across the middle; Geogyeong southwest, Ipji southeast, basketball court east.
+- https://dshs.dge.hs.kr/dshsh/cm/cntnts/cntntsView.do?cntntsId=10018442&mi=10018442
+  Official facilities: 본관, 거경관, 궁리관, 입지관, 식당.
+- https://www.namu.moe/w/대구과학고등학교
+  Secondary cross-check: main 7F, Gungri 5F with rooftop observation facilities,
+  Geogyeong 3F, Ipji 5F; Gungri 2F joins Geogyeong 3F and Ipji 2F.
+
+Model scope
+North is -Z. The narrow north-south campus and west-side Dongdaegu-ro are retained.
+The east-side Children's World complex is outside this school model.
+Footprints, roof details, level differences and bridge widths are visual approximations.
+The game uses DGSHS to distinguish Daegu from Daejeon; this is a game identifier.
+Satellite pixels and source prose are not bundled with the game.

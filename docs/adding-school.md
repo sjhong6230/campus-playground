@@ -72,3 +72,9 @@ export const schools = [sshs, gshs, ishs, newSchool];
 `docs/sources/new-school.txt`에 참고 자료와 근사 범위를 남기세요. 등록한 학교는 공통 damage·Undo·성능 테스트에 자동 포함됩니다. 별도로 초기 상태를 고정하고 싶다면 `tests/fixtures/legacy-campuses.json`에 기준 fixture를 추가하세요. 기존 세 학교의 fixture를 새 코드 결과에 맞춰 무조건 덮어쓰면 regression을 놓칠 수 있습니다.
 
 `pnpm check` 후 위에서 보기, building label, 파괴, Undo, 전체 복구, 다른 학교로 전환을 확인하세요. 등록만 하면 배포 파일은 자동 생성되지만, 실제 배치 정확도는 지도와 직접 대조해야 합니다.
+
+## 선택적 공통 도우미
+
+`shared/layout.js`의 `segment`, `building`, `bridge`, `point`, `local`을 이용하면 새 학교의 geometry 작성이 간단해집니다. `finishLayout(layout, backgroundHeight)`는 건물 footprint를 `baseY`로, 운동장을 선택적 `field.height`(기본 1.5)로 평탄화하고 주변 4 world units를 보간합니다. 건물과 운동장 footprint가 겹치지 않도록 배치하세요. 기존 학교의 `elevationAt`을 강제로 바꾸지는 않습니다.
+
+`shared/ground.js`의 `paintSite(args, site)`는 학교별 `surfaces`, `paths`, `steps`로 ground texture를 그립니다. 각 학교의 `ground.js`에서 별도의 도로·보행로·색을 지정하고, 필요하면 custom painter를 사용하세요. 새 학교 예시는 `dgshs`, `djshs`, `hshs`에 있습니다. DGSHS와 DJSHS는 파일명 충돌을 피하기 위한 게임 식별자입니다.

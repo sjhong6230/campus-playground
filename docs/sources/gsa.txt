@@ -18,7 +18,7 @@ https://www.namu.moe/w/광주과학고등학교/시설
 
 근사: footprint는 영상에서 손으로 읽은 상대 위치이며 측량 수치가 아님.
 층수, 지붕 단면, 외벽, 연결통로 높이, 식재 수량과 작은 시설물은 단순화.
-고도 자료를 확보하지 않았으므로 부지는 평탄하게 모델링함.
+초기 부지는 평탄하게 모델링했으며, 아래 현장 정보에 따라 운동장 단차를 수정함.
 운동장 선과 court 표시는 게임용으로 단순화. 주변 GIST·과학관 건물은 제외.
 관측 돔은 위성영상에서 확인되지 않아 추가하지 않음.
 위성영상 원본, 사진과 제3자 지도 타일은 배포물에 포함하지 않음.
@@ -34,3 +34,9 @@ https://www.namu.moe/w/광주과학고등학교/시설
 - 기숙사 평면은 3 형태에서 2 형태로 수정. 동쪽의 아래쪽 세로동을 제거하고
   남녀 기숙사 서쪽 끝을 2층 연결통로 하나로만 연결.
 세부 길이와 강당 구획 치수는 제공되지 않았으므로 기존 배치 안에서 근사.
+
+2026-10-28 additional user correction
+- The playing field is below the building platforms.
+- Lowered the field from 1.5 to -1.5 world units, retaining the building pads at 1.5.
+  The 3-unit difference is an approximation; no surveyed level was supplied.
+  A smooth 4-unit-wide approach joins the field to the surrounding ground.

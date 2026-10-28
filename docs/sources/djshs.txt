@@ -1,0 +1,21 @@
+대전과학고등학교 (DJSHS) · checked 2026-10-28
+
+References
+- https://map.naver.com/p/search/대전과학고등학교
+  Naver satellite view: long northern block, central east-west block, western
+  laboratory wing, eastern pair of dormitories and south-central playing field.
+- https://djshs.djsch.kr/sub/info.do?m=0106&s=djshs
+  Official facilities: 탐의관, 일신관, 다산관, 식당동, 여명관 A동/B동.
+- https://d.namu.moe/w/대전과학고등학교/시설
+  Secondary cross-check: Tami 5F, Ilsin 4F, Dasan 7F, dorm A 4F/B 5F,
+  dining/gym 2F, rooftop sliding observatory and inter-building bridges.
+- https://commons.wikimedia.org/wiki/File:대전과학고등학교_탐의관_전경_(Daejeon_Science_Highschool_Tamui_building).jpg
+  Front-view reference identifying the field-facing Tami block and adjacent dorm B.
+
+Model scope
+North is -Z. Facilities of the Korea Institute of Nuclear Safety to the west/north
+(including its tennis courts) are not part of the school model.
+Roof colors, footprint dimensions, bridge locations and heights are approximate;
+the small differences between each building's storey heights are simplified.
+The game uses DJSHS to distinguish Daejeon from Daegu; this is a game identifier.
+Satellite images and photographs are not distributed with the game.

@@ -1,6 +1,6 @@
 # Campus Playground
 
-서울과학고등학교·경기과학고등학교·인천과학고등학교·한국과학영재학교·광주과학고등학교 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 학교와 관계없는 비공식 게임이며, 공개 지도와 사용자 제공 모형에 기반한 건물 배치와 치수·외관은 근사입니다.
+서울과고·경기과고·인천과고·한국과학영재학교·광주과고·대구과고·대전과고·한성과고, 총 8개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 학교와 관계없는 비공식 게임이며, 공개 지도와 사용자 제공 모형에 기반한 건물 배치와 치수·외관은 근사입니다.
 
 **[웹에서 플레이](https://sjhong6230.github.io/campus-playground/)** · [GitHub 저장소](https://github.com/sjhong6230/campus-playground)
 
@@ -35,6 +35,9 @@ pnpm start         # 이미 빌드한 dist/ 미리보기
 | `ISHS-Playground.html`   | 인천과고 단독판         |
 | `KSA-Playground.html`    | 한국과학영재학교 단독판 |
 | `GSA-Playground.html`    | 광주과고 단독판         |
+| `DGSHS-Playground.html`  | 대구과고 단독판         |
+| `DJSHS-Playground.html`  | 대전과고 단독판         |
+| `HSHS-Playground.html`   | 한성과고 단독판         |
 | `build-info.json`        | 포함된 학교와 파일 크기 |
 
 HTML은 다운로드 후 더블클릭으로 실행할 수 있습니다. 실행 시 인터넷이나 Node.js가 필요하지 않습니다. 개발용 소스 HTML은 직접 열지 말고 `pnpm dev`를 사용하세요. 브라우저의 WebGL 지원이 필요합니다.
@@ -61,6 +64,10 @@ src/
     ishs/                 인천과고: index.js / layout.js / ground.js
     ksa/                  한국과학영재학교: index.js / layout.js / ground.js
     gsa/                  광주과고: index.js / layout.js / ground.js
+    dgshs/                대구과고: index.js / layout.js / ground.js
+    djshs/                대전과고: index.js / layout.js / ground.js
+    hshs/                 한성과고: index.js / layout.js / ground.js
+    shared/               선택적 배치·단차·ground drawing 도우미
 scripts/                  빌드·개발 감시·로컬 서버
 tests/                    Node test runner + 이전 버전 비교 fixture
 docs/                     설계·확장 가이드·출처
@@ -84,7 +91,7 @@ vendor/                   고정된 Three.js 배포본과 MIT 라이선스
 
 ## 검증 범위
 
-자동 테스트는 기존 세 학교의 초기 terrain·환경 요소가 리팩터링 이전과 같은지 확인하고, KSA·GSA를 포함한 모든 등록 학교의 파괴와 복구를 검사합니다. Roof 부착물, idle 상태의 불필요한 GPU upload 방지, Black hole capture/ejection, Shockwave, 단일 폭탄 투하·취소, 화산폭발 및 fire 제한도 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다.
+자동 테스트는 기존 세 학교의 초기 terrain·환경 요소가 리팩터링 이전과 같은지 확인하고, 모든 등록 학교의 파괴와 복구를 검사합니다. 광주과고 운동장이 건물보다 낮은지, 새 학교의 building pad와 운동장 높이가 모형과 맞는지도 검사합니다. Roof 부착물, idle 상태의 불필요한 GPU upload 방지, Black hole capture/ejection, Shockwave, 단일 폭탄 투하·취소, 화산폭발 및 fire 제한도 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다.
 
 폭탄은 클릭당 한 발입니다. Black hole은 약 3.2초 동안 주변을 흡수한 뒤 debris를 방출합니다. 최대 capture radius는 `24 × √POWER`, Shockwave radius는 `32 × √POWER` world units입니다. 도구별 사운드는 외부 파일 없이 합성하고 버퍼를 재사용하며, 소리는 오른쪽 버튼으로 켤 수 있습니다.
 
@@ -106,4 +113,4 @@ Black hole의 시각 효과는 `effects/blackhole-visual.js`에서 분리해 관
 
 새 저장소로 복사했다면 **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 설정하세요. 개인 토큰을 workflow secret에 추가할 필요는 없습니다. 배포 job은 GitHub가 제공하는 임시 인증을 사용합니다.
 
-배포 주소의 루트에서는 학교 선택 화면이 열립니다. 같은 경로의 `SSHS-Playground.html`, `GSHS-Playground.html`, `ISHS-Playground.html`, `KSA-Playground.html`, `GSA-Playground.html`로 각 학교에 바로 접속할 수 있습니다. HTML 안에 필요한 코드가 들어 있어 프로젝트 경로가 달라도 별도의 base URL 설정이 필요하지 않습니다.
+배포 주소의 루트에서는 학교 선택 화면이 열립니다. 위 파일 표의 학교별 HTML 경로로 각 학교에 바로 접속할 수도 있습니다. HTML 안에 필요한 코드가 들어 있어 프로젝트 경로가 달라도 별도의 base URL 설정이 필요하지 않습니다.

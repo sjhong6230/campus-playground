@@ -192,8 +192,16 @@ export function createLayout() {
       [49, 20],
     ],
     maxTrees: 76,
-    elevationAt() {
-      return 1.5;
+    elevationAt(x, z) {
+      // User-confirmed lower playing field; the 3-unit drop is approximate.
+      const f = this.field,
+        dx = x - f.x,
+        dz = z - f.z,
+        u = dx * Math.cos(f.angle) - dz * Math.sin(f.angle),
+        v = dx * Math.sin(f.angle) + dz * Math.cos(f.angle),
+        outside = Math.max(Math.abs(u) - f.w / 2, Math.abs(v) - f.d / 2, 0),
+        t = Math.min(1, outside / 4);
+      return -1.5 + 3 * t * t * (3 - 2 * t);
     },
     point(frame, u, v) {
       const c = Math.cos(frame.angle || 0),
