@@ -34,6 +34,8 @@ export function createBuildings({ T, world, layout, visuals, rng, $ }) {
         nz: segment.d / 3.6,
         floors: segment.floors ?? b.floors,
         color: segment.color ?? b.color,
+        openGroundFloor: segment.openGroundFloor ?? false,
+        bottomSlab: segment.bottomSlab ?? false,
       };
       for (const part of fracture.buildingParts(local)) {
         part.building = b;
@@ -67,7 +69,7 @@ export function createBuildings({ T, world, layout, visuals, rng, $ }) {
   for (const link of layout.links)
     building({
       ...link,
-      floors: 1,
+      floors: link.floors ?? 1,
       color: "#b9d1c8",
       link: true,
       segments: [link],

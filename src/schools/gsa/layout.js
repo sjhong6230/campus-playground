@@ -11,12 +11,37 @@ export function createLayout() {
     angle,
     ...extra,
   });
+  const point = (frame, u, v) => {
+    const c = Math.cos(frame.angle || 0),
+      s = Math.sin(frame.angle || 0);
+    return { x: frame.x + u * c + v * s, z: frame.z - u * s + v * c };
+  };
+  const study = { x: 5, z: -16, angle };
+  const dorm = { x: 22, z: -30, angle };
+  const dormSegment = (u, v, w, d) => {
+    const p = point(dorm, u, v);
+    return segment(p.x, p.z, w, d, { roof: "gable", roofColor: "#70918e" });
+  };
+  const bridge = (name, a, b, level, floors = 1, width = 2.8) => ({
+    name,
+    x: (a.x + b.x) / 2,
+    z: (a.z + b.z) / 2,
+    w: Math.hypot(b.x - a.x, b.z - a.z),
+    d: width,
+    angle: Math.atan2(a.z - b.z, b.x - a.x),
+    baseY: 1.5 + (level - 1) * 3,
+    floors,
+    bottomSlab: true,
+  });
+  const main = segment(-23, 4, 39, 8);
+  const science = segment(-33, -21, 33, 9);
   const layout = {
     sources: {
       map: "https://map.naver.com/p/search/광주과학고등학교",
       facilities: "https://www.namu.moe/w/광주과학고등학교/시설",
       official: "https://gsa.jge.hs.kr/sub/page.php?page_code=intro_01",
       checked: "2026-10-27",
+      corrected: "2026-10-28",
     },
     buildings: [
       {
@@ -54,12 +79,19 @@ export function createLayout() {
         baseY: 1.5,
         color: "#d5cbbb",
         segments: [
-          segment(5, -16, 12, 37, { roof: "flat", roofColor: "#c7d1c7" }),
-          segment(-3, -9, 6, 7, {
-            floors: 1,
-            roof: "flat",
-            roofColor: "#b7c9bc",
-          }),
+          {
+            ...segment(0, 0, 8, 37, {
+              roof: "flat",
+              roofColor: "#c7d1c7",
+              openGroundFloor: true,
+            }),
+            ...point(study, -2, 0),
+          },
+          // The dormitory-facing strip retains the ground-floor hall/corridor.
+          {
+            ...segment(0, 0, 4, 37, { roof: "flat", roofColor: "#c7d1c7" }),
+            ...point(study, 4, 0),
+          },
         ],
       },
       {
@@ -70,24 +102,20 @@ export function createLayout() {
         baseY: 1.5,
         color: "#c4b7a4",
         segments: [
-          segment(14, -45, 24, 5.5, { roof: "gable", roofColor: "#70918e" }),
-          segment(29, -39, 5.5, 21, { roof: "gable", roofColor: "#70918e" }),
-          segment(22, -26.5, 25, 5.5, { roof: "gable", roofColor: "#70918e" }),
+          dormSegment(0, -18, 29, 5.5),
+          dormSegment(11.75, -9, 5.5, 12.5),
+          dormSegment(0, 0, 29, 5.5),
         ],
       },
       {
         name: "여기숙사",
-        x: 29,
-        z: -12.5,
+        ...point(dorm, 0, 16),
         floors: 4,
         baseY: 1.5,
         color: "#c6bca9",
         segments: [
-          segment(35.5, -23, 5.5, 15, { roof: "gable", roofColor: "#70918e" }),
-          segment(26.5, -12.5, 25, 5.5, {
-            roof: "gable",
-            roofColor: "#70918e",
-          }),
+          // Only the bottom stroke: its west end connects at level 2.
+          dormSegment(0, 16, 29, 5.5),
         ],
       },
       {
@@ -103,22 +131,32 @@ export function createLayout() {
       },
     ],
     links: [
-      {
-        ...segment(-28, -8.5, 2.8, 19),
-        name: "본관–과학동 연결부",
-        baseY: 4.5,
-      },
-      { ...segment(-5, -2.5, 6, 2.6), name: "본관–학습동 연결부", baseY: 4.5 },
-      {
-        ...segment(-11.5, -29, 7, 2.6),
-        name: "과학동–학습동 연결부",
-        baseY: 4.5,
-      },
-      {
-        ...segment(9.5, -22, 5, 2.6),
-        name: "학습동–기숙사 연결부",
-        baseY: 4.5,
-      },
+      bridge(
+        "본관–과학동 · 2–4층",
+        point(main, -7, -4),
+        point(science, -7, 4.5),
+        2,
+        3,
+      ),
+      bridge(
+        "본관–학습동 · 2–3층",
+        point(main, 19.5, 0),
+        point(study, -6, 12),
+        2,
+        2,
+      ),
+      bridge(
+        "과학동–남기숙사 · 2층",
+        point({ x: -22, z: -26, angle }, 5.5, -1.5),
+        point(dorm, -14.5, -18),
+        2,
+      ),
+      bridge(
+        "남기숙사–여기숙사 · 2층",
+        point(dorm, -11.75, 2.75),
+        point(dorm, -11.75, 13.25),
+        2,
+      ),
     ],
     field: segment(-10, 33, 51, 31),
     gate: { x: 26, z: 38, angle },

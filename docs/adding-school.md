@@ -32,27 +32,29 @@ id는 소문자로 시작하는 영문·숫자·하이픈으로 구성하고 중
 
 `createLayout()`은 호출마다 **새 객체**를 반환해야 합니다. 기존 학교가 가진 `point(frame,u,v)`와 segment의 `sin`/`cos` cache 준비 코드를 유지하세요.
 
-| 필드                  | 설명                                                               |
-| --------------------- | ------------------------------------------------------------------ |
-| `buildings[]`         | name, x, z, floors, baseY, color, segments                         |
-| `segments[]`          | x, z, w, d, angle; 선택적으로 floors, roof, roofColor, observatory |
-| `links[]`             | 단층 연결통로; x, z, w, d, angle, baseY                            |
-| `field`               | 운동장 x, z, w, d, angle                                           |
-| `gate`                | 출입구 x, z, angle                                                 |
-| `benches[]`           | `[x,z]` 목록                                                       |
-| `trees`               | `[x,z]` 목록 또는 seeded random을 받는 함수                        |
-| `maxTrees`            | 선택적 제한, 기본 80                                               |
-| `hills[]`             | 주변 hill 위치 `[x,z]`                                             |
-| `parking`             | 선택적 주차장 frame; 있으면 차량 생성                              |
-| `tennis`, `courtKind` | 선택적 court frame과 `tennis` 또는 `basketball` 종류               |
-| `observatory`         | 선택적 dome: x, z, y, building index                               |
-| `sources`             | 참고 map·facilities·diagram URL과 확인 날짜                        |
-| `elevationAt(x,z)`    | 변형 전 base height                                                |
-| `point(frame,u,v)`    | 회전된 지역 좌표 → world X/Z                                       |
+| 필드                  | 설명                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------- |
+| `buildings[]`         | name, x, z, floors, baseY, color, segments                                          |
+| `segments[]`          | x, z, w, d, angle; 선택적으로 floors, roof, roofColor, observatory, openGroundFloor |
+| `links[]`             | 연결통로; x, z, w, d, angle, baseY, floors(기본 1), bottomSlab(기본 false)          |
+| `field`               | 운동장 x, z, w, d, angle                                                            |
+| `gate`                | 출입구 x, z, angle                                                                  |
+| `benches[]`           | `[x,z]` 목록                                                                        |
+| `trees`               | `[x,z]` 목록 또는 seeded random을 받는 함수                                         |
+| `maxTrees`            | 선택적 제한, 기본 80                                                                |
+| `hills[]`             | 주변 hill 위치 `[x,z]`                                                              |
+| `parking`             | 선택적 주차장 frame; 있으면 차량 생성                                               |
+| `tennis`, `courtKind` | 선택적 court frame과 `tennis` 또는 `basketball` 종류                                |
+| `observatory`         | 선택적 dome: x, z, y, building index                                                |
+| `sources`             | 참고 map·facilities·diagram URL과 확인 날짜                                         |
+| `elevationAt(x,z)`    | 변형 전 base height                                                                 |
+| `point(frame,u,v)`    | 회전된 지역 좌표 → world X/Z                                                        |
 
 Roof는 `flat`, `gable`, `barrel`, `hip`을 지원합니다. `flat`은 `roofColor`로 칠한 평지붕이며, 다른 roof와 같이 아래 slab의 움직임·손상·복구를 따릅니다. Segment의 `color`로 건물 기본 색을 덮어쓸 수 있습니다. Hip roof는 현재 정사각형 segment에 맞춘 근사입니다. Segment의 `observatory: true`는 slab에 부착되는 작은 아치형 관측실입니다. Layout의 `observatory`는 별도의 dome 방식이므로 구분하세요.
 
 `baseY`가 해당 footprint의 `elevationAt()` 값과 맞도록 평탄화하세요. 운동장과 건물이 겹치지 않도록 확인하고, 높이나 명칭이 불확실한 부분은 출처 문서에 근사라고 기록하세요.
+
+`openGroundFloor: true`는 첫 층의 wall을 생성하지 않고 column과 위쪽 slab을 유지합니다. 일부만 열린 1층은 footprint를 열린 segment와 닫힌 segment로 나누어 표현하세요. 연결다리는 층간 높이 3 기준으로 `baseY = 건물 baseY + (시작층 - 1) * 3`, `floors = 끝층 - 시작층 + 1`로 지정합니다. `bottomSlab: true`는 공중에 있는 연결다리의 바닥 deck도 생성합니다. 연결다리의 각 층은 damage와 Undo에 포함됩니다.
 
 ## 3. Ground painter
 

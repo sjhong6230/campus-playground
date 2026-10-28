@@ -109,30 +109,34 @@ export const CampusFracture = function (T, random) {
   function buildingParts(b) {
     const w = b.nx * 3.6,
       d = b.nz * 3.6,
-      h = b.floors * 3,
+      wallBase = b.openGroundFloor ? 3 : 0,
+      wallFloors = b.floors - (b.openGroundFloor ? 1 : 0),
+      h = wallFloors * 3,
       out = [],
       v = (x, y, z) => new T.Vector3(x, y, z);
     for (const side of [-1, 1]) {
-      for (const poly of cells(w, h, Math.ceil(w / 5), b.floors)) {
-        const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+      for (const poly of cells(w, h, Math.ceil(w / 5), wallFloors)) {
+        const cy = wallBase + poly.reduce((s, p) => s + p[1], 0) / poly.length;
         out.push(
           prism(
             poly,
             0.4,
-            (u, y, t) => v(b.x - w / 2 + u, y, b.z + side * (d / 2 + t)),
+            (u, y, t) =>
+              v(b.x - w / 2 + u, wallBase + y, b.z + side * (d / 2 + t)),
             "wall",
             b,
             Math.min(b.floors - 1, Math.floor(cy / 3)),
           ),
         );
       }
-      for (const poly of cells(d, h, Math.ceil(d / 5), b.floors)) {
-        const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+      for (const poly of cells(d, h, Math.ceil(d / 5), wallFloors)) {
+        const cy = wallBase + poly.reduce((s, p) => s + p[1], 0) / poly.length;
         out.push(
           prism(
             poly,
             0.4,
-            (u, y, t) => v(b.x + side * (w / 2 + t), y, b.z - d / 2 + u),
+            (u, y, t) =>
+              v(b.x + side * (w / 2 + t), wallBase + y, b.z - d / 2 + u),
             "wall",
             b,
             Math.min(b.floors - 1, Math.floor(cy / 3)),
@@ -140,7 +144,7 @@ export const CampusFracture = function (T, random) {
         );
       }
     }
-    for (let floor = 1; floor <= b.floors; floor++)
+    for (let floor = b.bottomSlab ? 0 : 1; floor <= b.floors; floor++)
       for (const poly of cells(
         w,
         d,
@@ -154,7 +158,7 @@ export const CampusFracture = function (T, random) {
             (u, z, t) => v(b.x - w / 2 + u, floor * 3 + t, b.z - d / 2 + z),
             "slab",
             b,
-            floor - 1,
+            Math.max(0, floor - 1),
           ),
         );
     for (let floor = 0; floor < b.floors; floor++)
