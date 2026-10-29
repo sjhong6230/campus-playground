@@ -1,0 +1,13 @@
+세종과학고등학교 (서울 구로구 궁동) — checked 2026-10-29
+
+References
+- Naver satellite map: https://map.naver.com/p/search/세종과학고등학교
+- School homepage: https://sjsh.sen.hs.kr (web reader returned a filtering notice; not used to verify facilities)
+- Facility descriptions: https://www.namu.moe/w/세종과학고등학교/시설
+- Independent facility-name cross-check: https://www.skyedaily.com/news/news_spot.html?ID=7536
+
+Satellite imagery was viewed north-up, including the labelled science building, main classroom block, gym and dormitory. The model places the field west of the main block, the science block to its north, the gym to the south, and the four radial dormitory wings around a C-shaped gallery farther south. The large blue-roofed building southwest of this campus belongs to the neighbouring Wooshin school and is excluded.
+
+Facility descriptions support four classroom/science floors and their floor-to-floor connection, the basement auditorium/dining/gym stack, the rooftop observatory and four Mirinae dormitory wings. Wing names use compass directions because the official 가/나/다/라 mapping was not established. Five dormitory slab levels, the four-level segmented gallery, covered walkway levels, external grades and all dimensions are visual approximations, not surveyed measurements. The gym's exposed basement and tall upper hall are represented by three game slab levels. Curved gallery and roof profiles are simplified for performance; no room interiors are reproduced.
+
+SJSHS is this game's unique identifier, distinct from SSHS (Seoul). All textures are generated locally; no map tiles or school photographs are distributed.
