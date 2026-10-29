@@ -27,7 +27,7 @@ test("GSA field is lower and level while every building keeps its foundation hei
   assert.equal(previous, 1.5);
 });
 
-for (const id of ["dgshs", "djshs", "hshs", "sjshs"])
+for (const id of ["dgshs", "djshs", "hshs", "sjshs", "bsis"])
   test(`${id}: playing field and building pads match their visible geometry`, () => {
     const l = getSchool(id).createLayout();
     for (const b of l.buildings)
