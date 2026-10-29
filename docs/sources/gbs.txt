@@ -1,0 +1,79 @@
+자료 확인: 2026-10-29
+경기북과학고등학교 / GYEONG GI BUK SCIENCE HIGH SCHOOL / GBS
+주소: 경기도 의정부시 체육로135번길 32 (녹양동), 우편번호 11601
+수원에 있는 경기과학고등학교(GSHS)와 다른 학교입니다.
+
+공식 자료
+1. 학교 홈페이지와 오시는 길
+   https://gbs-h.goeujb.kr/gbs-h/main.do
+   https://gbs-h.goeujb.kr/gbs-h/lm/location/locationMapView.do?mi=3875
+   학교명과 주소 확인에 사용했습니다. GBS는 학교 공식 도메인에 쓰이는 약칭입니다.
+2. 공식 학교건물배치도
+   본관: https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=928&mi=3858
+   과학실험동: https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=929&mi=3861
+   일반강의동: https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=930&mi=3863
+   복합동: https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=931&mi=3866
+   기숙사: https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=932&mi=3868
+   본관 도식 원본: https://gbs-h.goeujb.kr/images/web/gbs-h/sub/img_0105_tab01.png
+   실제 이미지를 직접 보았습니다. 긴 본관, 뒤편의 과학실험동·일반강의동,
+   U자 기숙사 2개, 복합동, 본관 앞 운동장의 관계를 확인했습니다.
+   이 자료는 축척·층수·북쪽 화살표가 없는 3D schematic입니다.
+   공식 명칭을 위성 이미지의 외곽선과 대조하는 근거이며 측량 도면이 아닙니다.
+3. 공식 홈페이지 전경 사진
+   https://gbs-h.goeujb.kr/upload/gbs-h/widg/img_9e0e8938-363a-4f24-9258-604015472ed11672723772341.png
+   실제 사진을 직접 보았습니다. 본관의 넓은 청록색 유리 전면, 밝은 회색/베이지
+   사각 외장, 옥상의 황토색 기둥과 평평한 canopy, 녹색 지붕을 반영했습니다.
+   canopy는 추가 층이 아닌 별도 roof detail입니다. 본관 5층은 사진 창 높이와
+   층 구분을 읽은 외형 해석이며, 건축물대장상의 층수를 확인한 결과는 아닙니다.
+   운동장 쪽 낮은 ground와 본관 apron 사이의 계단·녹지 terrace도 보입니다.
+   사진 게시 시기와 촬영 시기는 다를 수 있습니다.
+4. 공식 학교현황
+   https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=1709&mi=3833
+   2026-03-03 기준 현황 페이지는 대지 25,628㎡, 건축연면적 15,628㎡,
+   건물수 3동을 기재합니다. 게임에서 구분한 본관·실험·강의 wing 및 기숙사
+   두 wing은 공식 건물수와 같은 의미의 독립 건축물 수가 아닙니다.
+   강당·체육관·급식소·운동장 존재를 확인했습니다.
+5. 공식 기숙사 소개
+   https://gbs-h.goeujb.kr/gbs-h/cm/cntnts/cntntsView.do?cntntsId=1712&mi=8810
+   https://gbs-h.goeujb.kr/upload/gbs-h/cntntsFile/2026/06/6764B34B-5CDC-F1CE-96B8-DC7F9D9F0BC0.png
+   2026/06 게시 이미지는 생활 소개 포스터입니다. 현재 기숙사 운영의 참고 자료로
+   확인했으며 층수·평면·외관을 입증하는 자료로 사용하지 않았습니다.
+
+지도와 실제 배치
+네이버 지도: https://map.naver.com/p/search/경기북과학고등학교
+북쪽이 위인 위성지도를 두 배율로 직접 확인하고 공식 배치도와 대조했습니다.
+지도 이미지의 촬영일은 확인되지 않아 2026년에 촬영된 사진이라고 주장하지 않습니다.
+- 캠퍼스 동쪽에 남북으로 긴 마사토 운동장이 있습니다. 본관도 운동장 서쪽에서
+  남북으로 길게 놓입니다. 과학실험동은 본관 뒤 북서쪽, 일반강의동은 남서쪽입니다.
+- 일반강의동 남쪽에는 파란색 basketball court가 있습니다.
+- 남서쪽 기숙사는 2개의 서로 다른 U 모양입니다. 서쪽 기숙사는 서쪽으로 열리고
+  동쪽 기숙사는 북쪽으로 열립니다. 두 건물을 같은 방향의 U로 복제하지 않았습니다.
+  기숙사 사이에는 수목이 늘어선 남북 보행 공간이 보입니다. 성별/학년 용도는
+  공식 자료만으로 확인하지 못했으므로 게임의 서관/동관은 위치 설명일 뿐입니다.
+- 남동쪽 복합동은 은회색의 넓은 낮은 지붕을 갖습니다. 동쪽의 좁고 녹색인
+  높은 fence 구역은 현재 지도에서 경기북과학고등학교골프장으로 표시됩니다.
+  공식 schematic에는 그 자리에 tennis처럼 보이는 선이 있으나, 현 지도 상태를
+  우선해 골프 연습 enclosure로 근사했습니다. 정확한 시설 치수/용도 변경일은 미확인입니다.
+- 남측 체육로135번길과 중앙의 후문 표시는 지도에서 확인했습니다. 북동쪽 drive가
+  본관 앞 차도와 연결됩니다. 이 북동 진입부를 게임의 gate로 삼았으나, 정문의 실제
+  문주 재료·규격·간판과 차량 운영 구분은 확인되지 않아 낮은 문주로 단순화했습니다.
+- 서쪽은 산림 경사지이며 서측 외곽 도로와 남측 도로가 campus를 감쌉니다.
+  운동장과 건물의 상대 단차는 공식 사진으로 확인하되 game-scale로 근사합니다.
+- 학교 북쪽의 경기도교육청미래과학교육원 북부과학교육관은 별도 시설입니다.
+  해당 건물의 원형 관측 dome를 GBS 천문대로 잘못 추가하지 않았습니다.
+
+영문명 보조 확인
+https://school.koreacharts.com/timetable/B000011866/20260902.html
+NEIS 공공데이터를 재게시한 페이지에 GYEONG GI BUK SCIENCE HIGH SCHOOL로 나옵니다.
+이 2차 페이지는 영문 표기 대조에만 사용했고 캠퍼스 외형 근거로 사용하지 않았습니다.
+
+구현의 정확도와 한계
+본관/운동장/각 wing의 방위와 U형 중정, 녹색 지붕, 청록색 facade, 옥상 canopy,
+basketball court와 golf enclosure는 위성·공식 사진으로 관찰한 형태입니다.
+실험동·강의동·기숙사의 4층, 복합동의 3층은 사진 높이에 맞춘 보수적인 game-scale
+외형 추정이며 공식 층별 평면을 확인한 수치가 아닙니다. 복합동 내부의 큰 체육관
+공간도 공통 structural model의 slab로 단순화됩니다.
+연결관의 위치는 위성에 보이는 연결 부분을 따르지만 통과 가능한 층과 실제 지붕
+높이, 작은 stairwell·출입구·환기장치의 규격은 확인되지 않았습니다.
+건물 치수, 층고, 경사 고도, fence 높이, 나무 수와 정확한 문주 모양은 근사값입니다.
+지붕과 지면은 코드에서 생성한 색/texture이며 원본 지도·사진을 asset으로 배포하지 않습니다.

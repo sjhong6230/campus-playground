@@ -33,9 +33,11 @@ export function createDamageSystem({
   const foundations = new Map();
   for (const b of blocks) {
     if (b.kind !== "column" || b.story !== 0 || b.building?.link) continue;
-    const segment = b.segment ?? b.building;
-    if (!foundations.has(segment)) foundations.set(segment, []);
-    foundations.get(segment).push(b);
+    // Adjacent wings share slab supports; a rendering segment boundary must
+    // not prevent the local column budget from reaching those supports.
+    const structure = b.building ?? b.segment;
+    if (!foundations.has(structure)) foundations.set(structure, []);
+    foundations.get(structure).push(b);
   }
   function quakeTargets(p, power) {
     let nearest = Infinity,

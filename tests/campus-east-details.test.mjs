@@ -2,7 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getSchool, schools } from "../src/schools/index.js";
 
-for (const id of ["gsa", "dgshs", "djshs", "hshs", "sjshs", "bsis"]) {
+for (const id of [
+  "gsa",
+  "dgshs",
+  "djshs",
+  "hshs",
+  "sjshs",
+  "bsis",
+  "gbs",
+  "iasa",
+]) {
   test(`${id}: site details and roof fittings stay within their support bounds`, () => {
     const layout = getSchool(id).createLayout();
     const point = ([x, z]) => {
@@ -34,9 +43,10 @@ for (const id of ["gsa", "dgshs", "djshs", "hshs", "sjshs", "bsis"]) {
 }
 
 test("visible observation domes sit on a supporting roof", () => {
-  for (const id of ["hshs", "sjshs", "bsis"]) {
+  for (const id of ["hshs", "sjshs", "bsis", "gbs", "iasa"]) {
     const layout = getSchool(id).createLayout();
     const dome = layout.observatory;
+    if (!dome && (id === "gbs" || id === "iasa")) continue;
     const building = layout.buildings[dome.building];
     const support = building.segments.find((s) => {
       const dx = dome.x - s.x;

@@ -1,0 +1,84 @@
+자료 확인: 2026-10-29
+인천과학예술영재학교 / Incheon Academy of Science and Arts / IASA
+주소: 인천광역시 연수구 아카데미로 192 (송도동)
+기존 인천과학고등학교(ISHS, 영종도)와 다른 학교입니다.
+
+공식 자료
+학교 홈페이지: https://iasa.icehs.kr/main.do
+학교현황: https://iasa.icehs.kr/sub/info.do?m=0108&s=isaa
+학교연혁: https://iasa.icehs.kr/hist/view.do?m=0106
+공식 홈페이지의 IASA 사용과 학교명·영문명·주소를 확인했습니다.
+
+2027학년도 입학전형 요강(홍보자료), 2026-03-26 게시
+https://iasa.icehs.kr/boardCnts/updateCnt.do?boardID=308156&viewBoardID=308156&boardSeq=33636796&lev=0&action=view&m=0302&s=isaa
+PDF: https://iasa.icehs.kr/boardCnts/fileDown.do?fileSeq=27ae05b0b7c480e1bcaf012a491be920
+36쪽 PDF의 표지와 학교소개를 렌더해 직접 확인했습니다. 밝은 cream/gray 외벽과
+수평 창띠가 있는 근접 외관 사진, 정식 영문 표기와 주소를 확인했습니다.
+이 책자에는 전체 대지의 시설 배치도가 없으므로 동별 위치의 직접 근거로 쓰지 않았습니다.
+
+제4회 IASA 융복합 Festival 리플렛 (2019-11-21~23 행사)
+학교가 제작해 예송중학교 홈페이지에 공개된 자료:
+https://yesong.icems.kr/boardCnts/fileDown.do?fileSeq=bbf19f8161a9373232bd6f9d3ca51179
+양면을 렌더해 직접 보았습니다. 5층 지구과학실험실과 6층 천문대가 명시되어 있어
+과학동 5층 roof에 관측 시설이 놓이는 배치를 뒷받침합니다. 촬영/자료 연도는 2019년이며
+현재 내부 시설의 세부 운영이나 실 배치를 재현하는 자료로 사용하지 않았습니다.
+
+학교운영계획 공개 페이지:
+https://iasa.icehs.kr/sub/info.do?m=0201&s=isaa
+본문은 설립 당시의 교육 운영 개요 이미지와 설명이며, 2026 전체 교육계획서 PDF나
+층별 도면은 확보하지 못했습니다. 최신 도면으로 확인한 것처럼 표현하지 않았습니다.
+English Facilities의 03.jpg/04.jpg는 실험 기자재 표와 사진이므로 외관 근거에서 제외했습니다.
+
+위성지도와 설계 조감도
+https://map.naver.com/p/search/인천과학예술영재학교
+북쪽이 위인 위성사진을 두 배율로 직접 보아 실제 지붕 윤곽과 부지 방향을 확인했습니다.
+부지는 NW-SE 방향으로 긴 직사각형이고 남서쪽 긴 변이 아카데미로에 접합니다.
+정문 label은 북서쪽 짧은 변에서 확인했고, 북동쪽 긴 변에도 별도 입구가 있습니다.
+남동쪽에 흙/마모된 잔디색 운동장과 붉은 rounded track, 그 북동쪽에 작은 농구장이 있습니다.
+건물군 중앙에는 원형 포장이 있는 작은 open courtyard가 있습니다.
+인문·과학동 쪽 긴 roof, 북동쪽 ㄱ자 동, 융합동 roof에는 solar array 형태의 dark grid가 보입니다.
+과학동의 운동장 쪽 끝에는 원형 dome와 긴 은색 아치형 관측실이 함께 보입니다.
+
+인천시교육청 제공 2014년 설계 조감도 (아주경제, 2014-12-24):
+https://www.ajunews.com/view/20141224112602285
+https://image.ajunews.com/content/image/2014/12/24/20141224112720413882.jpg
+조감도를 직접 보아 큰 낮은 체육관 volume, cream/whitegray 교사동과 ochre 세로 bay,
+solar roof, 부지 조경의 기본 구성을 확인했습니다. 설계 조감도와 현재 위성사진은
+주요 mass와 동선이 대체로 맞지만 조감도는 실제 준공 사진이 아니므로 세부 창 수나
+재료 규격, 나무 위치를 확정하지 않았습니다.
+
+건물 명칭 및 층수 보조 자료
+https://namu.moe/w/인천과학예술영재학교
+https://www.readonly.wiki/w/인천과학예술영재학교
+시설 설명은 융합동 5층, 인문·과학동이 이어지는 선형 배치, 기숙사동 6층,
+2층의 융합동–인문과학동/기숙사 연결관을 기술합니다. 명칭과 연결 층수 해석을
+보조하는 2차 자료이며 공식 준공 도면과 같은 신뢰도를 부여하지 않습니다.
+과학동의 roof 관측시설은 위 공식 행사 리플렛과 위성사진으로 별도 대조했습니다.
+
+이번 구현과 신뢰도
+- local +u는 남동쪽, +v는 남서쪽이며 angle=-0.70 rad로 Songdo block 방향을 근사합니다.
+- 남동쪽 운동장, 북동쪽 농구장, 북서쪽 정문, roof dome, 원형 중정의 상대 위치는
+  위성사진에서 직접 확인했습니다. 운동장의 뚜렷한 축구장 line은 확인되지 않아
+  실제 사진에 가까운 unmarked dirt tone와 붉은 track을 사용했습니다.
+- 남서쪽 긴 교사동을 인문동·과학동, 북서쪽 높은 wing을 융합동,
+  북동쪽 ㄱ자 동을 기숙사동으로 해석했습니다. 학교명으로 label된 정식 동별
+  항공 배치도는 확보하지 못했으므로 이 이름과 footprint의 연결은 중간 신뢰도입니다.
+- 인문동·과학동·융합동은 5개 game floor, 기숙사는 6개 game floor로 구분합니다.
+  넓고 낮은 체육관/대강당은 별도 3개 game level로 높이를 근사합니다. 이것은
+  3개 층 모두에 체육관이나 classroom slab가 실제로 있다는 뜻이 아닙니다.
+- 기숙사 2층과 교사동 2층 연결관 세 곳을 단순화했습니다. bridge의 정확한 폭과
+  접속 지점, 내부 구조는 사진·설명으로 판단한 근사입니다.
+- 태양광 지붕, cream facade, ochre 돌출부, 유리 bay, 원형 중정과 곡선 정원 길을
+  공통 rendering/terrain 도구로 표현했습니다. 태양광 panel 수와 배열은 단순화했습니다.
+- 정문은 낮은 piers로 표현했습니다. 정확한 문주 치수·글자 위치·차단기 모습은
+  확인되지 않아 장식 arch와 확인하지 못한 guardhouse는 추가하지 않았습니다.
+- 송도의 평탄한 대지에 맞춰 building pad와 운동장·court 높이를 1.5 world units로
+  통일했습니다. 이 수치는 해발고도나 측량값이 아닙니다.
+
+한계
+전체 geometry와 외장 색, 상대 층고, solar canopy 크기, 조경과 보행로 폭은 게임용 근사입니다.
+학교 외부 apartment·golf course·인접 유치원 전체는 재현 범위에 넣지 않았습니다.
+원본 위성사진·설계 조감도·PDF를 게임 texture나 asset에 복사하지 않았습니다.
+공개 자료의 개인 정보와 학내 운영 세부사항은 게임에 포함하지 않았습니다.
+
+구현: src/schools/iasa/index.js / layout.js / ground.js / details.js

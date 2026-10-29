@@ -8,6 +8,8 @@ import djshs from "./djshs/index.js";
 import hshs from "./hshs/index.js";
 import sjshs from "./sjshs/index.js";
 import bsis from "./bsis/index.js";
+import gbs from "./gbs/index.js";
+import iasa from "./iasa/index.js";
 // Gifted science academies first; science high schools follow.
 export const schools = [
   sshs,
@@ -16,10 +18,12 @@ export const schools = [
   gsa,
   dgshs,
   djshs,
+  iasa,
   ishs,
   hshs,
   sjshs,
   bsis,
+  gbs,
 ];
 export function getSchool(id) {
   const school = schools.find((s) => s.id === id);
