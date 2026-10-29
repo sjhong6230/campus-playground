@@ -1,3 +1,5 @@
+import { refineCampus } from "./details.js";
+
 export function createLayout() {
   /* ISHS, Unseo: north=-Z, east=+X. Relative footprints traced from the public
    Naver aerial view; names checked against the school facilities page.
@@ -253,6 +255,7 @@ export function createLayout() {
       return { x: frame.x + u * c + v * s, z: frame.z - u * s + v * c };
     },
   };
+  refineCampus(layout);
   for (const b of layout.buildings)
     for (const s of b.segments) {
       s.cos = Math.cos(s.angle || 0);

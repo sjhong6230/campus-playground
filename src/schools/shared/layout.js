@@ -54,6 +54,7 @@ export function finishLayout(layout, backgroundHeight = () => 1.5) {
       b.segments.map((s) => ({ ...s, height: b.baseY })),
     ),
     { ...layout.field, height: layout.field.height ?? 1.5 },
+    ...(layout.tennis?.height != null ? [{ ...layout.tennis }] : []),
   ];
   for (const b of layout.buildings)
     for (const s of b.segments) {

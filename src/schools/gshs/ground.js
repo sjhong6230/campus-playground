@@ -164,7 +164,7 @@ export function paintGround({
     ],
     true,
   );
-  ctx.fillStyle = "#607d58";
+  ctx.fillStyle = layout.field.color;
   ctx.fill();
   for (let i = 0; i < 10; i++) {
     const a = -w + (i * f.w) / 10;
@@ -177,7 +177,7 @@ export function paintGround({
       ],
       true,
     );
-    ctx.fillStyle = i % 2 ? "#647f5c" : "#5b7653";
+    ctx.fillStyle = i % 2 ? "#57865b" : "#4d7b53";
     ctx.fill();
   }
   ctx.strokeStyle = "#ded7c5";

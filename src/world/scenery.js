@@ -1,5 +1,6 @@
 import { CampusFracture } from "../physics/fracture.js";
 import { CampusBlackHole } from "../tools/blackhole.js";
+import { addSiteScenery, gateSignTexture } from "./site-details.js";
 /* Destructible planting, furniture, goal frames and irregular turf sheets.
    Shared instance batches keep a whole damaged campus inexpensive to draw. */
 export const createCampusScenery = function (
@@ -48,6 +49,7 @@ export const createCampusScenery = function (
       charred: false,
       age: 0,
       burn: 0,
+      contactTime: 0,
     };
     parts.push(p);
     o.parts.push(p);
@@ -109,35 +111,7 @@ export const createCampusScenery = function (
     for (const v of [-1.6, 1.6])
       framedPart(o, "bar", field, u, 3.4, v, 0.3, 0.3, 3.2, "#f2edda");
   }
-  const gateFrame = layout.gate,
-    gate = object("gate", gateFrame.x, gateFrame.z, 8.5);
-  for (const u of [-7.5, 7.5])
-    for (let i = 0; i < 2; i++)
-      framedPart(
-        gate,
-        "bar",
-        gateFrame,
-        u,
-        1.25 + i * 2.5,
-        0,
-        1,
-        2.5,
-        1,
-        "#f2edda",
-      );
-  for (let i = 0; i < 3; i++)
-    framedPart(
-      gate,
-      "bar",
-      gateFrame,
-      -5.3 + i * 5.3,
-      5.2,
-      0,
-      5.3,
-      1.2,
-      1.2,
-      "#f2edda",
-    );
+  addSiteScenery({ layout, terrain, object, framedPart });
   for (const [x, z] of layout.benches) {
     const o = object("bench", x, z, 2.8),
       f = { x, z, angle: 0.12 };
@@ -274,6 +248,7 @@ export const createCampusScenery = function (
     wood: new T.CylinderGeometry(0.75, 1, 1, 7),
     leaf: crown,
     bar: new T.BoxGeometry(1, 1, 1),
+    ...(layout.gate.sign ? { sign: new T.BoxGeometry(1, 1, 1) } : {}),
   })) {
     const entries = parts.filter((p) => p.type === type),
       mesh = new T.InstancedMesh(
@@ -281,7 +256,12 @@ export const createCampusScenery = function (
         new T.MeshStandardMaterial({
           color: "#ffffff",
           roughness: 1,
-          map: type === "wood" ? (visuals?.bark ?? null) : null,
+          map:
+            type === "wood"
+              ? (visuals?.bark ?? null)
+              : type === "sign"
+                ? gateSignTexture(T, layout.gate.sign)
+                : null,
         }),
         entries.length,
       );
@@ -413,17 +393,32 @@ export const createCampusScenery = function (
     }
     return inside ? 0 : d;
   }
-  function launch(p, point, mode, power) {
+  function launch(p, point, mode, power, radius) {
     if (p.consumed) return;
     const was = p.active;
     p.active = true;
     p.sleep = false;
     p.age = 0;
+    p.contactTime = 0;
     if (!was && p.type === "turf") p.p.copy(p.origin);
     const dx = p.p.x - point.x,
       dz = p.p.z - point.z,
       len = Math.hypot(dx, dz),
       a = random() * Math.PI * 2;
+    const weight =
+      p.o.kind === "retainingWall"
+        ? 0.3
+        : p.o.kind === "car"
+          ? 0.55
+          : p.type === "wood"
+            ? 0.65
+            : p.type === "leaf"
+              ? 1.1
+              : 0.8;
+    const falloff =
+      mode === "quake" || mode === "nuke"
+        ? 1
+        : Math.max(0.2, 1 - (len / Math.max(1, radius)) ** 2);
     const speed =
       (mode === "shockwave"
         ? 52
@@ -435,17 +430,20 @@ export const createCampusScenery = function (
               ? 3
               : mode === "lava" || mode === "volcanicBomb"
                 ? 4
-                : 10) * Math.sqrt(power);
+                : 10) *
+      Math.sqrt(power) *
+      weight *
+      falloff;
     p.v.set(
       (len < 0.001 ? Math.cos(a) : dx / len) * speed,
-      mode === "quake" ? 3 + random() * 3 : 5 + random() * speed * 0.6,
+      mode === "quake" ? 0.8 + random() * 1.6 : 1.2 + random() * speed * 0.38,
       (len < 0.001 ? Math.sin(a) : dz / len) * speed,
     );
 
     p.spin.set(
-      (random() - 0.5) * 4,
-      (random() - 0.5) * 4,
-      (random() - 0.5) * 4,
+      (random() - 0.5) * 2.5 * weight,
+      (random() - 0.5) * 1.2 * weight,
+      (random() - 0.5) * 2.5 * weight,
     );
     if (
       mode === "lava" ||
@@ -488,7 +486,7 @@ export const createCampusScenery = function (
         count++;
         if (o.poly) torn.push({ id: o.id, poly: o.poly });
       }
-      for (const p of o.parts) launch(p, point, mode, power);
+      for (const p of o.parts) launch(p, point, mode, power, radius);
       if (mode === "lava" || mode === "volcanicBomb") {
         const emitter = o.parts.find((p) => p.type === "leaf") || o.parts[0];
         emitter.burn = 12;
@@ -503,7 +501,7 @@ export const createCampusScenery = function (
     dummy.rotation.set(p.r.x, p.r.y, p.r.z);
     dummy.updateMatrix();
     const m = dummy.matrix.elements;
-    const half = p.type === "bar" ? 0.5 : 1;
+    const half = p.type === "bar" || p.type === "sign" ? 0.5 : 1;
     const extent =
       Math.abs(m[1]) * p.scale.x * half +
       Math.abs(m[5]) * p.scale.y * (p.type === "wood" ? 0.5 : half) +
@@ -548,21 +546,30 @@ export const createCampusScenery = function (
       p.age += dt;
       if (field && CampusBlackHole.pull(p, field, dt)) continue;
       p.v.y -= 28 * dt;
+      p.v.multiplyScalar(Math.exp(-dt * (p.type === "leaf" ? 0.8 : 0.08)));
       p.p.addScaledVector(p.v, dt);
       p.r.addScaledVector(p.spin, dt);
       const groundY = floor(p);
-      if (p.p.y < groundY) {
+      if (p.p.y < groundY + 0.04 && p.v.y <= 0.5) {
+        const incoming = Math.max(0, -p.v.y);
         p.p.y = groundY;
-        p.v.y = Math.abs(p.v.y) * 0.13;
-        p.v.x *= 0.64;
-        p.v.z *= 0.64;
-        p.spin.multiplyScalar(0.5);
-        if (p.v.length() < 1.8 || p.age > 8) {
+        p.v.y = incoming > 2 ? incoming * 0.08 : 0;
+        const friction = Math.exp(-dt * 18);
+        p.v.x *= friction;
+        p.v.z *= friction;
+        p.spin.multiplyScalar(Math.exp(-dt * 15));
+        p.contactTime += dt;
+        if (
+          (p.v.length() < 1.1 &&
+            p.spin.length() < 0.6 &&
+            p.contactTime > 0.24) ||
+          p.age > 12
+        ) {
           p.v.set(0, 0, 0);
           p.spin.set(0, 0, 0);
           p.sleep = true;
         }
-      }
+      } else p.contactTime = 0;
       if (Math.abs(p.p.x) > 190 || Math.abs(p.p.z) > 160) {
         p.sleep = true;
         p.p.y = -40;
@@ -594,6 +601,7 @@ export const createCampusScenery = function (
         charred: p.charred,
         age: p.age,
         burn: p.burn,
+        contactTime: p.contactTime,
         consumed: !!p.consumed,
         drawScale: p.drawScale ?? 1,
         stretch: p.stretch ?? 1,
@@ -614,6 +622,7 @@ export const createCampusScenery = function (
           "charred",
           "age",
           "burn",
+          "contactTime",
           "consumed",
           "drawScale",
           "stretch",
@@ -629,6 +638,7 @@ export const createCampusScenery = function (
         p.spin.set(0, 0, 0);
         p.active = p.sleep = p.charred = false;
         p.age = p.burn = 0;
+        p.contactTime = 0;
         p.consumed = false;
         p.drawScale = 1;
         p.stretch = 1;

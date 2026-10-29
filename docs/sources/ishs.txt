@@ -1,4 +1,4 @@
-자료 확인: 2026-10-27
+최초 자료 확인: 2026-10-27 / 위성·시설 사진 재확인: 2026-10-29
 네이버 일반지도·위성지도: https://map.naver.com/p/search/인천과학고등학교
 학교 공식 시설 소개: https://i-science.icehs.kr/sub/info.do?m=0106&page=0106&s=isciencehs
 시설 설명 보조 자료: https://www.namu.moe/w/인천과학고등학교/시설
@@ -11,3 +11,31 @@
 기숙사 구획과 식당 윤곽은 위성사진과 시설 설명을 대조한 해석입니다.
 인접 교육연수원 및 국제고 전체는 포함하지 않습니다.
 위성사진 원본은 게임에 포함하지 않았습니다.
+
+2026-10-29 확인 자료와 판단
+네이버 위성지도를 직접 확대해 중앙 중정, 서쪽 흙 운동장, 서쪽 농구장,
+흰 flat roof의 자주동/창의동, 북동쪽 green roof 기숙사, 남쪽 중앙 주차장,
+식당 남쪽의 태양광 주차 캐노피와 북쪽 service loop를 확인했습니다.
+공식 시설 소개의 청명관 외관 사진도 직접 보았습니다:
+https://i-science.icehs.kr/images/Facility/00610/3/1/1.jpg
+이 사진은 주황/황갈색 brick와 녹색 horizontal panel, 두 개의 돌출된 둥근 유리
+계단실을 보여줍니다. 정확한 촬영일을 알 수 없어 현재 외장 상태와 동일하다고 보장하지 않습니다.
+
+이번 보완
+- 청명관의 brick, green band와 두 glazed stair bay를 표현했습니다.
+- 덕성동 중정 양 날개의 pitched roof, 녹색 관측실 구역, 연구/신관 flat roof를 구분했습니다.
+- 식당 남쪽 2열의 태양광 parking roof를 6개의 open-ground-floor canopy로 추가했습니다.
+  주차 aisle/bay 포장을 추가하고 해당 apron에 겹치던 나무를 제거했습니다.
+- 운동장 동쪽의 좁은 spectator steps, retaining wall과 court fence를 추가했습니다.
+- 기숙사로 올라가는 drive와 보행로, 중정의 교차 포장을 구분했습니다.
+- 구형 언덕 props는 없애고 기존 지형 slope와 숲을 사용합니다.
+
+근사와 한계
+태양광 canopy의 존재·방향·2열 배치는 위성 근거가 있으나 panel 수와 지붕별
+세부 분할, support 규격은 game geometry로 단순화했습니다. 패널은 전용 shader를
+늘리지 않도록 어두운 청색 roof 재료로 구분합니다.
+정문의 낮은 piers는 위성 출입구에 맞춘 절제된 근사이며 정면의 정확한 조형을 확인하지 못했습니다.
+대지 높이와 retaining wall/계단 높이는 측량값이 아니며, 모든 건물 footing과
+운동장은 명시된 baseY/field height에 평탄하게 놓습니다.
+
+구현: src/schools/ishs/layout.js / details.js / ground.js

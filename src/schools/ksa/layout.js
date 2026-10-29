@@ -1,3 +1,5 @@
+import { refineCampus } from "./details.js";
+
 export function createLayout() {
   /* KSA: relative photo-aligned model. Dimensions/elevations are game approximations.
  Sources: user supplied aerial views; https://ksa.hs.kr/Home/Sub/14
@@ -265,6 +267,7 @@ export function createLayout() {
       return { x: f.x + u * c + v * s, z: f.z - u * s + v * c };
     },
   };
+  refineCampus(layout);
   for (const b of layout.buildings)
     for (const s of b.segments) {
       s.cos = Math.cos(s.angle || 0);

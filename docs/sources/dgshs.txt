@@ -16,3 +16,18 @@ The east-side Children's World complex is outside this school model.
 Footprints, roof details, level differences and bridge widths are visual approximations.
 The game uses DGSHS to distinguish Daegu from Daejeon; this is a game identifier.
 Satellite pixels and source prose are not bundled with the game.
+2026-10-29 exterior/site refinement
+- Official main-site image, viewed directly:
+  https://dshs.dge.hs.kr/upload/schl/dshsh/widg/M_visual.png
+  The tall main block is pale gray/white panel cladding with blue-green glazing,
+  a pale ochre end panel and a conspicuous white rooftop canopy/frame. The older
+  adjoining block shows reddish masonry. Main facade and roof are corrected from
+  the earlier brown building to pale panels, with a simplified roof canopy.
+- Existing aerial footprint positions are retained. Retaining faces distinguish
+  the lower western access road and southwest blocks from the eastern upper pad.
+  Fences delimit the northern field and campus edge; explicit road/walk metadata
+  follows the traced circulation rather than applying one generic campus loop.
+- The current gate close-up and exact terrace heights remain unverified. Gate
+  piers, wall height, canopy dimensions and secondary-block material choices are
+  approximate. The canopy represents the silhouette, not structural member counts.
+  No imagery is bundled in the application.

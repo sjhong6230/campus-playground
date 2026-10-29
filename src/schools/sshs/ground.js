@@ -70,7 +70,7 @@ export function paintGround({
     ],
     true,
   );
-  ctx.fillStyle = "#b09b77";
+  ctx.fillStyle = layout.field.color;
   ctx.fill();
   ctx.strokeStyle = "#ded7c5";
   ctx.lineWidth = 1.6;
@@ -107,6 +107,15 @@ export function paintGround({
     ctx.stroke();
   }
   // Weathered paving and road markings, painted into the deformable surface.
+  for (let step = 0; step < 10; step++)
+    path(
+      [
+        [-10.5, 18 + step * 0.65],
+        [-6.5, 18 + step * 0.65],
+      ],
+      0.3,
+      step % 2 ? "#c8c4ae" : "#e0d7be",
+    );
   for (let z = -53; z < 57; z += 8)
     path(
       [

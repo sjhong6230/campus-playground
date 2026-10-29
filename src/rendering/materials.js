@@ -1,3 +1,4 @@
+import { createFacadeLibrary } from "./facades.js";
 /* Procedural surface materials and roof fittings attached to destructible slabs. */
 export const CampusVisuals = {
   create(T) {
@@ -111,6 +112,7 @@ export const CampusVisuals = {
       roughness = texture(rough, 0.25);
     bump.colorSpace = roughness.colorSpace = T.NoColorSpace;
     return {
+      facade: createFacadeLibrary(T),
       wall: map,
       wallBump: bump,
       wallRoughness: roughness,
@@ -123,18 +125,50 @@ export const CampusVisuals = {
       tmp = new T.Object3D(),
       rot = new T.Matrix4(),
       euler = new T.Euler(),
-      color = new T.Color();
-    function add(b, s, u, y, v, w, h, d, tint, pitch = 0, yaw = 0) {
+      color = new T.Color(),
+      supportCache = new WeakMap();
+    function add(
+      b,
+      s,
+      u,
+      y,
+      v,
+      w,
+      h,
+      d,
+      tint,
+      pitch = 0,
+      yaw = 0,
+      anchorStory = null,
+      kind = "slab",
+    ) {
+      let cached = supportCache.get(s);
+      if (!cached) {
+        cached = new Map();
+        supportCache.set(s, cached);
+      }
+      const story = anchorStory ?? (s.floors ?? b.floors) - 1;
+      const key = `${kind}:${story}`;
+      if (!cached.has(key))
+        cached.set(
+          key,
+          b.ids
+            .map((i) => blocks[i])
+            .filter(
+              (p) => p.kind === kind && p.story === story && p.segment === s,
+            ),
+        );
       const q = layout.point(s, u, v),
-        p = new T.Vector3(q.x, b.baseY + (s.floors ?? b.floors) * 3 + y, q.z),
-        supports = b.ids
-          .map((i) => blocks[i])
-          .filter(
-            (p) =>
-              p.kind === "slab" &&
-              p.story === (s.floors ?? b.floors) - 1 &&
-              p.segment === s,
-          );
+        p = new T.Vector3(
+          q.x,
+          b.baseY +
+            (anchorStory === null
+              ? (s.floors ?? b.floors) * 3
+              : anchorStory * 3) +
+            y,
+          q.z,
+        ),
+        supports = cached.get(key);
       let support = supports[0];
       for (const candidate of supports)
         if (
@@ -156,6 +190,143 @@ export const CampusVisuals = {
     for (const b of buildings) {
       if (b.link) continue;
       for (const s of b.segments) {
+        const facade = s.facade ?? b.facade;
+        for (const bay of facade?.glazedBays || []) {
+          const sign = bay.side ?? 1,
+            w = bay.width || 3,
+            projection = bay.projection ?? 0.4;
+          for (
+            let floor = s.openGroundFloor ? 1 : 0;
+            floor < (s.floors ?? b.floors);
+            floor++
+          ) {
+            for (let face = -1; face <= 1; face++) {
+              const u = (bay.u || 0) + (face * w) / 3;
+              const v = sign * (s.d / 2 + projection * (face ? 0.5 : 1) + 0.06);
+              add(
+                b,
+                s,
+                u,
+                1.5,
+                v,
+                w / 3 + 0.03,
+                2.82,
+                0.1,
+                facade.window || "#537d8a",
+                0,
+                face * sign * 0.2,
+                floor,
+                "wall",
+              );
+              add(
+                b,
+                s,
+                u - w / 6,
+                1.5,
+                v + sign * 0.07,
+                0.07,
+                2.95,
+                0.09,
+                facade.trim || "#bac3be",
+                0,
+                0,
+                floor,
+                "wall",
+              );
+            }
+            add(
+              b,
+              s,
+              bay.u || 0,
+              0.04,
+              sign * (s.d / 2 + projection + 0.12),
+              w,
+              0.12,
+              0.16,
+              facade.trim || "#bac3be",
+              0,
+              0,
+              floor,
+              "wall",
+            );
+          }
+        }
+        const details = s.roofDetails;
+        if (details?.parapet) {
+          for (const side of [-1, 1]) {
+            const nx = Math.ceil(s.w / 5),
+              nz = Math.ceil(s.d / 5);
+            for (let i = 0; i < nx; i++)
+              add(
+                b,
+                s,
+                -s.w / 2 + ((i + 0.5) * s.w) / nx,
+                0.6,
+                side * (s.d / 2 - 0.12),
+                s.w / nx,
+                0.8,
+                0.25,
+                facade?.trim || "#b8bdb5",
+              );
+            for (let i = 0; i < nz; i++)
+              add(
+                b,
+                s,
+                side * (s.w / 2 - 0.12),
+                0.6,
+                -s.d / 2 + ((i + 0.5) * s.d) / nz,
+                0.25,
+                0.8,
+                s.d / nz,
+                facade?.trim || "#b8bdb5",
+              );
+          }
+        }
+        if (details?.equipment) {
+          for (
+            let i = 0;
+            i < Math.min(3, Math.max(1, Math.floor(s.w / 15)));
+            i++
+          ) {
+            const u = -s.w * 0.25 + i * 7;
+            add(b, s, u, 0.7, 0, 2.4, 0.9, 1.6, "#c6cbca");
+            add(b, s, u, 1.18, 0, 2.5, 0.13, 1.7, "#647273");
+          }
+        }
+        if (details?.canopy) {
+          const c = details.canopy,
+            u = c.u || 0,
+            v = c.v || 0,
+            h = c.height || 2.3,
+            w = c.w || s.w * 0.8,
+            d = c.d || s.d * 0.7;
+          for (const a of [-1, 1])
+            for (const z of [-1, 1])
+              add(
+                b,
+                s,
+                u + a * (w / 2 - 0.3),
+                h / 2,
+                v + z * (d / 2 - 0.3),
+                0.18,
+                h,
+                0.18,
+                c.color || "#b5b9b5",
+              );
+          const n = Math.ceil(w / 5);
+          for (let i = 0; i < n; i++)
+            add(
+              b,
+              s,
+              u - w / 2 + ((i + 0.5) * w) / n,
+              h,
+              v,
+              w / n - 0.04,
+              0.18,
+              d,
+              c.color || "#83968f",
+            );
+        }
         if (s.observatory) {
           add(b, s, 0, 0.7, 0, 7, 1.4, 4.8, "#ced0c8");
           for (let i = 0; i < 10; i++) {
@@ -301,30 +472,74 @@ export const CampusVisuals = {
     mesh.frustumCulled = false;
     mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
     root.add(mesh);
+    const rendered = new WeakMap();
     function sync() {
+      let matrixLo = Infinity,
+        matrixHi = 0,
+        colorLo = Infinity,
+        colorHi = 0;
       entries.forEach((entry, i) => {
         const b = entry.support,
-          scale = b.drawScale ?? 1;
-        euler.set(b.r.x, b.r.y, b.r.z);
-        rot.makeRotationFromEuler(euler);
-        tmp.position
-          .copy(entry.offset)
-          .multiplyScalar(scale)
-          .applyMatrix4(rot)
-          .add(b.p);
-        tmp.quaternion.setFromRotationMatrix(rot);
-        tmp.rotateY(entry.angle);
-        tmp.rotateX(entry.pitch || 0);
-        tmp.scale.copy(entry.scale).multiplyScalar(b.consumed ? 0 : scale);
-        tmp.updateMatrix();
-        mesh.setMatrixAt(i, tmp.matrix);
-        mesh.setColorAt(
-          i,
-          color.copy(entry.tint).multiplyScalar(b.charred ? 0.2 : 1),
-        );
+          scale = b.consumed ? 0 : (b.drawScale ?? 1),
+          prior = rendered.get(entry);
+        const moved =
+          !prior ||
+          prior.x !== b.p.x ||
+          prior.y !== b.p.y ||
+          prior.z !== b.p.z ||
+          prior.rx !== b.r.x ||
+          prior.ry !== b.r.y ||
+          prior.rz !== b.r.z ||
+          prior.scale !== scale;
+        const recolored = !prior || prior.charred !== b.charred;
+        if (!moved && !recolored) return;
+        if (moved) {
+          euler.set(b.r.x, b.r.y, b.r.z);
+          rot.makeRotationFromEuler(euler);
+          tmp.position
+            .copy(entry.offset)
+            .multiplyScalar(scale)
+            .applyMatrix4(rot)
+            .add(b.p);
+          tmp.quaternion.setFromRotationMatrix(rot);
+          tmp.rotateY(entry.angle);
+          tmp.rotateX(entry.pitch || 0);
+          tmp.scale.copy(entry.scale).multiplyScalar(scale);
+          tmp.updateMatrix();
+          mesh.setMatrixAt(i, tmp.matrix);
+          matrixLo = Math.min(matrixLo, i);
+          matrixHi = i + 1;
+        }
+        if (recolored) {
+          mesh.setColorAt(
+            i,
+            color.copy(entry.tint).multiplyScalar(b.charred ? 0.2 : 1),
+          );
+          colorLo = Math.min(colorLo, i);
+          colorHi = i + 1;
+        }
+        rendered.set(entry, {
+          x: b.p.x,
+          y: b.p.y,
+          z: b.p.z,
+          rx: b.r.x,
+          ry: b.r.y,
+          rz: b.r.z,
+          scale,
+          charred: b.charred,
+        });
       });
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.instanceColor.needsUpdate = true;
+      if (matrixHi) {
+        mesh.instanceMatrix.addUpdateRange(
+          matrixLo * 16,
+          (matrixHi - matrixLo) * 16,
+        );
+        mesh.instanceMatrix.needsUpdate = true;
+      }
+      if (colorHi) {
+        mesh.instanceColor.addUpdateRange(colorLo * 3, (colorHi - colorLo) * 3);
+        mesh.instanceColor.needsUpdate = true;
+      }
     }
     sync();
     return { sync, count: entries.length };

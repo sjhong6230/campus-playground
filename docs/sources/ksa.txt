@@ -5,7 +5,7 @@
 원본의 flatGreen 지붕은 공통 renderer의 flat roof + roofColor로 표현합니다.
 학교 데이터만 이식하며 도구, audio, damage, Undo, 성능 설정은 현재 공통 엔진을 사용합니다.
 
-원본에 기재된 참고 자료 (이번 이식에서 별도로 지도 대조하지 않음):
+원본에 기재된 참고 자료 (최초 이식에서는 별도로 지도 대조하지 않음):
 - 사용자 제공 aerial views
 - https://ksa.hs.kr/Home/Sub/14
 - https://ksa.hs.kr/Content/images/camtour/index.html
@@ -13,3 +13,28 @@
 
 사진의 뒤쪽이 -Z이며 측량된 북쪽 방향이 아닙니다. 건물 치수, 층수, 높이,
 외관, 연결부와 조경은 원본의 게임용 근사입니다. 위성사진 원본은 포함하지 않습니다.
+
+2026-10-29 공식 조감도 재확인
+https://ksa.hs.kr/Home/Sub/14
+https://ksa.hs.kr/Content/images/content/schoolinfo/map_2017.jpg
+공식 페이지의 2017년 조감도 원본을 직접 열어 건물 윤곽·색·정원·운동장·테라스를 관찰했습니다.
+이 자료는 날짜가 명시된 과거 조감도이며, 최신 위성영상 또는 준공 도면으로 취급하지 않습니다.
+
+반영한 형상과 부속
+- 본관은 긴 brick 전면부와 밝은 중앙 출입부 뒤로 길게 돌아가는 L자 날개입니다.
+  누락되어 있던 뒤쪽 날개를 추가했으며, footprint 전체는 baseY 3의 footing으로 고정합니다.
+- 드림디자인센터는 짙은 회색 panel과 주황 accent, 탐구/형설관은 붉은 brick와
+  수평 window band, 예지관은 넓은 dark glazing과 밝은 측벽으로 구분했습니다.
+- 견우/직녀관은 brick, 백양관은 밝은 panel과 중앙 glazing으로 구분했습니다.
+- 운동장은 인조잔디 stripes와 붉은 track, 북쪽에 색이 다른 좌석 strip을 반영했습니다.
+- 운동장 서쪽 tennis court fence, 기숙사 전면 retaining wall, 등고선을 따라 올라가는
+  진입 차도와 보행 포장을 구분했습니다. 기존 entrance roundabout을 유지합니다.
+- 캠퍼스 전체를 덮던 회색 포장을 여러 terrace로 나누고 독립된 구형 언덕을 제거했습니다.
+
+남은 불확실성
+이 모델의 방향은 사용자 제공 사진을 유지하며 실제 북쪽을 측량한 값이 아닙니다.
+본관 후면 날개의 정확한 길이와 높이, 창문 수, 기숙사 층수, 정문 piers의 치수는
+조감도 비례에 따른 근사입니다. 2017년 이후 신축·리모델링의 완전한 확인은 되지 않았습니다.
+공식 이미지를 게임 texture로 포함하지 않고 독립적인 geometry/절차적 재료만 사용합니다.
+
+구현: src/schools/ksa/layout.js / details.js / ground.js

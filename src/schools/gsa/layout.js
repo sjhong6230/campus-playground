@@ -1,3 +1,4 @@
+import { addDetails } from "./details.js";
 export function createLayout() {
   // North = -Z. Relative footprints traced from Naver aerial imagery.
   // The campus follows Cheomdangwagi-ro at approximately 20 degrees.
@@ -214,5 +215,5 @@ export function createLayout() {
       s.cos = Math.cos(s.angle);
       s.sin = Math.sin(s.angle);
     }
-  return layout;
+  return addDetails(layout);
 }

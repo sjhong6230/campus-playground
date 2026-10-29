@@ -1,3 +1,4 @@
+import { addDetails } from "./details.js";
 import {
   segment,
   building as b,
@@ -42,7 +43,7 @@ export function createLayout() {
     });
   });
   const observatory = p(-26, -49);
-  return finishLayout(
+  const layout = finishLayout(
     {
       sources: {
         map: "https://map.naver.com/p/search/세종과학고등학교",
@@ -71,8 +72,14 @@ export function createLayout() {
         bridge("집현전–한누리관", p(7, -12.5), p(9, 4), 4.5, 1, 3),
         bridge("한누리관–미리내", p(9, 4), { x: 23, z: 35 }, 4.5, 1, 2.6),
       ],
-      observatory: { ...observatory, y: 18.5, building: 1 },
-      field: s(-24, -22, 34, 27, { height: 4.5 }),
+      observatory: {
+        ...observatory,
+        y: 16.75,
+        building: 1,
+        radius: 2.4,
+        color: "#c8d5d6",
+      },
+      field: s(-24, -22, 34, 27, { height: 3.8 }),
       tennis: s(-47, -15, 12, 9),
       courtKind: "basketball",
       gate: { ...p(-44, 6), angle: campus.angle },
@@ -106,4 +113,5 @@ export function createLayout() {
       );
     },
   );
+  return addDetails(layout);
 }

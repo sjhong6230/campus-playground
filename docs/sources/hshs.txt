@@ -23,3 +23,22 @@ Dormitory room boundaries, minor annexes and facade details are simplified.
 Main/dormitory base-height difference uses the documented floor connection;
 other grades, lengths and roof forms are visual approximations, not survey data.
 No map pixels, illustrated diagram or source prose are bundled with the game.
+2026-10-29 exterior/site refinement
+- https://commons.wikimedia.org/wiki/File:Hansung_Science_High_School.jpg
+  The 2023 photograph was viewed directly. It shows light cream/gray rendered
+  science facades and a conspicuous broad green dome over a rounded front mass.
+  The former tiny centered dome and three-storey rectangular front are replaced
+  with a larger green dome over a shallow stepped approximation of the rounded
+  frontage. The front is represented at the science block's five-slab height;
+  its exact curved profile, structural floor levels and dome diameter remain
+  approximate. Dome base now meets the roof rather than floating above it.
+- Naver satellite view was revisited north-up, confirming the long hillside main
+  block, the newer rear mass and a small green sport court southeast of the gym.
+  A basketball court is added there. The current rear mass is visible, but its
+  identification as Seohyeon and exact boundaries remain tentative.
+- Retaining faces and field-edge railings emphasize the tall central terrace;
+  road and walking routes follow the existing satellite trace. Gate piers are a
+  conservative approximation at the known approach, not a measured gate design.
+  Wall/fence heights, court dimensions, frontage subdivisions and all color
+  samples are visually estimated. Sources do not provide a surveyed contour plan.
+  Photos and map pixels are not distributed.

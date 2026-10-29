@@ -1,5 +1,5 @@
 경기과고 Playground — 지도 기반 배치 기록
-확인일: 2026-10-27
+최초 배치 확인: 2026-10-27 / 위성·공식 외관 재확인: 2026-10-29
 
 사용 자료
 1. 네이버 일반지도 및 위성지도
@@ -40,4 +40,23 @@ SRC의 높이와 천체관측실, 본관·기숙사 층수, 아름관의 높은 
 공식 배치도와 지도 이미지는 게임 파일에 복제하지 않았습니다. 독립적인 3D geometry입니다.
 기존 도구와 Undo/Reset 기능을 계승했고 최고 점수 저장은 서울과고 버전과 분리했습니다.
 
-구현 좌표: campus-layout.js
+2026-10-29 보완에서 직접 확인한 것
+공식 CAMPUSMAP의 실제 이미지를 열어 본관 중앙 및 끝부분의 둥근 유리 계단실,
+SRC의 밝은 석재 상부/짙은 유리 하부, 창조관의 녹색 barrel roof, 우정2관의
+밝은 벽과 푸른 horizontal band, 식당의 hip roof를 확인했습니다.
+네이버 위성사진을 직접 확대해 본관, SRC, 학술정보관 등의 녹색 flat roof,
+인조잔디 운동장, 남서쪽 주차장과 공유 진입로, 본관 앞 삼각 녹지의 상대 배치를 재확인했습니다.
+공식 조감도에서 밝게 보이는 지붕과 위성사진이 다르므로 현재 관찰 가능한 위성 색을 우선했습니다.
+
+이번 보완
+- 본관의 두 유리 계단실과 SRC의 넓은 glazing, 우정2관의 유리 bay를 segment facade로 추가했습니다.
+- 건물별 brick/stone/render/panel 재료와 창틀, 띠 색을 구분했습니다.
+- 교문을 분리된 낮은 piers로 만들고 shared approach를 막는 overhead portal은 생략했습니다.
+- 운동장 fence, 단차의 retaining wall, uphill drive와 보행 포장의 폭/색을 분리했습니다.
+- 독립된 구형 hill props를 제거하고 기존 terrace height function을 사용합니다.
+
+정확한 curve와 외장 panel 수는 낮은 polygon 수의 근사입니다. 녹색 지붕과
+유리 bay의 개수·상대 위치는 관찰 근거가 있지만 모든 창의 수/모든 문 위치는 확인하지 않았습니다.
+사진 촬영일, 교문 각도·정확한 폭, retaining wall 높이는 확인되지 않아 게임 단위로 근사했습니다.
+
+구현 좌표: src/schools/gshs/layout.js / details.js / ground.js

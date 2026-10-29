@@ -26,7 +26,12 @@ export function paintGround({
     ctx.fillStyle = color;
     ctx.fill();
   }
-  rect(0, -18, 139, 72, "#a1a18a");
+  // Separate paved terraces leave the wooded boundary visible; the whole hill
+  // is not an asphalt rectangle.
+  rect(-9, -37, 69, 34, "#a5a493");
+  rect(-15, -3, 51, 22, "#b1af9c");
+  rect(43, -6, 51, 38, "#aaa997");
+  rect(-56, 5, 21, 26, "#b0ae9b");
   path(
     [
       [-74, 58],
@@ -71,6 +76,16 @@ export function paintGround({
   rect(-13, -17, 23, 6, "#5e8a6e");
   for (let i = 0; i < 5; i++)
     rect(-18, 9 + i * 0.9, 33, 0.5, i % 2 ? "#e7dbbd" : "#b5a78f");
+  // Blue, amber and pale seating blocks along the north edge of the field.
+  for (let row = 0; row < 3; row++)
+    for (let block = 0; block < 8; block++)
+      rect(
+        -40 + block * 4.5,
+        13.2 + row * 0.45,
+        4.1,
+        0.32,
+        ["#547c92", "#d6c9a4", "#c2914e"][block % 3],
+      );
   framedRect(layout.parking, 0, 0, 24, 13, "#8b9390");
   for (let i = -5; i <= 5; i++)
     for (const v of [-4, 4])
@@ -111,7 +126,7 @@ export function paintGround({
     0,
     layout.field.w + 5,
     layout.field.d + 5,
-    "#ad7462",
+    "#9c6559",
   );
   for (let i = 0; i < 3; i++) {
     const f = layout.field;
@@ -140,7 +155,7 @@ export function paintGround({
     ],
     true,
   );
-  ctx.fillStyle = "#607d58";
+  ctx.fillStyle = layout.field.color;
   ctx.fill();
   for (let i = 0; i < 10; i++) {
     const a = -w + (i * f.w) / 10;
@@ -153,7 +168,7 @@ export function paintGround({
       ],
       true,
     );
-    ctx.fillStyle = i % 2 ? "#647f5c" : "#5b7653";
+    ctx.fillStyle = i % 2 ? "#56875d" : "#497b52";
     ctx.fill();
   }
   ctx.strokeStyle = "#ded7c5";

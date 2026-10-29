@@ -1,3 +1,5 @@
+import { refineCampus } from "./details.js";
+
 export function createLayout() {
   /* North is -Z, east is +X. Hand-aligned to the Naver aerial/map view,
    checked against the school's published building diagram. Game units are
@@ -125,6 +127,23 @@ export function createLayout() {
       let h =
         6 * (1 - smooth((z - 12) / 13)) +
         4 * (1 - smooth((x + 40) / 15)) * (1 - smooth((z + 4) / 15));
+      const f = this.field,
+        dx = x - f.x,
+        dz = z - f.z,
+        fu = dx * Math.cos(f.angle) - dz * Math.sin(f.angle),
+        fv = dx * Math.sin(f.angle) + dz * Math.cos(f.angle),
+        fo = Math.max(Math.abs(fu) - f.w / 2, Math.abs(fv) - f.d / 2, 0);
+      if (fo < 1e-6) return 0;
+      h *= smooth(fo / 3);
+      for (const b of this.buildings)
+        for (const s of b.segments) {
+          const dx = x - s.x,
+            dz = z - s.z,
+            u = dx * s.cos - dz * s.sin,
+            v = dx * s.sin + dz * s.cos;
+          if (Math.abs(u) <= s.w / 2 + 1e-6 && Math.abs(v) <= s.d / 2 + 1e-6)
+            return b.baseY;
+        }
       for (const b of this.buildings)
         for (const s of b.segments) {
           const dx = x - s.x,
@@ -134,7 +153,8 @@ export function createLayout() {
             u = dx * c - dz * a,
             v = dx * a + dz * c,
             outside = Math.max(Math.abs(u) - s.w / 2, Math.abs(v) - s.d / 2, 0);
-          h = Math.max(h, b.baseY * (1 - smooth(outside / 4)));
+          const blend = 1 - smooth(outside / 4);
+          h = h * (1 - blend) + b.baseY * blend;
         }
       return h;
     },
@@ -145,6 +165,8 @@ export function createLayout() {
     },
   };
 
+  refineCampus(layout);
+
   // Cached footprint rotations for repeated ground contact queries.
   for (const b of layout.buildings)
     for (const s of b.segments) {
@@ -152,12 +174,7 @@ export function createLayout() {
       s.sin = Math.sin(s.angle || 0);
     }
 
-  layout.hills = [
-    [-79, -47],
-    [-72, -68],
-    [-48, -66],
-    [-24, -67],
-  ];
+  layout.hills = [];
   layout.maxTrees = 65;
   layout.observatory.building = 0;
   layout.trees = (random) => {

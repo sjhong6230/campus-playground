@@ -1,5 +1,6 @@
 import { CampusFracture } from "../physics/fracture.js";
 import { CampusVisuals } from "../rendering/materials.js";
+import { applyFacadeGroups } from "../rendering/facades.js";
 export function createBuildings({ T, world, layout, visuals, rng, $ }) {
   const sideMaterial = new T.MeshStandardMaterial({
     map: visuals.wall,
@@ -38,6 +39,8 @@ export function createBuildings({ T, world, layout, visuals, rng, $ }) {
         bottomSlab: segment.bottomSlab ?? false,
       };
       for (const part of fracture.buildingParts(local)) {
+        part.facade = segment.facade ?? b.facade;
+        part.color = part.facade?.color ?? segment.color ?? b.color;
         part.building = b;
         part.segment = segment;
         part.origin.applyMatrix4(yaw).add(origin);
@@ -76,6 +79,14 @@ export function createBuildings({ T, world, layout, visuals, rng, $ }) {
     });
   const fractured = fracture.batch(blocks, [sideMaterial, roofMaterial]),
     blockMesh = fractured.mesh;
+  applyFacadeGroups(
+    T,
+    fractured,
+    blocks,
+    visuals.facade,
+    sideMaterial,
+    roofMaterial,
+  );
   world.add(blockMesh);
   const architecture = CampusVisuals.architecture(
     T,

@@ -19,3 +19,21 @@ Roof colors, footprint dimensions, bridge locations and heights are approximate;
 the small differences between each building's storey heights are simplified.
 The game uses DJSHS to distinguish Daejeon from Daegu; this is a game identifier.
 Satellite images and photographs are not distributed with the game.
+2026-10-29 exterior/site refinement
+- The Wikimedia Tami front-view photo listed below was opened and inspected.
+  It shows ochre/tan brick, pale floor bands, a dark central accent, a partial
+  white roof canopy and the neighboring red-brick dorm with white strips.
+  Building-specific brick/panel palettes, window bands and the partial canopy
+  replace the previous shared beige exterior. The dark clock/sign panel is not
+  reproduced as a false interior or invented readable text.
+- Entrance photograph, viewed directly:
+  https://www.shinailbo.co.kr/news/articleView.html?idxno=1760546
+  https://cdn.shinailbo.co.kr/news/photo/202309/1760546_913650_524.jpg
+  This September 2023 photo shows paired granite piers, horizontal darker bands,
+  a retractable barrier and green perimeter fencing. The model uses stone-colored
+  piers at the existing west entrance, plus a separate school sign and fencing;
+  the barrier and guard booth are not asserted to have exact measured shapes.
+- The central field remains muted grass with a worn center. Field perimeter
+  walking routes and west vehicle access are distinct. All facade colors, pier
+  heights, canopy dimensions, wall heights and path widths are visual estimates.
+  Photographs are evidence only and are not distributed.

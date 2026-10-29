@@ -87,7 +87,17 @@ export function paintGround({
   for (let i = -4; i <= 4; i++)
     for (const v of [-4, 4])
       framedRect(layout.parking, i * 2, v, 0.12, 3, "#ece9dc");
+  // Southeast parking apron and its central aisle sit under the solar roofs.
+  const solarParking = { x: 53, z: 26.5, angle: 0.07 };
+  framedRect(solarParking, 0, 0, 30, 19, "#939b91");
+  framedRect(solarParking, 0, 0, 30, 3.1, "#7e8981");
+  for (let bay = -6; bay <= 6; bay++)
+    for (const row of [-5.3, 5.3])
+      framedRect(solarParking, bay * 2.2, row, 0.11, 5, "#deded0");
   framedRect({ x: 12, z: 7, angle: 0.07 }, 0, 0, 21, 8, "#9aab8b");
+  const courtyard = { x: 12, z: 7, angle: 0.07 };
+  framedRect(courtyard, 0, 0, 18.5, 1.1, "#c9c4ad");
+  framedRect(courtyard, 0, 0, 1.1, 8, "#c9c4ad");
   framedRect({ x: -34, z: 7, angle: 0.08 }, 0, 0, 25, 3, "#d2c7b3");
   // Ecological garden occupies the narrow strip between Deokseong and Changui.
   path(
@@ -134,7 +144,7 @@ export function paintGround({
     ],
     true,
   );
-  ctx.fillStyle = "#b8a681";
+  ctx.fillStyle = layout.field.color;
   ctx.fill();
   for (let i = 0; i < 10; i++) {
     const a = -w + (i * f.w) / 10;
@@ -147,7 +157,7 @@ export function paintGround({
       ],
       true,
     );
-    ctx.fillStyle = i % 2 ? "#b9a883" : "#b6a47f";
+    ctx.fillStyle = i % 2 ? "#b8a681" : "#b7a580";
     ctx.fill();
   }
   ctx.strokeStyle = "#ded7c5";
@@ -183,6 +193,19 @@ export function paintGround({
       [u, 5],
     ]);
     ctx.stroke();
+  }
+  // Narrow concrete spectator steps on the east side of the lower dirt field.
+  for (let row = 0; row < 4; row++) {
+    const a = layout.point(f, f.w / 2 + 0.45 + row * 0.48, -f.d / 2 + 2);
+    const b = layout.point(f, f.w / 2 + 0.45 + row * 0.48, f.d / 2 - 2);
+    path(
+      [
+        [a.x, a.z],
+        [b.x, b.z],
+      ],
+      0.27,
+      row % 2 ? "#c0bda8" : "#d0cbb5",
+    );
   }
   // Road edge and pedestrian crossing at the southern gate.
   for (let i = 0; i < 23; i++) {

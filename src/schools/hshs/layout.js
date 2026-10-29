@@ -1,3 +1,4 @@
+import { addDetails } from "./details.js";
 import {
   segment,
   building as b,
@@ -11,8 +12,8 @@ export function createLayout() {
   const p = (u, v) => point(campus, u, v);
   const s = (u, v, w, d, extra = {}) =>
     segment(0, 0, w, d, { angle: campus.angle, ...p(u, v), ...extra });
-  const science = p(42, 8);
-  return finishLayout(
+  const science = p(40, 23);
+  const layout = finishLayout(
     {
       sources: {
         map: "https://map.naver.com/p/search/한성과학고등학교",
@@ -27,7 +28,10 @@ export function createLayout() {
         ]),
         b("창조관 · 과학동", 5, 4.5, "#c5b7a0", [
           s(42, 7, 11, 27, { roofColor: "#7e9f8f" }),
-          s(40, 23, 15, 5, { floors: 3, roofColor: "#7e9f8f" }),
+          // A few shallow steps preserve the rounded front without dense geometry.
+          s(40, 23, 15, 7, { roofColor: "#a0aaa0" }),
+          s(40, 27, 11, 2, { roofColor: "#a0aaa0" }),
+          s(40, 28.5, 7, 1, { roofColor: "#a0aaa0" }),
         ]),
         b("인왕관 · 체육관", 2, 4.5, "#d5ccbb", [
           s(22, 8, 21, 21, { roof: "hip", roofColor: "#829991" }),
@@ -48,8 +52,16 @@ export function createLayout() {
         bridge("본관–창조관", p(42, -13), p(42, -6.5), 10.5, 2),
         bridge("돈의관–태하관", p(-38.5, 11), p(-42, 11), 7.5),
       ],
-      observatory: { ...science, y: 21.5, building: 1 },
+      observatory: {
+        ...science,
+        y: 19.75,
+        building: 1,
+        radius: 4.8,
+        color: "#719489",
+      },
       field: s(-7, 11, 30, 25, { height: 10.5 }),
+      tennis: s(23, 25, 18, 9, { height: 4.5 }),
+      courtKind: "basketball",
       gate: { ...p(-48, 29), angle: campus.angle },
       parking: { ...p(-31, 29), angle: campus.angle },
       benches: [p(-18, -6), p(-8, -6), p(2, -6), p(5, 26)].map((q) => [
@@ -76,4 +88,5 @@ export function createLayout() {
       );
     },
   );
+  return addDetails(layout);
 }

@@ -148,8 +148,16 @@ export function createGame(school) {
   syncBlocks();
   const dome = layout.observatory
     ? new T.Mesh(
-        new T.SphereGeometry(3.3, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2),
-        mat("#668783"),
+        new T.SphereGeometry(
+          layout.observatory.radius ?? 3.3,
+          20,
+          12,
+          0,
+          Math.PI * 2,
+          0,
+          Math.PI / 2,
+        ),
+        mat(layout.observatory.color ?? "#668783"),
       )
     : null;
   if (dome) {
@@ -161,6 +169,21 @@ export function createGame(school) {
     dome.castShadow = true;
     world.add(dome);
   }
+  const domeSupport = dome
+    ? buildings[layout.observatory.building ?? 0].ids
+        .map((i) => blocks[i])
+        .filter((b) => b.kind === "slab")
+        .sort(
+          (a, b) =>
+            a.origin.distanceToSquared(dome.position) -
+            b.origin.distanceToSquared(dome.position),
+        )[0]
+    : null;
+  const domeOffset = domeSupport
+    ? dome.position.clone().sub(domeSupport.origin)
+    : null;
+  const domeEuler = new T.Euler(),
+    domeRotation = new T.Quaternion();
   let tool = tools[0].id,
     score = 0,
     hits = 0,
@@ -309,6 +332,8 @@ export function createGame(school) {
       b.drawScale = 1;
       b.stretch = 1;
       b.pullAxis = null;
+      b.collapse = false;
+      b.contactTime = 0;
     });
     score = 0;
     hits = 0;
@@ -357,7 +382,7 @@ export function createGame(school) {
     world.add(mesh);
     effects.push({ mesh, life: 0, duration: 0.65, radius });
   }
-  const { activate, impact } = createDamageSystem({
+  const { activate, impact, propagate } = createDamageSystem({
     T,
     layout,
     terrain,
@@ -492,6 +517,7 @@ export function createGame(school) {
         b.stretch = 1;
         b.pullAxis = null;
       }
+      count += propagate();
       count += scenery.damage(p, "shockwave", strength, radius);
       score += count * 10;
       waveScore += count * 10;
@@ -637,21 +663,7 @@ export function createGame(school) {
           impact(n.p, "nuke");
         }
       } else {
-        if (n.age >= 1.4 && !n.settled) {
-          n.settled = true;
-          for (const b of blocks) {
-            if (!b.active || b.consumed) continue;
-            b.p.y = terrain.heightAt(b.p.x, b.p.z) + b.rest + 0.2;
-            b.r.x = b.kind === "wall" ? b.flatX : 0;
-            b.r.z = b.kind === "wall" ? b.flatZ : 0;
-            b.v.set(0, 0, 0);
-            b.spin.set(0, 0, 0);
-            b.sleep = true;
-            b.delay = 0;
-          }
-          syncBlocks();
-          scenery.settle();
-        }
+        // Debris keeps falling through the flash and reveal; never snap it flat.
         if (n.age >= 0.24 && n.age < 1.6) canvas.dataset.nuclear = "white";
         if (n.age >= 1.6) canvas.dataset.nuclear = "reveal";
         if (n.age >= 2.7) {
@@ -686,11 +698,17 @@ export function createGame(school) {
           field.radius,
         );
       }
+      count += propagate();
       if (count) {
         score += count * 10;
         updateStats();
       }
       canvas.dataset.absorbed = blocks.filter((b) => b.consumed).length;
+    }
+    const detached = propagate();
+    if (detached) {
+      score += detached * 10;
+      updateStats();
     }
     const moving = stepDebris(dt, field, time);
     if (moving) syncBlocks();
@@ -760,14 +778,18 @@ export function createGame(school) {
     $("impact-caption").style.transform =
       "translate(-50%," + -12 * (1.5 - captionLife) + "px)";
     const cameraChanged = controls.update(time, shake, field);
-    if (dome)
-      dome.visible = !buildings[layout.observatory.building ?? 0].ids.some(
-        (i) =>
-          blocks[i].active &&
-          Math.abs(blocks[i].origin.x - layout.observatory.x) < 5 &&
-          Math.abs(blocks[i].origin.z - layout.observatory.z) < 5 &&
-          blocks[i].origin.y > layout.observatory.y - 3,
-      );
+    if (dome && domeSupport) {
+      domeEuler.set(domeSupport.r.x, domeSupport.r.y, domeSupport.r.z);
+      domeRotation.setFromEuler(domeEuler);
+      dome.position
+        .copy(domeOffset)
+        .multiplyScalar(domeSupport.drawScale ?? 1)
+        .applyQuaternion(domeRotation)
+        .add(domeSupport.p);
+      dome.quaternion.copy(domeRotation);
+      dome.scale.setScalar(domeSupport.drawScale ?? 1);
+      dome.visible = !domeSupport.consumed;
+    }
     if (terrain.flush()) shadowDirty = true;
     const animating =
       canvas.dataset.settled !== "true" ||

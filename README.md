@@ -1,6 +1,6 @@
 # Campus Playground
 
-서울과고·경기과고·인천과고·한국과학영재학교·광주과고·대구과고·대전과고·한성과고·세종과고, 총 9개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 학교와 관계없는 비공식 게임이며, 공개 지도와 사용자 제공 모형에 기반한 건물 배치와 치수·외관은 근사입니다.
+서울과고·경기과고·인천과고·한국과학영재학교·광주과고·대구과고·대전과고·한성과고·세종과고, 총 9개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 공개 지도, 학교 배치도·시설 사진, 항공사진과 사용자 제공 모형을 참고합니다. 학교와 관계없는 비공식 게임이며, 배치와 치수·외관은 근사입니다.
 
 **[웹에서 플레이](https://sjhong6230.github.io/campus-playground/)** · [GitHub 저장소](https://github.com/sjhong6230/campus-playground)
 
@@ -49,9 +49,9 @@ HTML은 다운로드 후 더블클릭으로 실행할 수 있습니다. 실행 �
 src/
   main.js                 학교 선택 → UI 연결 → 공통 게임 시작
   core/                   게임 수명주기·frame loop·Undo·공유 설정
-  physics/                fracture·damage·debris integration
+  physics/                fracture·support graph·damage·debris contact
   world/                  건물 생성·terrain 변형·파괴 가능한 환경 요소
-  rendering/              표면 재질·roof 부착물·자동 화질
+  rendering/              학교별 facade·roof 부착물·자동 화질
   effects/                fire·mushroom cloud·Shockwave·공통 시각 효과
   tools/                  도구 catalog·시작 action·지속 효과
   audio/                  impact audio
@@ -71,12 +71,12 @@ src/
     sjshs/                세종과고: index.js / layout.js / ground.js
     shared/               선택적 배치·단차·ground drawing 도우미
 scripts/                  빌드·개발 감시·로컬 서버
-tests/                    Node test runner + 이전 버전 비교 fixture
+tests/                    Node test runner + 역사적 비교 fixture
 docs/                     설계·확장 가이드·출처
 vendor/                   고정된 Three.js 배포본과 MIT 라이선스
 ```
 
-학교마다 게임 코드를 복사하지 않습니다. 학교 폴더는 소개 정보, layout factory, ground painter만 제공합니다. 선택 화면과 단독 배포 파일은 등록 목록에서 자동 생성됩니다. 통합 HTML에도 공통 엔진을 한 번만 저장하고, 선택한 학교의 iframe 하나만 실행합니다.
+학교마다 게임 코드를 복사하지 않습니다. 학교 폴더는 소개 정보, layout factory, ground painter와 `details.js`의 외관·정문·동선 데이터를 제공합니다. 선택 화면과 단독 배포 파일은 등록 목록에서 자동 생성됩니다. 통합 HTML에도 공통 엔진을 한 번만 저장하고, 선택한 학교의 iframe 하나만 실행합니다.
 
 ## 확장
 
@@ -93,7 +93,11 @@ vendor/                   고정된 Three.js 배포본과 MIT 라이선스
 
 ## 검증 범위
 
-자동 테스트는 기존 세 학교의 초기 terrain·환경 요소가 리팩터링 이전과 같은지 확인하고, 모든 등록 학교의 파괴와 복구를 검사합니다. 광주과고 운동장이 건물보다 낮은지, 새 학교의 building pad와 운동장 높이가 모형과 맞는지도 검사합니다. Roof 부착물, idle 상태의 불필요한 GPU upload 방지, Black hole capture/ejection, Shockwave, 단일 폭탄 투하·취소, 화산폭발 및 fire 제한도 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다.
+자동 테스트는 모든 등록 학교의 terrain 재현성, building pad·운동장 높이, 파괴와 복구를 검사합니다. 광주과고의 낮은 운동장과 층별 연결통로, 정문·옹벽·울타리의 Undo, facade의 picking, roof·유리 부착물도 확인합니다. Support failure의 국소 전파, bridge support, oriented contact, rubble accumulation, frame rate별 motion, idle GPU upload 방지, Black hole capture/ejection, Shockwave, 단일 폭탄 투하·취소, 화산폭발 및 fire 제한을 검사합니다. 배포 파일의 offline 의존성과 JavaScript 구문도 검증합니다. 기존 모형의 hash fixture는 역사적 참고용이며 현실 배치 수정의 기준으로 사용하지 않습니다.
+
+외벽은 학교별 brick·stone·panel·render 질감, 창틀과 층별 band를 사용합니다. 확인된 유리 계단실·옥상 canopy·dome, 운동장 단차, 정문과 차단기, 옹벽·울타리·보행로·차도는 학교별 데이터로 정의합니다. 위성사진이나 건축 사진 원본을 texture로 넣지 않아 통합 HTML은 offline으로 실행됩니다.
+
+파괴는 가까운 column·slab의 support graph를 따라 지연되어 전파됩니다. Impact falloff와 fragment mass를 적용하고, debris는 gravity·friction·낮은 restitution을 거쳐 지면, 남은 slab, 이미 멈춘 rubble 위에 쌓입니다. 핵폭탄의 whiteout 중에도 simulation이 계속되므로 reveal 시 잔해를 바닥으로 순간 이동시키지 않습니다. 실시간 게임용 근사이며 FEA, 실제 구조 안전 평가, 움직이는 모든 fragment 사이의 rigid-body collision을 구현한 것은 아닙니다.
 
 폭탄은 클릭당 한 발입니다. Black hole은 약 3.2초 동안 주변을 흡수한 뒤 debris를 방출합니다. 최대 capture radius는 `24 × √POWER`, Shockwave radius는 `32 × √POWER` world units입니다. 도구별 사운드는 외부 파일 없이 합성하고 버퍼를 재사용하며, 소리는 오른쪽 버튼으로 켤 수 있습니다.
 

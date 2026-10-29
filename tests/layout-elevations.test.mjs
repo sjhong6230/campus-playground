@@ -43,4 +43,10 @@ for (const id of ["dgshs", "djshs", "hshs", "sjshs"])
         assert.equal(l.elevationAt(p.x, p.z), l.field.height);
       }
     assert(l.trees.length <= l.maxTrees);
+    if (l.tennis?.height != null)
+      for (const u of [-l.tennis.w / 2 + 0.01, 0, l.tennis.w / 2 - 0.01])
+        for (const v of [-l.tennis.d / 2 + 0.01, 0, l.tennis.d / 2 - 0.01]) {
+          const p = l.point(l.tennis, u, v);
+          assert.equal(l.elevationAt(p.x, p.z), l.tennis.height);
+        }
   });

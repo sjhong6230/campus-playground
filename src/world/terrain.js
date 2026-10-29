@@ -1,3 +1,4 @@
+import { paintSiteDetails } from "./site-details.js";
 /* Deformable campus ground: persistent fissures, craters and scorch marks. */
 export const createCampusTerrain = function (T, root, layout, paintGround) {
   const W = 151,
@@ -40,6 +41,7 @@ export const createCampusTerrain = function (T, root, layout, paintGround) {
     if (close) ctx.closePath();
   }
   paintGround({ ctx, c, W, D, X, Z, rect, path, fieldPath, layout });
+  paintSiteDetails({ ctx, X, Z, path, layout });
   // Fine surface grain is deterministic and remains visible around damaged ground.
   let seed = 19;
   for (let i = 0; i < 95000; i++) {

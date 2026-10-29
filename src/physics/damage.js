@@ -1,3 +1,5 @@
+import { createSupportGraph } from "./support.js";
+
 export function createDamageSystem({
   T,
   layout,
@@ -18,26 +20,25 @@ export function createDamageSystem({
   updateStats,
   toast,
 }) {
-  // Topology is fixed: cache structural groups instead of mapping every building
-  // repeatedly during lava/impact callbacks. Active state is read live for Undo.
-  const structures = buildings.map((building) => ({
-    building,
-    stories: Array.from({ length: building.floors }, (_, story) => {
-      const members = building.ids
-        .map((i) => blocks[i])
-        .filter((b) => b.story === story);
-      return {
-        supports: members.filter((b) => b.kind === "column"),
-        walls: members.filter((b) => b.kind === "wall"),
-      };
-    }),
-  }));
-  function activate(b, p, mode, strength = getPower()) {
+  const noise = (b, offset = 0) => {
+    const value =
+      Math.sin(
+        b.origin.x * 12.9898 +
+          b.origin.z * 78.233 +
+          b.origin.y * 37.719 +
+          offset,
+      ) * 43758.5453;
+    return value - Math.floor(value);
+  };
+  function activate(b, p, mode, strength = getPower(), exposure = 1) {
     b.delay = 0;
     b.age = 0;
+    b.collapse = false;
+    b.contactTime = 0;
     const dx = b.p.x - p.x,
+      dy = b.p.y - p.y,
       dz = b.p.z - p.z,
-      len = Math.hypot(dx, dz) || 1;
+      len = Math.hypot(dx, dy * 0.7, dz) || 1;
     b.active = true;
     b.sleep = false;
     const boost =
@@ -50,24 +51,43 @@ export function createDamageSystem({
             : mode === "quake"
               ? 5
               : 18) *
-        Math.sqrt(strength)) /
-      b.mass;
+        Math.sqrt(strength) *
+        exposure) /
+      Math.pow(b.mass || 1, 0.65);
     if (mode === "quake") {
-      b.v.set((Math.random() - 0.5) * 4, -1, (Math.random() - 0.5) * 4);
-      b.delay = Math.random() * 0.55 + b.story * 0.11;
+      b.v.set((noise(b) - 0.5) * 2, -0.7, (noise(b, 3) - 0.5) * 2);
+      b.delay = noise(b, 7) * 0.22 + Math.hypot(dx, dz) / 160;
+      b.collapse = true;
     } else {
       b.v.set(
-        (dx / len) * (boost + Math.random() * 10),
-        3 + Math.random() * boost * 0.55,
-        (dz / len) * (boost + Math.random() * 10),
+        (dx / len) * boost,
+        (dy / len) * boost * 0.65 +
+          (mode === "shockwave" ? boost * 0.28 : boost * 0.12),
+        (dz / len) * boost,
       );
+      b.delay = mode === "nuke" ? 0 : Math.hypot(dx, dz) / 220;
     }
     b.spin.set(
-      ((Math.random() - 0.5) * 2.5) / b.mass,
-      ((Math.random() - 0.5) * 2.5) / b.mass,
-      ((Math.random() - 0.5) * 2.5) / b.mass,
+      ((noise(b, 11) - 0.5) * 1.9 * exposure) / b.mass,
+      ((noise(b, 17) - 0.5) * 0.8 * exposure) / b.mass,
+      ((noise(b, 23) - 0.5) * 1.9 * exposure) / b.mass,
     );
   }
+  const propagate = createSupportGraph(blocks, (b, x, z, delay) => {
+    const dx = x - b.origin.x,
+      dz = z - b.origin.z,
+      length = Math.hypot(dx, dz) || 1;
+    b.active = true;
+    b.sleep = false;
+    b.collapse = true;
+    b.contactTime = 0;
+    b.age = 0;
+    b.delay = delay + noise(b, 31) * 0.055;
+    b.v.set((dx / length) * 0.8, -0.4, (dz / length) * 0.8);
+    // A failed bay tips toward the missing support; heavy slabs retain a coherent attitude.
+    const tilt = b.kind === "slab" ? 0.14 : 0.27;
+    b.spin.set((dz / length) * tilt, 0, (-dx / length) * tilt);
+  });
   function impact(p, mode, strength = getPower()) {
     const power = strength;
     const radius =
@@ -99,7 +119,23 @@ export function createDamageSystem({
                 (b.p.y - p.y) ** 2 * 0.45,
             );
       if (d < radius) {
-        activate(b, p, mode, power);
+        const exposure = Math.max(0, 1 - d / radius),
+          energy = exposure * exposure;
+        if (mode === "quake") {
+          // Foundation loss and a subset of overloaded columns start local collapse.
+          if (
+            b.kind !== "column" ||
+            b.story !== 0 ||
+            noise(b, 41) > 0.22 + Math.sqrt(power) * 0.06
+          )
+            continue;
+        } else if (
+          mode !== "nuke" &&
+          energy <
+            (b.kind === "column" ? 0.13 : b.kind === "slab" ? 0.08 : 0.025)
+        )
+          continue;
+        activate(b, p, mode, power, mode === "nuke" ? 1 : 0.3 + exposure * 0.7);
         if (
           mode === "volcano" ||
           mode === "lava" ||
@@ -129,31 +165,7 @@ export function createDamageSystem({
         }
       }
     }
-    // Remove support story by story. Heavy slabs lose support before the stories above them.
-    for (const { building, stories } of structures) {
-      let failed = -1;
-      for (let story = 0; story < building.floors; story++) {
-        const { supports, walls } = stories[story];
-        if (
-          (supports.length &&
-            supports.filter((b) => b.active).length / supports.length >= 0.5) ||
-          (walls.length &&
-            walls.filter((b) => b.active).length / walls.length > 0.7)
-        ) {
-          failed = story;
-          break;
-        }
-      }
-      if (failed < 0) continue;
-      for (const id of building.ids) {
-        const b = blocks[id];
-        if (!b.active && b.story >= failed) {
-          activate(b, p, "quake", power);
-          b.delay = 0.2 + (b.story - failed) * 0.16 + Math.random() * 0.22;
-          count++;
-        }
-      }
-    }
+    count += propagate();
     count += scenery.damage(p, mode, power);
     onScore(count * 10);
     audio(mode, power);
@@ -239,5 +251,5 @@ export function createDamageSystem({
     updateStats();
   }
 
-  return { activate, impact };
+  return { activate, impact, propagate };
 }

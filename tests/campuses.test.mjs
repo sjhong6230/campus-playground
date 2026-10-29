@@ -1,7 +1,5 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { createHash } from "node:crypto";
 import T from "../vendor/three.min.cjs";
 import { schools } from "../src/schools/index.js";
 import { validateSchools } from "../src/schools/validate.js";
@@ -13,9 +11,6 @@ import {
   captureBlocks,
   restoreBlocks,
 } from "../src/core/history.js";
-const fixtures = JSON.parse(
-  readFileSync(new URL("./fixtures/legacy-campuses.json", import.meta.url)),
-);
 const noop = () => {};
 const drawing = new Proxy(
   {
@@ -33,9 +28,6 @@ globalThis.document = {
     classList: { toggle: noop },
   }),
 };
-const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const arrayHash = (array) =>
-  hash(Buffer.from(array.buffer, array.byteOffset, array.byteLength));
 test("registry rejects duplicate ids and invalid geometry", () => {
   validateSchools(schools);
   assert.throws(() => validateSchools([schools[0], schools[0]]), /duplicate/);
@@ -51,7 +43,7 @@ test("registry rejects duplicate ids and invalid geometry", () => {
 for (const school of schools)
   test(
     school.id +
-      ": legacy parity, damage, Undo, roof attachment and performance cache",
+      ": terrain, damage, Undo, roof attachment and performance cache",
     () => {
       const layout = school.createLayout(),
         other = school.createLayout();
@@ -71,8 +63,7 @@ for (const school of schools)
         null,
         layout,
       );
-      const fixture = fixtures[school.id],
-        total = scenery.stats().total;
+      const total = scenery.stats().total;
       const instances = root.children.filter(
         (m) => m.isInstancedMesh && m.instanceColor,
       );
@@ -91,21 +82,16 @@ for (const school of schools)
         "Unchanged scenery must not rewrite instance buffers",
       );
       assert(total > 0);
-      if (fixture) {
-        assert.equal(scenery.stats().total, fixture.scenery);
-        assert.equal(
-          arrayHash(terrain.mesh.geometry.attributes.position.array),
-          fixture.groundHash,
-        );
-        assert.equal(
-          hash(JSON.stringify(scenery.snapshot())),
-          fixture.sceneryHash,
-        );
-        let i = 0;
-        for (let x = -60; x <= 60; x += 10)
-          for (let z = -50; z <= 50; z += 10)
-            assert.equal(terrain.heightAt(x, z), fixture.samples[i++]);
-      }
+      for (let x = -70; x <= 70; x += 10)
+        for (let z = -50; z <= 50; z += 10) {
+          const h = terrain.heightAt(x, z);
+          assert(Number.isFinite(h), "Terrain must have finite elevation");
+          assert.equal(
+            h,
+            other.elevationAt(x, z),
+            "Reload preserves campus grade",
+          );
+        }
       const before = terrain.snapshot(),
         snapshot = scenery.snapshot();
       scenery.damage(

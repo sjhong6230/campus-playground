@@ -40,3 +40,20 @@ https://www.namu.moe/w/광주과학고등학교/시설
 - Lowered the field from 1.5 to -1.5 world units, retaining the building pads at 1.5.
   The 3-unit difference is an approximation; no surveyed level was supplied.
   A smooth 4-unit-wide approach joins the field to the surrounding ground.
+2026-10-29 exterior/site refinement
+- Official homepage https://gsa.jge.hs.kr/main/main.php was inspected in the browser.
+- Official exterior photos (viewed, not distributed):
+  https://gsa.jge.hs.kr/data_files/skin/skin_res_1/images/main/main_visual01.jpg
+  https://gsa.jge.hs.kr/data_files/skin/skin_res_1/images/main/main_visual02.jpg
+  The photos show warm red/tan masonry infill, broad pale concrete floor bands,
+  light fascia and warm metal window frames. The study-facing blocks are lighter
+  and panel-like. These observations replace the uniformly beige surfaces.
+  The lower athletic field and long stepped edge are visible; low retaining faces,
+  field-side fencing and separate campus road/walking surfaces now make that
+  height change legible. Existing paths follow the previously traced satellite plan.
+- User-confirmed connections, open study ground floor, 2-shaped dorm outline,
+  single second-floor male/female connection and lower field are unchanged.
+- Gate location follows the traced approach. Pier shape/height, fence heights,
+  wall dimensions, material colors and widths are approximations; no readable
+  close-up confirming the current gate design was available. The new details are
+  intentionally simplified locally generated geometry, not surveyed construction.

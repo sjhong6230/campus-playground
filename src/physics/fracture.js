@@ -82,6 +82,13 @@ export const CampusFracture = function (T, random) {
       .sub(front[0])
       .cross(front[2].clone().sub(front[0]))
       .normalize();
+    const area =
+      Math.abs(
+        poly.reduce((sum, p, i) => {
+          const q = poly[(i + 1) % poly.length];
+          return sum + p[0] * q[1] - q[0] * p[1];
+        }, 0),
+      ) / 2;
     return {
       origin: center.clone(),
       p: center,
@@ -99,11 +106,19 @@ export const CampusFracture = function (T, random) {
       ranges: [],
       delay: 0,
       age: 0,
+      collapse: false,
+      contactTime: 0,
       charred: false,
       flatX: Math.abs(n.z) > 0.5 ? Math.PI / 2 : 0,
       flatZ: Math.abs(n.x) > 0.5 ? Math.PI / 2 : 0,
       rest: thickness / 2,
-      mass: kind === "slab" ? 3 : kind === "column" ? 2 : 1,
+      // Relative mass follows fragment size; these are game units, not kilograms.
+      mass:
+        kind === "slab"
+          ? Math.max(2, Math.min(6, 3 * Math.sqrt(area / 45)))
+          : kind === "column"
+            ? 2
+            : Math.max(0.7, Math.min(3.5, Math.sqrt(area / 10))),
     };
   }
   function buildingParts(b) {
@@ -198,7 +213,7 @@ export const CampusFracture = function (T, random) {
           begin = positions.length / 3,
           c = new T.Color(
             group === 0
-              ? p.building.color
+              ? (p.color ?? p.building.color)
               : p.kind === "slab"
                 ? "#c8cdca"
                 : "#d0cec5",

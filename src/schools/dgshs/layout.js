@@ -1,3 +1,4 @@
+import { addDetails } from "./details.js";
 import {
   segment as s,
   building as b,
@@ -5,7 +6,7 @@ import {
   finishLayout,
 } from "../shared/layout.js";
 export function createLayout() {
-  return finishLayout(
+  const layout = finishLayout(
     {
       sources: {
         map: "https://map.naver.com/p/search/대구과학고등학교",
@@ -75,4 +76,5 @@ export function createLayout() {
       3 * Math.max(0, Math.min(1, (x + 34) / 23)) +
       Math.max(0, x - 33) * 0.17,
   );
+  return addDetails(layout);
 }

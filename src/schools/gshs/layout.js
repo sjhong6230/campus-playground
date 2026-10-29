@@ -1,3 +1,5 @@
+import { refineCampus } from "./details.js";
+
 export function createLayout() {
   /* GSHS: north = -Z, east = +X. Hand-traced relative footprints from
    Naver aerial imagery; names cross-checked against the official campus map.
@@ -249,6 +251,8 @@ export function createLayout() {
       return { x: frame.x + u * c + v * s, z: frame.z - u * s + v * c };
     },
   };
+
+  refineCampus(layout);
 
   // Cached footprint rotations for repeated ground contact queries.
   for (const b of layout.buildings)

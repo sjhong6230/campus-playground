@@ -2,7 +2,7 @@
 
 References
 - Naver satellite map: https://map.naver.com/p/search/세종과학고등학교
-- School homepage: https://sjsh.sen.hs.kr (web reader returned a filtering notice; not used to verify facilities)
+- School homepage: https://sjsh.sen.hs.kr (web reader filtered it initially; browser inspection succeeded on 2026-10-29)
 - Facility descriptions: https://www.namu.moe/w/세종과학고등학교/시설
 - Independent facility-name cross-check: https://www.skyedaily.com/news/news_spot.html?ID=7536
 
@@ -11,3 +11,24 @@ Satellite imagery was viewed north-up, including the labelled science building, 
 Facility descriptions support four classroom/science floors and their floor-to-floor connection, the basement auditorium/dining/gym stack, the rooftop observatory and four Mirinae dormitory wings. Wing names use compass directions because the official 가/나/다/라 mapping was not established. Five dormitory slab levels, the four-level segmented gallery, covered walkway levels, external grades and all dimensions are visual approximations, not surveyed measurements. The gym's exposed basement and tall upper hall are represented by three game slab levels. Curved gallery and roof profiles are simplified for performance; no room interiors are reproduced.
 
 SJSHS is this game's unique identifier, distinct from SSHS (Seoul). All textures are generated locally; no map tiles or school photographs are distributed.
+
+2026-10-29 exterior/site refinement
+The official homepage and its actual exterior photographs were inspected in the browser:
+- https://sjsh.sen.hs.kr/dggb/module/image/selectDesignImageView.do?sitemapId=268892&usrimgId=43425
+  The field-facing classroom block has warm brown modern panels, pale horizontal
+  bands, blue-green glazing and a white roof sunshade. The dirt playing field is
+  slightly below the paved classroom forecourt, with short steps down to it.
+  A panel facade and simplified canopy reproduce the visible massing. Field level
+  changes from 4.5 to 3.8 game units while building pads stay at 4.5; the 0.7-unit
+  difference is a visual approximation, not a measured height.
+- https://sjsh.sen.hs.kr/dggb/module/image/selectDesignImageView.do?sitemapId=268892&usrimgId=57972
+  The science exterior is light beige/gray with silver observation dome, dark
+  louvers and green landscaping. Dome radius/color and roof-base alignment are
+  corrected. The photograph's monument text and precise tree counts are omitted.
+Retaining edges, field-side fences and approach paths follow those photographs
+and the satellite trace. Gate location remains the traced west approach, while
+its pier design, detailed proportions and current sign arrangement are unverified.
+The radial dorm arrangement remains aerial-derived; its facade is conservative
+light panels because these official photos do not resolve the dorm's elevations.
+Sunshade shape is simplified to a lightweight supported roof, not an exact slat
+count. No official photos, maps, fonts or logos are embedded in the game.
