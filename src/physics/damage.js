@@ -30,6 +30,38 @@ export function createDamageSystem({
       ) * 43758.5453;
     return value - Math.floor(value);
   };
+  const foundations = new Map();
+  for (const b of blocks) {
+    if (b.kind !== "column" || b.story !== 0 || b.building?.link) continue;
+    const segment = b.segment ?? b.building;
+    if (!foundations.has(segment)) foundations.set(segment, []);
+    foundations.get(segment).push(b);
+  }
+  function quakeTargets(p, power) {
+    let nearest = Infinity,
+      anchor = null,
+      group = null;
+    for (const columns of foundations.values())
+      for (const b of columns) {
+        if (b.active) continue;
+        const distance = Math.hypot(b.origin.x - p.x, b.origin.z - p.z);
+        if (distance < nearest) {
+          nearest = distance;
+          anchor = b;
+          group = columns;
+        }
+      }
+    if (!anchor) return new Set();
+    // Fail an adjacent bay, not a fixed, scattered subset that stalls on repeats.
+    // Existing active state is the damage history, so Undo needs no extra counter.
+    const candidates = group.filter((b) => !b.active);
+    candidates.sort(
+      (a, b) =>
+        Math.hypot(a.origin.x - anchor.origin.x, a.origin.z - anchor.origin.z) -
+        Math.hypot(b.origin.x - anchor.origin.x, b.origin.z - anchor.origin.z),
+    );
+    return new Set(candidates.slice(0, Math.min(6, 3 + Math.ceil(power))));
+  }
   function activate(b, p, mode, strength = getPower(), exposure = 1) {
     b.delay = 0;
     b.age = 0;
@@ -108,6 +140,7 @@ export function createDamageSystem({
     if (mode === "lava") terrain.burn(p, 7 * Math.sqrt(power));
     if (mode === "volcanicBomb") terrain.crater(p, power, false, true);
     groundDecor();
+    const shakingColumns = mode === "quake" ? quakeTargets(p, power) : null;
     for (const b of blocks) {
       if (b.active) continue;
       const d =
@@ -122,13 +155,7 @@ export function createDamageSystem({
         const exposure = Math.max(0, 1 - d / radius),
           energy = exposure * exposure;
         if (mode === "quake") {
-          // Foundation loss and a subset of overloaded columns start local collapse.
-          if (
-            b.kind !== "column" ||
-            b.story !== 0 ||
-            noise(b, 41) > 0.22 + Math.sqrt(power) * 0.06
-          )
-            continue;
+          if (!shakingColumns.has(b)) continue;
         } else if (
           mode !== "nuke" &&
           energy <

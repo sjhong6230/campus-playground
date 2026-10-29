@@ -54,3 +54,5 @@ Black hole은 원래 debris 참조를 capture했다가 동일 객체를 eject합
 Building pad와 운동장은 평탄하게 유지하고 주변 terrain과 blend합니다. 선택적 `tennis.height`도 별도의 평탄한 pad를 만듭니다. 측량자료가 없는 높이는 단차의 방향과 배치 관계를 표현하는 근사입니다. 사진의 관측 사실, 자료 연도, 추정한 치수는 `docs/sources`에 구분합니다.
 
 Support graph는 slab·column·wall과 bridge endpoint의 가까운 footprint를 연결합니다. Support가 부족한 부분은 지연 후 gravity로 내려앉고, 직접 impact는 거리와 mass에 따라 velocity가 달라집니다. Debris는 substeps에서 oriented bounds로 지면·살아 있는 slab·settled rubble와 contact하고 friction과 restitution으로 energy를 줄입니다. Moving-body all-pairs solver나 실제 재료·응력 해석은 포함하지 않습니다. Nuclear whiteout 중에도 동일 simulation을 실행하며 강제 teleport/sleep하지 않습니다.
+
+Earthquake는 클릭 지점에 가까운 살아 있는 foundation column을 찾고 같은 segment의 인접 support를 POWER에 따라 묶어서 손상시킵니다. 반복 사용은 기존 active 상태를 제외하고 다음 support를 선택하므로 고정된 random seed에 막히지 않습니다. Ground fissure가 건물을 비껴가도 slab·wall collapse가 시작되어야 하며, Undo는 별도 quake counter 없이 같은 다음 결과를 복원합니다.
