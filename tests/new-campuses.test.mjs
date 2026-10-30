@@ -2,21 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getSchool, schools } from "../src/schools/index.js";
 
-test("the selector places all seven gifted academies before the five science high schools", () => {
-  assert.equal(schools.length, 12);
+test("the selector places all eight gifted academies before the six science high schools", () => {
+  assert.equal(schools.length, 14);
   assert.deepEqual(
     schools
-      .slice(0, 7)
+      .slice(0, 8)
       .map((school) => school.id)
       .sort(),
-    ["sshs", "gshs", "ksa", "gsa", "dgshs", "djshs", "iasa"].sort(),
+    ["sshs", "gshs", "ksa", "gsa", "dgshs", "djshs", "iasa", "sasa"].sort(),
   );
   assert.deepEqual(
     schools
-      .slice(7)
+      .slice(8)
       .map((school) => school.id)
       .sort(),
-    ["ishs", "hssh", "sjshs", "bsis", "gbs"].sort(),
+    ["ishs", "hssh", "sjshs", "bsis", "gbs", "kbsh"].sort(),
   );
 });
 
@@ -48,7 +48,7 @@ function overlaps(layout, a, b) {
   return true;
 }
 
-for (const id of ["gbs", "iasa"])
+for (const id of ["gbs", "iasa", "kbsh", "sasa"])
   test(`${id}: building and bridge footprints leave the playing field clear`, () => {
     const layout = getSchool(id).createLayout();
     for (const building of layout.buildings)
