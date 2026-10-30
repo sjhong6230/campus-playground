@@ -1,0 +1,18 @@
+동덕여자고등학교 (DDGHS)
+확인: 2026-10-30
+공식 홈페이지: https://dongduk.sen.hs.kr/
+공식 시설 안내: https://dongduk.sen.hs.kr/40555/subMenu.do
+직접 확인한 공식 전경 사진: https://dongduk.sen.hs.kr/dggb/module/image/selectDesignImageView.do?sitemapId=383486&usrimgId=77770
+직접 확인한 공식 도서관 외관 사진: https://dongduk.sen.hs.kr/dggb/module/image/selectDesignImageView.do?sitemapId=383486&usrimgId=77774
+학교 유형 보조자료: https://trpak.kr/school/7886
+후면 강당·공유 캠퍼스 보조자료: https://namu.moe/w/동덕여자고등학교
+
+사립 일반고로 분류한다. 공식 전경의 긴 벽돌 본관, 붉은 경사지붕,
+돌출한 양 끝 부분, 운동장과 건물 사이의 단차·계단, 후면 숲을 반영했다.
+동덕여중과 공유하는 부지이며 사진 왼쪽의 연결된 건물을 중학교 교사동으로
+구분했다. 사진상 건물 용도 대응과 4/5층 표현은 추정이다.
+도서관 별관의 벽돌·경사지붕 외관은 공식 사진을 참고했으나 정확한 위치는
+확인하지 못했다. 후면 강당과 도서관은 이름에 위치 근사임을 명시했다.
+정밀 배치도가 없어 방위, 간격, 건물 깊이, 후면 윤곽, 정문·주차장과
+운동장 치수·높이는 근사다. 아치형 창문은 공통 직사각형 창문으로 단순화했다.
+내부 동선은 재현하지 않으며 사진·학교 로고 원본은 게임에 포함하지 않는다.

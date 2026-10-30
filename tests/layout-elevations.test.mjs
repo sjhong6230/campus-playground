@@ -66,6 +66,8 @@ for (const id of [
   "unjeong",
   "kmla",
   "hwasung",
+  "hana",
+  "dongduk",
 ])
   test(`${id}: playing field and building pads match their visible geometry`, () => {
     const l = getSchool(id).createLayout();

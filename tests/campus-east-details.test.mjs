@@ -27,6 +27,8 @@ for (const id of [
   "unjeong",
   "kmla",
   "hwasung",
+  "hana",
+  "dongduk",
 ]) {
   test(`${id}: site details and roof fittings stay within their support bounds`, () => {
     const layout = getSchool(id).createLayout();

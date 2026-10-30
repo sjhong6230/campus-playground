@@ -1,0 +1,20 @@
+하나고등학교 (HAS)
+확인: 2026-10-30
+공식 시설 안내: https://www.hana.hs.kr/introduce/facility.do
+교과동 안내: https://www.hana.hs.kr/introduce/facility.do?tab=2
+공식 영문 캠퍼스 안내: https://eng.hana.hs.kr/about/campus.do
+직접 확인한 항공사진: https://eng.hana.hs.kr/assets/images/school_16.jpg
+누리동 배치도: https://www.hana.hs.kr/assets/images/intro/facility_1.jpg
+가온동 A 배치도: https://www.hana.hs.kr/assets/images/intro/facility_2.jpg
+가온동 B 배치도: https://www.hana.hs.kr/assets/images/intro/facility_2sub.jpg
+생활관 배치도: https://www.hana.hs.kr/assets/images/intro/facility_5.jpg
+
+자율형 사립고로 분류한다. 공식 배치도와 항공사진을 참고해 누리동 본관,
+평행한 가온동 A/B, 미르동 체육관, 어울림관 식당, 후면의 해오름동 생활관,
+오른쪽 하나아트센터를 구성했다. A/B 위치는 각 동을 강조한 개별 배치도를 따른다.
+누리동의 어두운 외벽, 교과동의 밝은 외벽과 유리창, pilotis, 연결통로,
+잔디 운동장, 생활관 두 지붕의 solar canopy와 뒤쪽 높은 지형을 반영했다.
+공식 안내의 9개 동을 7개 주요 건물 그룹으로 단순화했으며 지하층은 생략했다.
+방위, 치수, 간격, 층별 높이와 연결통로 높이는 근사이며 pilotis는 한 층으로 압축했다.
+정문은 공통 기둥 모형으로 단순화했다. 실내 동선은 재현하지 않는다.
+배치도·사진·학교 로고 원본은 게임에 포함하지 않는다.

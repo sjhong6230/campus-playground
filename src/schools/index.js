@@ -26,6 +26,8 @@ import kmla from "./kmla/index.js";
 import hwasung from "./hwasung/index.js";
 import ijshs from "./ijshs/index.js";
 import cbsh from "./cbsh/index.js";
+import hana from "./hana/index.js";
+import dongduk from "./dongduk/index.js";
 // Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
@@ -54,8 +56,10 @@ export const schools = [
   hafs,
   sunduck,
   kmla,
+  hana,
   unjeong,
   hwasung,
+  dongduk,
 ];
 export function getSchool(id) {
   const school = schools.find((s) => s.id === id);
