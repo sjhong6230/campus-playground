@@ -6,7 +6,7 @@ for (const id of [
   "gsa",
   "dgshs",
   "djshs",
-  "hshs",
+  "hssh",
   "sjshs",
   "bsis",
   "gbs",
@@ -43,7 +43,7 @@ for (const id of [
 }
 
 test("visible observation domes sit on a supporting roof", () => {
-  for (const id of ["hshs", "sjshs", "bsis", "gbs", "iasa"]) {
+  for (const id of ["hssh", "sjshs", "bsis", "gbs", "iasa"]) {
     const layout = getSchool(id).createLayout();
     const dome = layout.observatory;
     if (!dome && (id === "gbs" || id === "iasa")) continue;

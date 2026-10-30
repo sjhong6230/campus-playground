@@ -37,7 +37,7 @@ pnpm start         # 이미 빌드한 dist/ 미리보기
 | `GSA-Playground.html`    | 광주과고 단독판             |
 | `DGSHS-Playground.html`  | 대구과고 단독판             |
 | `DJSHS-Playground.html`  | 대전과고 단독판             |
-| `HSHS-Playground.html`   | 한성과고 단독판             |
+| `HSSH-Playground.html`   | 한성과고 단독판             |
 | `SJSHS-Playground.html`  | 세종과고 단독판             |
 | `BSIS-Playground.html`   | 부산일과고 단독판           |
 | `GBS-Playground.html`    | 경기북과고 단독판           |
@@ -70,7 +70,7 @@ src/
     gsa/                  광주과고: index.js / layout.js / ground.js
     dgshs/                대구과고: index.js / layout.js / ground.js
     djshs/                대전과고: index.js / layout.js / ground.js
-    hshs/                 한성과고: index.js / layout.js / ground.js
+    hssh/                 한성과고: index.js / layout.js / ground.js
     sjshs/                세종과고: index.js / layout.js / ground.js
     bsis/                 부산일과고: index.js / layout.js / ground.js
     gbs/                  경기북과고: index.js / layout.js / ground.js

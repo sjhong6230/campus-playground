@@ -16,7 +16,7 @@ test("the selector places all seven gifted academies before the five science hig
       .slice(7)
       .map((school) => school.id)
       .sort(),
-    ["ishs", "hshs", "sjshs", "bsis", "gbs"].sort(),
+    ["ishs", "hssh", "sjshs", "bsis", "gbs"].sort(),
   );
 });
 

@@ -77,7 +77,7 @@ export const schools = [sshs, gshs, ishs, newSchool];
 
 `shared/layout.js`의 `segment`, `building`, `bridge`, `point`, `local`을 이용하면 새 학교의 geometry 작성이 간단해집니다. `finishLayout(layout, backgroundHeight)`는 건물 footprint를 `baseY`로, 운동장을 선택적 `field.height`(기본 1.5)로 평탄화하고 주변 4 world units를 보간합니다. `tennis.height`를 지정하면 court도 해당 높이로 평탄화합니다. 건물과 운동장 footprint가 겹치지 않도록 배치하세요. 기존 학교의 `elevationAt`을 강제로 바꾸지는 않습니다.
 
-`shared/ground.js`의 `paintSite(args, site)`는 학교별 `surfaces`, `paths`, `steps`로 ground texture를 그립니다. 각 학교의 `ground.js`에서 별도의 도로·보행로·색을 지정하고, 필요하면 custom painter를 사용하세요. 새 학교 예시는 `dgshs`, `djshs`, `hshs`에 있습니다. DGSHS와 DJSHS는 파일명 충돌을 피하기 위한 게임 식별자입니다.
+`shared/ground.js`의 `paintSite(args, site)`는 학교별 `surfaces`, `paths`, `steps`로 ground texture를 그립니다. 각 학교의 `ground.js`에서 별도의 도로·보행로·색을 지정하고, 필요하면 custom painter를 사용하세요. 새 학교 예시는 `dgshs`, `djshs`, `hssh`에 있습니다. DGSHS와 DJSHS는 파일명 충돌을 피하기 위한 게임 식별자입니다.
 
 ## 외관과 부지 세부 표현
 

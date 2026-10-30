@@ -5,7 +5,7 @@ import ksa from "./ksa/index.js";
 import gsa from "./gsa/index.js";
 import dgshs from "./dgshs/index.js";
 import djshs from "./djshs/index.js";
-import hshs from "./hshs/index.js";
+import hssh from "./hssh/index.js";
 import sjshs from "./sjshs/index.js";
 import bsis from "./bsis/index.js";
 import gbs from "./gbs/index.js";
@@ -20,7 +20,7 @@ export const schools = [
   djshs,
   iasa,
   ishs,
-  hshs,
+  hssh,
   sjshs,
   bsis,
   gbs,

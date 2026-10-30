@@ -1,6 +1,6 @@
 /** Preserve legacy storage keys while keeping every campus independent. */
 export function createScoreStore(schoolId, storage) {
-  const key = schoolId + "-playground-best";
+  const key = (schoolId === "hssh" ? "hshs" : schoolId) + "-playground-best";
   return {
     read() {
       try {

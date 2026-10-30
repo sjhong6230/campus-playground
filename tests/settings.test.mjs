@@ -31,6 +31,19 @@ test("scores retain legacy keys and cannot cross school boundaries", () => {
   assert.equal(blocked.read(), 0);
   assert.doesNotThrow(() => blocked.write(1));
 });
+test("HSSH keeps the existing Hansung best score across the school ID rename", () => {
+  const data = new Map([["hshs-playground-best", "900"]]);
+  const storage = {
+    getItem: (key) => data.get(key),
+    setItem: (key, value) => data.set(key, value),
+  };
+  const hansung = createScoreStore("hssh", storage);
+  assert.equal(hansung.read(), 900);
+  hansung.write(1200);
+  assert.equal(data.get("hshs-playground-best"), "1200");
+  assert.equal(createScoreStore("hssh", storage).read(), 1200);
+  assert.equal(createScoreStore("sshs", storage).read(), 0);
+});
 test("quality adaptation and low/high shadow restoration", () => {
   globalThis.devicePixelRatio = 2;
   globalThis.localStorage = { getItem: () => null, setItem: () => {} };
