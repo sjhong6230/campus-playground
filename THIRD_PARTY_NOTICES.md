@@ -14,4 +14,6 @@ esbuild and Prettier are development dependencies. Their package licenses are in
 
 School map/facility references are listed in `docs/sources/`. Satellite image pixels are not distributed in the game. The original design inspiration is [SMASH](https://hong-iron.github.io/SMASH/).
 
+SMASH is a separate project. Its [current license](https://github.com/Hong-Iron/SMASH/blob/main/LICENSE) restricts copying or redistributing its code and screen designs. Attribution is not permission. The operator reports asking an AI for a new implementation after it explained those restrictions; the original generation history has not been independently verified. Preserve provenance records and verify or independently replace any actually reused material. See [the review record](docs/legal-review.md).
+
 No blanket license for the project's own source is selected by this refactor. Third-party license notices remain applicable to their respective components.

@@ -1,5 +1,7 @@
 // The engine is embedded once. Replacing the iframe releases the previous world,
 // WebGL context and animation loop without retaining another campus instance.
+import { initSiteNotice } from "./site-notice.js";
+initSiteNotice();
 const { schools, template } = JSON.parse(
   document.getElementById("campus-data").textContent,
 );
@@ -37,7 +39,7 @@ function start(id) {
   current = id;
   selector.value = id;
   const frame = document.createElement("iframe");
-  frame.title = school.name + " 부수기";
+  frame.title = school.name + " 비공식 모형 샌드박스";
   // IDs are validated at build time and contain only ASCII letters, digits and '-'.
   frame.srcdoc = template.replaceAll("{{schoolId}}", id);
   $("stage").replaceChildren(frame);
@@ -55,7 +57,7 @@ $("back").addEventListener("click", () => {
   $("stage").replaceChildren();
   $("game").hidden = true;
   $("lobby").hidden = false;
-  document.title = "과학고 부수기 · CAMPUS PLAYGROUND";
+  document.title = "캠퍼스 모형 샌드박스 · CAMPUS PLAYGROUND";
   document.querySelector(`[data-school="${current}"]`).focus();
   current = null;
 });

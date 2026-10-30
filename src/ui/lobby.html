@@ -2,12 +2,21 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta
+      name="description"
+      content="공개 자료에서 모티브를 얻은 비공식 3D 모형 샌드박스. 학교·교육청과 제휴·후원 관계가 없는 무료 창작물입니다."
+    />
     <meta
       name="viewport"
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <meta name="theme-color" content="#243a43" />
-    <title>과학고 부수기 · CAMPUS PLAYGROUND</title>
+    <title>캠퍼스 모형 샌드박스 · CAMPUS PLAYGROUND</title>
     <style>
       /* LOBBY_CSS */
     </style>
@@ -16,10 +25,14 @@
     <main id="lobby" class="lobby">
       <div class="content">
         <p class="eyebrow">CAMPUS PLAYGROUND</p>
-        <h1>오늘은 어느 학교를<br />부숴볼까요?</h1>
+        <h1>오늘은 어느 캠퍼스<br />모형으로 놀아볼까요?</h1>
         <p class="intro">
-          학교를 고르고 마음껏 부순 뒤, 언제든 다시 복구하세요.
+          사람이 없는 가상의 모형을 부수고, 언제든 다시 복구하세요.<br />학교·교육청과
+          제휴·후원 관계가 없는 비공식 무료 창작물입니다.
         </p>
+        <button type="button" data-open-notice>
+          안내 · 개인정보 · 권리 문의
+        </button>
         <div class="cards"></div>
         <p class="note">
           학교를 바꾸면 현재 장면은 초기화되며, 최고 점수는 학교별로
@@ -38,6 +51,7 @@
       </header>
       <div id="stage"></div>
     </section>
+    <!-- SITE_NOTICE -->
     <script id="campus-data" type="application/json">
       /* CAMPUS_DATA */
     </script>

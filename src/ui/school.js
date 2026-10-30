@@ -2,30 +2,31 @@ import { tools } from "../tools/catalog.js";
 
 export function bindSchoolUI(school) {
   const $ = (selector) => document.querySelector(selector);
-  document.title =
-    school.shortName + " 부수기 · " + school.abbr + " PLAYGROUND";
-  $('meta[name="description"]').content = school.name + " 모형 캠퍼스 샌드박스";
+  document.title = school.shortName + " 비공식 모형 · CAMPUS PLAYGROUND";
+  $('meta[name="description"]').content =
+    school.name +
+    "에서 모티브를 얻은 비공식 모형 샌드박스. 학교와 제휴·후원 관계가 없는 무료 창작물입니다.";
   $("#scene").setAttribute(
     "aria-label",
     school.name +
       " 모형. 건물, 나무, 운동장, 시설물을 누르면 선택한 도구가 작동합니다.",
   );
-  $(".brand").setAttribute("aria-label", school.shortName + " 부수기");
-  $(".brand-icon").firstChild.textContent = school.abbr[0];
-  $(".brand > span:last-child").firstChild.textContent = school.abbr;
+  $(".brand").setAttribute("aria-label", "Campus Playground · 비공식 모형");
+  $(".brand-icon").firstChild.textContent = "◇";
+  $(".brand > span:last-child").firstChild.textContent = "CAMPUS";
   $(".campus-tag").replaceChildren();
   const dot = document.createElement("span");
   dot.className = "live-dot";
-  $(".campus-tag").append(dot, school.name + " / " + school.location);
+  $(".campus-tag").append(
+    dot,
+    school.name + " · " + school.abbr + " / 비공식 모형",
+  );
   $(".intro .eyebrow").textContent = school.eyebrow;
   const title = $(".intro h1");
   title.replaceChildren(
     "오늘은,",
     document.createElement("br"),
-    school.nickname +
-      ((school.nickname.charCodeAt(school.nickname.length - 1) - 0xac00) % 28
-        ? "을 "
-        : "를 "),
+    school.nickname + " 모형을 ",
   );
   const accent = document.createElement("span");
   accent.textContent = "부숴보자.";
@@ -44,7 +45,7 @@ export function bindSchoolUI(school) {
     link.textContent = label + " ↗";
     link.href = url;
     link.target = "_blank";
-    link.rel = "noopener";
+    link.rel = "noopener noreferrer";
     help.append(link, " ");
   }
   const dock = $(".tool-dock");

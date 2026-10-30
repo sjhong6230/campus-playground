@@ -31,6 +31,8 @@ export async function buildAll() {
     license,
     gameHTML,
     lobbyHTML,
+    noticeHTML,
+    noticeCSS,
   ] = await Promise.all([
     compile("src/main.js"),
     compile("src/ui/lobby.js"),
@@ -40,9 +42,20 @@ export async function buildAll() {
     read("vendor/THREE-LICENSE.txt"),
     read("src/ui/game.html"),
     read("src/ui/lobby.html"),
+    read("src/ui/site-notice.html"),
+    read("src/styles/site-notice.css"),
   ]);
+  const escapeHTML = (text) =>
+    text
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+  const notice = noticeHTML.replace("<!-- THREE_LICENSE -->", () =>
+    escapeHTML(license),
+  );
   const template = gameHTML
-    .replace("/* GAME_CSS */", () => gameCSS)
+    .replace("/* GAME_CSS */", () => gameCSS + "\n" + noticeCSS)
+    .replace("<!-- SITE_NOTICE -->", () => notice)
     .replace("/* VENDOR_JS */", () => safeScript(vendor))
     .replace("/* GAME_JS */", () => safeScript(gameJS))
     .replace(
@@ -57,7 +70,8 @@ export async function buildAll() {
     "\\u003c",
   );
   const combined = lobbyHTML
-    .replace("/* LOBBY_CSS */", () => lobbyCSS)
+    .replace("/* LOBBY_CSS */", () => lobbyCSS + "\n" + noticeCSS)
+    .replace("<!-- SITE_NOTICE -->", () => notice)
     .replace("/* CAMPUS_DATA */", () => data)
     .replace("/* LOBBY_JS */", () => safeScript(lobbyJS));
   await mkdir(join(root, "dist"), { recursive: true });

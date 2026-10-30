@@ -14,6 +14,14 @@ test("offline bundle embeds one engine and every registered campus", async () =>
   assert.equal(payload.template, template);
   assert.equal(payload.schools.length, metadata.length);
   assert(!/<script[^>]+src=|<link[^>]+rel="stylesheet"/.test(template));
+  for (const page of [combined, template]) {
+    assert(page.includes('id="site-notice"'));
+    assert(page.includes("data-open-notice"));
+    assert(page.includes("connect-src 'none'"));
+    assert(page.includes('name="referrer" content="no-referrer"'));
+    assert(!page.includes("<!-- SITE_NOTICE -->"));
+    assert(!page.includes("<!-- THREE_LICENSE -->"));
+  }
   assert.equal(
     (combined.match(/WebGLRenderer/g) || []).length,
     (JSON.stringify(template).match(/WebGLRenderer/g) || []).length,
@@ -26,6 +34,11 @@ test("offline bundle embeds one engine and every registered campus", async () =>
     );
     assert(html.includes(`data-school="${school.id}"`));
     assert(!html.includes("{{schoolId}}"));
+    const notice = html.match(/<dialog id="site-notice"[\s\S]*?<\/dialog>/)[0];
+    assert(notice.includes("Copyright © 2010-2023 three.js authors"));
+    assert(notice.includes("Permission is hereby granted"));
+    assert(notice.includes("issues/new?template=rights.yml"));
+    assert(notice.includes("IP 주소"));
     for (const [, script] of html.matchAll(/<script>([\s\S]*?)<\/script>/g))
       new vm.Script(script);
   }

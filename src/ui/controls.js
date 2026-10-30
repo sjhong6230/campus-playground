@@ -173,7 +173,11 @@ export function createControls({
     { passive: false },
   );
   document.addEventListener("keydown", (e) => {
-    if (dialog.open || e.target.matches("input,textarea,select")) return;
+    if (
+      document.querySelector("dialog[open]") ||
+      e.target.matches("input,textarea,select")
+    )
+      return;
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
       e.preventDefault();
       undo();

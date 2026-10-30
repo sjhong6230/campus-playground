@@ -1,0 +1,35 @@
+name: 권리·표현·모형 수정 요청
+description: 학교 명칭, 저작권, 부적절한 표현 또는 모형 정확도에 관한 요청
+title: "[검토 요청] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        이 게시판의 내용은 공개됩니다. 학생 이름·연락처·신분증·비공개 권리 증빙 등 개인정보나 민감한 서류를 올리지 마세요.
+        공개 가능한 화면 위치와 요청 취지만 작성해주세요. 이 양식 제출만으로 권리 판단이나 조치 결과가 확정되지는 않습니다.
+  - type: input
+    id: target
+    attributes:
+      label: 대상 학교 또는 화면
+      description: 게임 주소, 학교 이름, 화면에 표시된 문구 등 공개 가능한 정보
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 요청 종류
+      options:
+        - 학교 명칭·공식 관계 오인
+        - 저작권·상표 등 권리
+        - 부적절한 표현
+        - 모형 정확도
+        - 기타 공개 가능한 요청
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: 요청 내용
+      description: 문제가 되는 부분과 원하는 수정 또는 비공개 요청을 적어주세요. 증빙이 있다면 이미 공개된 자료의 링크만 사용해주세요.
+    validations:
+      required: true
