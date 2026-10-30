@@ -5,7 +5,7 @@ export default {
     id: "sshs",
     name: "서울과학고등학교",
     shortName: "서울과고",
-    nickname: "과고",
+    nickname: "설곽",
     abbr: "SSHS",
     location: "HYEHWA · SEOUL",
     eyebrow: "SEOUL SCIENCE HIGH SCHOOL",
