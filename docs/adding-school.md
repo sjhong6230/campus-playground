@@ -29,29 +29,30 @@ export default {
 
 id는 소문자로 시작하는 영문·숫자·하이픈으로 구성하고 중복을 피하세요. id는 저장 키와 단독 배포 파일 이름에 사용하므로 출시 후 변경하면 이전 최고 점수와 분리됩니다.
 
-`category`는 `gifted`(영재학교), `science`(과학고등학교), `autonomous`(자율형 사립고등학교) 중 하나입니다. 공식 학교 유형을 확인해 지정하세요. 선택 화면의 구역과 게임 안 `optgroup`은 이 값으로 생성됩니다. 긴 정식 명칭에는 선택적으로 `cardName`을 지정해 카드에 짧은 통용명을 표시할 수 있습니다. 접근성 이름과 게임 제목은 정식 명칭을 유지합니다.
+`category`는 `gifted`(영재학교), `science`(과학고등학교), `autonomous`(자율형 사립고등학교), `autonomous-public`(자율형 공립고등학교), `general`(일반고등학교) 중 하나입니다. 공식 학교 유형을 확인해 지정하세요. 선택 화면의 구역과 게임 안 `optgroup`은 이 값으로 생성됩니다. 긴 정식 명칭에는 선택적으로 `cardName`을 지정해 카드에 짧은 통용명을 표시할 수 있습니다. 접근성 이름과 게임 제목은 정식 명칭을 유지합니다.
 
 ## 2. Layout 계약
 
 `createLayout()`은 호출마다 **새 객체**를 반환해야 합니다. 기존 학교가 가진 `point(frame,u,v)`와 segment의 `sin`/`cos` cache 준비 코드를 유지하세요.
 
-| 필드                  | 설명                                                                                |
-| --------------------- | ----------------------------------------------------------------------------------- |
-| `buildings[]`         | name, x, z, floors, baseY, color, segments                                          |
-| `segments[]`          | x, z, w, d, angle; 선택적으로 floors, roof, roofColor, observatory, openGroundFloor |
-| `links[]`             | 연결통로; x, z, w, d, angle, baseY, floors(기본 1), bottomSlab(기본 false)          |
-| `field`               | 운동장 x, z, w, d, angle                                                            |
-| `gate`                | 출입구 x, z, angle                                                                  |
-| `benches[]`           | `[x,z]` 목록                                                                        |
-| `trees`               | `[x,z]` 목록 또는 seeded random을 받는 함수                                         |
-| `maxTrees`            | 선택적 제한, 기본 80                                                                |
-| `hills[]`             | 주변 hill 위치 `[x,z]`                                                              |
-| `parking`             | 선택적 주차장 frame; 있으면 차량 생성                                               |
-| `tennis`, `courtKind` | 선택적 court frame과 `tennis` 또는 `basketball` 종류                                |
-| `observatory`         | 선택적 dome: x, z, y, building index                                                |
-| `sources`             | 참고 map·facilities·diagram URL과 확인 날짜                                         |
-| `elevationAt(x,z)`    | 변형 전 base height                                                                 |
-| `point(frame,u,v)`    | 회전된 지역 좌표 → world X/Z                                                        |
+| 필드                  | 설명                                                                                                 |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `buildings[]`         | name, x, z, floors, baseY, color, segments                                                           |
+| `segments[]`          | x, z, w, d, angle; 선택적으로 floors, roof, roofColor, observatory, openGroundFloor                  |
+| `links[]`             | 연결통로; x, z, w, d, angle, baseY, floors(기본 1), bottomSlab(기본 false)                           |
+| `field`               | 운동장 x, z, w, d, angle                                                                             |
+| `gate`                | 출입구 x, z, angle                                                                                   |
+| `benches[]`           | `[x,z]` 목록                                                                                         |
+| `trees`               | `[x,z]` 목록 또는 seeded random을 받는 함수                                                          |
+| `maxTrees`            | 선택적 제한, 기본 80                                                                                 |
+| `hills[]`             | 주변 hill 위치 `[x,z]`                                                                               |
+| `parking`             | 선택적 주차장 frame; 있으면 차량 생성                                                                |
+| `tennis`, `courtKind` | 선택적 court frame과 `tennis` 또는 `basketball` 종류                                                 |
+| `observatory`         | 선택적 dome: x, z, y, building index                                                                 |
+| `sources`             | 참고 map·facilities·diagram URL과 확인 날짜                                                          |
+| `elevationAt(x,z)`    | 변형 전 base height                                                                                  |
+| `homeDistance`        | 선택적 초기 camera 거리(100~900, 기본 290). 높은 건물이 잘리면 조정하며 좁은 화면의 자동 축소를 유지 |
+| `point(frame,u,v)`    | 회전된 지역 좌표 → world X/Z                                                                         |
 
 Roof는 `flat`, `gable`, `barrel`, `hip`을 지원합니다. `flat`은 `roofColor`로 칠한 평지붕이며, 다른 roof와 같이 아래 slab의 움직임·손상·복구를 따릅니다. Segment의 `color`로 건물 기본 색을 덮어쓸 수 있습니다. Hip roof는 현재 정사각형 segment에 맞춘 근사입니다. Segment의 `observatory: true`는 slab에 부착되는 작은 아치형 관측실입니다. Layout의 `observatory`는 별도의 dome 방식이므로 구분하세요.
 

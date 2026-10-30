@@ -611,6 +611,7 @@ export function createGame(school) {
     toast,
     audio,
     onResize: quality.resize,
+    homeDistance: layout.homeDistance,
     onShadowDirty: () => {
       shadowDirty = true;
     },

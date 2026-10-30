@@ -21,6 +21,10 @@ for (const id of [
   "jshs",
   "gssh",
   "gnsh",
+  "dg1s",
+  "unjeong",
+  "kmla",
+  "hwasung",
 ]) {
   test(`${id}: site details and roof fittings stay within their support bounds`, () => {
     const layout = getSchool(id).createLayout();

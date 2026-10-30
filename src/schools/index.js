@@ -20,6 +20,10 @@ import sunduck from "./sunduck/index.js";
 import jshs from "./jshs/index.js";
 import gssh from "./gssh/index.js";
 import gnsh from "./gnsh/index.js";
+import dg1s from "./dg1s/index.js";
+import unjeong from "./unjeong/index.js";
+import kmla from "./kmla/index.js";
+import hwasung from "./hwasung/index.js";
 // Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
@@ -42,8 +46,12 @@ export const schools = [
   jshs,
   gssh,
   gnsh,
+  dg1s,
   hafs,
   sunduck,
+  kmla,
+  unjeong,
+  hwasung,
 ];
 export function getSchool(id) {
   const school = schools.find((s) => s.id === id);

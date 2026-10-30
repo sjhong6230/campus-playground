@@ -27,6 +27,13 @@ export function validateSchools(schools) {
       throw new Error(school.id + ": missing layout/ground factory");
     const l = school.createLayout();
     if (
+      l.homeDistance != null &&
+      (!Number.isFinite(l.homeDistance) ||
+        l.homeDistance < 100 ||
+        l.homeDistance > 900)
+    )
+      throw new Error(school.id + ": invalid home camera distance");
+    if (
       !l.buildings?.length ||
       typeof l.elevationAt !== "function" ||
       typeof l.point !== "function"

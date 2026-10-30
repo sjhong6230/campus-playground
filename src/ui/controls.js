@@ -24,6 +24,7 @@ export function createControls({
   audio,
   onShadowDirty,
   onResize = () => {},
+  homeDistance = 290,
 }) {
   let width = 1,
     height = 1,
@@ -57,7 +58,7 @@ export function createControls({
   function home() {
     azimuth = 0.4;
     elevation = 0.78;
-    distance = Math.max(290, 310 / (width / height));
+    distance = Math.max(homeDistance, 310 / (width / height));
   }
   $("home").onclick = () => {
     home();

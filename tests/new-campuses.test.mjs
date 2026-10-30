@@ -8,7 +8,7 @@ test("school groups keep autonomous high schools separate from science and gifte
   const groups = groupSchools(schools);
   assert.deepEqual(
     groups.map((group) => group.id),
-    ["gifted", "science", "autonomous"],
+    ["gifted", "science", "autonomous", "autonomous-public", "general"],
   );
   assert.equal(groups.flatMap((group) => group.schools).length, schools.length);
   assert.deepEqual(
@@ -30,11 +30,20 @@ test("school groups keep autonomous high schools separate from science and gifte
       "jshs",
       "gssh",
       "gnsh",
+      "dg1s",
     ].sort(),
   );
   assert.deepEqual(
     groups[2].schools.map((school) => school.id),
-    ["hafs", "sunduck"],
+    ["hafs", "sunduck", "kmla"],
+  );
+  assert.deepEqual(
+    groups[3].schools.map((school) => school.id),
+    ["unjeong"],
+  );
+  assert.deepEqual(
+    groups[4].schools.map((school) => school.id),
+    ["hwasung"],
   );
   assert.throws(
     () => validateSchools([{ ...getSchool("hafs"), category: "unknown" }]),
@@ -84,6 +93,10 @@ for (const id of [
   "jshs",
   "gssh",
   "gnsh",
+  "dg1s",
+  "unjeong",
+  "kmla",
+  "hwasung",
 ])
   test(`${id}: building and bridge footprints leave the playing field clear`, () => {
     const layout = getSchool(id).createLayout();
