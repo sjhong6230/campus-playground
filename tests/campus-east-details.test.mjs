@@ -20,6 +20,7 @@ for (const id of [
   "sunduck",
   "jshs",
   "gssh",
+  "gnsh",
 ]) {
   test(`${id}: site details and roof fittings stay within their support bounds`, () => {
     const layout = getSchool(id).createLayout();
@@ -62,6 +63,7 @@ test("visible observation domes sit on a supporting roof", () => {
     "ddshs",
     "cshs",
     "gssh",
+    "gnsh",
   ]) {
     const layout = getSchool(id).createLayout();
     const dome = layout.observatory;

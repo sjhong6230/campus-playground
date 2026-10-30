@@ -44,6 +44,7 @@ for (const id of [
   "sunduck",
   "jshs",
   "gssh",
+  "gnsh",
 ])
   test(`${id}: playing field and building pads match their visible geometry`, () => {
     const l = getSchool(id).createLayout();

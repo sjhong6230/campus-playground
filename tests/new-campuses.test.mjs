@@ -29,6 +29,7 @@ test("school groups keep autonomous high schools separate from science and gifte
       "cshs",
       "jshs",
       "gssh",
+      "gnsh",
     ].sort(),
   );
   assert.deepEqual(
@@ -82,6 +83,7 @@ for (const id of [
   "sunduck",
   "jshs",
   "gssh",
+  "gnsh",
 ])
   test(`${id}: building and bridge footprints leave the playing field clear`, () => {
     const layout = getSchool(id).createLayout();
