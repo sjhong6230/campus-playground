@@ -23,6 +23,7 @@ export function createControls({
   toast,
   audio,
   onShadowDirty,
+  onResize = () => {},
 }) {
   let width = 1,
     height = 1,
@@ -184,6 +185,7 @@ export function createControls({
     if (e.key.toLowerCase() === "r") restore();
   });
   function resize() {
+    onResize();
     const mobile = width < 650;
     width = innerWidth;
     height = innerHeight;

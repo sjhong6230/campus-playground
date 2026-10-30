@@ -8,7 +8,7 @@ export const soundProfiles = {
   volcano: { duration: 3, bass: 44, decay: 1.3, grit: 0.8 },
   lava: { duration: 0.7, bass: 62, decay: 5, grit: 0.2 },
   shockwave: { duration: 1.8, bass: 63, decay: 3, grit: 0.55 },
-  blackhole: { duration: 3.2 },
+  blackhole: { duration: 4.6 },
   fall: { duration: 1.3 },
   enable: { duration: 0.16 },
 };

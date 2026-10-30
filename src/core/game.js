@@ -18,6 +18,7 @@ import { CampusVisuals } from "../rendering/materials.js";
 import { createCampusVolcano } from "../tools/volcano.js";
 import { createQualityController } from "../rendering/quality.js";
 import { createFrameGate } from "../rendering/frame-gate.js";
+import { createFrameClock } from "../rendering/frame-clock.js";
 /* Independent campus sandbox. Rendering: Three.js (MIT). */
 export function createGame(school) {
   "use strict";
@@ -190,7 +191,7 @@ export function createGame(school) {
     best = 0;
   let shake = 0,
     time = 0,
-    last = performance.now(),
+    frameClock = createFrameClock(performance.now()),
     toastTimer;
   const history = createHistory(),
     effects = [],
@@ -284,6 +285,7 @@ export function createGame(school) {
     shockwaveHit.clear();
     blackHole.clear();
     canvas.dataset.blackhole = "idle";
+    canvas.dataset.blackholePhase = "idle";
     canvas.dataset.absorbed = 0;
     canvas.dataset.ejected = 0;
     canvas.dataset.shockwaveDamage = 0;
@@ -528,6 +530,7 @@ export function createGame(school) {
     },
     () => {
       canvas.dataset.blackhole = "idle";
+      canvas.dataset.blackholePhase = "idle";
       $("hint-text").textContent = "잔해 방출 완료 · 다른 곳을 선택해 보세요";
     },
   );
@@ -536,6 +539,7 @@ export function createGame(school) {
     waveScore = 0;
     canvas.dataset.ejected = ejected;
     canvas.dataset.blackhole = "shockwave";
+    canvas.dataset.blackholePhase = "shockwave";
     canvas.dataset.shockwaveDamage = 0;
     scenery.beginShockwave();
     shockwave.start(p, strength);
@@ -606,6 +610,7 @@ export function createGame(school) {
     restore,
     toast,
     audio,
+    onResize: quality.resize,
     onShadowDirty: () => {
       shadowDirty = true;
     },
@@ -613,18 +618,17 @@ export function createGame(school) {
   const shouldRender = createFrameGate();
   function frame(now) {
     if (document.hidden) {
-      last = now;
+      frameClock.reset(now);
       quality.resetSampling();
       requestAnimationFrame(frame);
       return;
     }
-    if (now - last < quality.minimumFrameMs) {
+    const realDelta = frameClock.tick(now, quality.minimumFrameMs);
+    if (!realDelta) {
       requestAnimationFrame(frame);
       return;
     }
-    const realDelta = Math.min((now - last) / 1000, 0.25),
-      dt = Math.min(realDelta, 0.05);
-    last = now;
+    const dt = Math.min(realDelta, 0.05);
     time += dt;
     bombing.update(dt);
     volcano.update(dt);
@@ -678,32 +682,38 @@ export function createGame(school) {
     blackHole.update(dt, camera);
     shockwave.update(dt);
     const field = blackHole.field();
-    if (field) {
+    if (field && field.age >= nextCapture) {
+      canvas.dataset.blackholePhase =
+        field.age < 1.2 ? "forming" : field.age < 3.5 ? "vortex" : "collapse";
+      nextCapture = field.age + 0.1;
       let count = 0;
+      let dustBudget = field.age >= (field.nextDust || 0) ? 2 : 0;
       for (const b of blocks) {
-        if (b.consumed || b.p.distanceTo(field.p) > field.radius) continue;
+        if (b.consumed || b.p.distanceToSquared(field.p) > field.radius ** 2)
+          continue;
         if (!b.active) {
           activate(b, field.p, "quake", field.power);
+          if (dustBudget > 0 && b.kind !== "column") {
+            fx.dust(b.p);
+            dustBudget--;
+            field.nextDust = field.age + 0.24;
+          }
           count++;
         }
         b.sleep = false;
         b.delay = 0;
       }
-      if (field.age > nextCapture) {
-        nextCapture = field.age + 0.22;
-        count += scenery.damage(
-          field.p,
-          "blackhole",
-          field.power,
-          field.radius,
-        );
-      }
-      count += propagate();
+      count += scenery.damage(field.p, "blackhole", field.power, field.radius);
       if (count) {
         score += count * 10;
         updateStats();
       }
-      canvas.dataset.absorbed = blocks.filter((b) => b.consumed).length;
+      canvas.dataset.absorbed = field.captured.size;
+      if (!reduce) shake = Math.max(shake, 0.25 + Math.min(0.6, count * 0.02));
+      $("hint-text").textContent =
+        field.age < 3.5
+          ? "구조물 붕괴 · 잔해가 소용돌이에 휘말리는 중"
+          : "중심부 수축 · 잔해 방출 직전…";
     }
     const detached = propagate();
     if (detached) {

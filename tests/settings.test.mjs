@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createScoreStore } from "../src/core/scores.js";
-import { createQualityController } from "../src/rendering/quality.js";
+import {
+  createQualityController,
+  resolutionRatio,
+} from "../src/rendering/quality.js";
 import { tools } from "../src/tools/catalog.js";
 import { createToolActions } from "../src/tools/actions.js";
 test("scores retain legacy keys and cannot cross school boundaries", () => {
@@ -77,7 +80,8 @@ test("quality adaptation and low/high shadow restoration", () => {
     getTime: () => time,
   });
   assert.equal(renderer.ratio, 1.25);
-  assert.equal(q.minimumFrameMs, 14);
+  assert.equal(renderer.shadowMap.autoUpdate, false);
+  assert.equal(q.minimumFrameMs, 1000 / 60);
   for (let i = 0; i < 60; i++) {
     time += 0.1;
     q.record(0.1, time);
@@ -88,7 +92,7 @@ test("quality adaptation and low/high shadow restoration", () => {
   select.value = "low";
   select.onchange();
   assert.equal(renderer.shadowMap.enabled, false);
-  assert.equal(q.minimumFrameMs, 29);
+  assert.equal(q.minimumFrameMs, 1000 / 30);
   select.value = "high";
   select.onchange();
   assert.equal(renderer.shadowMap.enabled, true);
@@ -97,6 +101,26 @@ test("quality adaptation and low/high shadow restoration", () => {
   assert.equal(renderer.ratio, 1.6);
   assert.equal(q.shadowInterval, 0.08);
   assert.equal(dirty, 2);
+  canvas.clientWidth = 3840;
+  canvas.clientHeight = 2160;
+  q.resize();
+  assert(
+    canvas.clientWidth * canvas.clientHeight * renderer.ratio ** 2 <= 4_000_001,
+  );
+});
+
+test("desktop resolution has a pixel budget, including after resize", () => {
+  for (const [w, h] of [
+    [1920, 1080],
+    [2560, 1440],
+    [3840, 2160],
+  ]) {
+    const ratio = resolutionRatio(w, h, 2, 1, "auto");
+    assert(w * h * ratio ** 2 <= 1_800_001);
+    assert.equal(resolutionRatio(w, h, 2, 0.6, "auto"), ratio * 0.6);
+  }
+  assert.equal(resolutionRatio(390, 844, 3, 1, "auto"), 1.25);
+  assert.equal(resolutionRatio(1280, 720, 1, 1, "auto"), 1);
 });
 test("catalog shortcuts are unique and all tools have start actions", () => {
   assert.equal(new Set(tools.map((t) => t.id)).size, tools.length);

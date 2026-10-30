@@ -518,7 +518,8 @@ export const CampusVisuals = {
           colorLo = Math.min(colorLo, i);
           colorHi = i + 1;
         }
-        rendered.set(entry, {
+        const current = prior || {};
+        Object.assign(current, {
           x: b.p.x,
           y: b.p.y,
           z: b.p.z,
@@ -528,6 +529,7 @@ export const CampusVisuals = {
           scale,
           charred: b.charred,
         });
+        if (!prior) rendered.set(entry, current);
       });
       if (matrixHi) {
         mesh.instanceMatrix.addUpdateRange(

@@ -44,8 +44,13 @@ Black hole은 원래 debris 참조를 capture했다가 동일 객체를 eject합
 - support graph는 active flags가 같으면 전파를 건너뜁니다. Debris contact는 spatial grid와 고정 크기 rubble height grid를 사용하고, 모두 sleep이면 contact 계산도 쉽니다.
 - scenery와 fire는 instance batch를 사용하며 emitter/particle 수에 제한이 있습니다.
 - shadow는 dirty 상태일 때 제한된 주기로 갱신합니다.
+- HUD는 불투명도 높은 배경을 사용해 움직이는 canvas 위의 반복 backdrop blur를 피합니다.
 - 숨겨진 document는 simulation을 진행하지 않습니다.
-- 기본 모드에서 FPS에 따라 pixel ratio를 조절하며, low 모드는 shadow를 끕니다.
+- auto 모드는 최대 180만 render pixels, low는 90만, high는 400만으로 대형 화면의 fill rate를 제한합니다. CSS/UI 해상도는 유지하며 resize에도 다시 계산합니다.
+- frame clock은 모니터 refresh interval의 나머지를 보존해 auto/high 60 FPS, low 30 FPS를 목표로 합니다. 느린 frame이나 hidden tab 복귀 시 catch-up loop를 실행하지 않습니다.
+- auto 모드는 1.2초 sample의 FPS가 낮으면 resolution scale을 빠르게 낮추고 안정화 후 천천히 복원합니다. Low 모드는 shadow를 끕니다.
+- Black hole damage/support 검사는 0.1초 간격이고 debris motion은 매 simulation frame에 진행합니다. 먼지 emitter도 제한하며 기존 4개 visual draw batch를 유지합니다.
+- support 전파 중 임시 배열과 facade 이동 중 매 frame 새 cache 객체 생성을 피합니다.
 
 ## 좌표와 근사
 

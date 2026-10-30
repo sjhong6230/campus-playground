@@ -1011,9 +1011,10 @@ body,
 .tool-dock,
 .campus-tag,
 .hint {
-  background: #f4f5f0e8;
+  background: #f4f5f0f5;
   border-color: #ffffff90;
-  backdrop-filter: blur(12px);
+  /* Avoid re-blurring the animated WebGL canvas underneath four HUD panels. */
+  backdrop-filter: none;
   box-shadow: 0 8px 28px #263b4114;
 }
 .score-panel {

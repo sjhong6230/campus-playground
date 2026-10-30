@@ -30,7 +30,7 @@ export const tools = [
     key: "4",
     label: "블랙홀",
     icon: "◎",
-    description: "블랙홀 · 주변 구조물을 끌어당겨 집어삼키기",
+    description: "블랙홀 · 구조물을 뜯어 회전·흡수한 뒤 잔해 방출",
     help: "좁은 범위의 debris를 흡수하고 약 3초 뒤 Shockwave와 함께 방출합니다.",
   },
   {

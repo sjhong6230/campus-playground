@@ -113,27 +113,31 @@ export function createBlackHoleVisual(T, core) {
   trails.frustumCulled = false;
   group.add(trails);
 
-  function update(age, camera) {
-    const collapse = Math.max(0, Math.min(1, (age - 2.72) / 0.48));
+  function update(age, camera, duration = 4.6) {
+    const collapse = Math.max(0, Math.min(1, (age - duration + 0.65) / 0.65));
     uniforms.clock.value = age;
     uniforms.collapse.value = collapse;
     lens.quaternion.copy(camera.quaternion);
     const growth = Math.min(1, age / 0.35);
     // Fast final pinch, with a hot rim just before debris ejection.
     group.scale.setScalar((1 - (1 - growth) ** 3) * (1 - collapse ** 3 * 0.96));
-    disk.rotation.z = 0.18 + age * 0.08;
-    disk.scale.setScalar(core * (1 - collapse * 0.28));
+    disk.rotation.z = 0.18 + age * 0.7;
+    disk.rotation.x = -Math.PI / 2 - 0.35 + Math.sin(age * 3.1) * 0.14;
+    disk.scale.setScalar(
+      core * (1 + Math.sin(age * 12) * 0.045) * (1 - collapse * 0.28),
+    );
     trails.material.opacity = 0.65 * (1 - collapse * 0.7);
     for (let n = 0; n < count; n++) {
-      const head = (n * 0.61803398875 + age * 0.32) % 1;
+      const head = (n * 0.61803398875 + age * 0.58) % 1;
       for (let j = 0; j < segments; j++)
         for (let end = 0; end < 2; end++) {
-          const t = Math.max(0, head - (j + end) * 0.018);
-          const r = core * (1.08 + (1 - t) ** 1.25 * 3.9);
-          const angle = n * 2.39996 + age * 0.8 + t * 4.6;
+          const t = Math.max(0, head - (j + end) * 0.04);
+          const r = core * (1.08 + (1 - t) ** 1.25 * 5.5);
+          const angle = n * 2.39996 + age * 1.9 + t * 6.8;
           const index = (n * segments * 2 + j * 2 + end) * 3;
           positions[index] = Math.cos(angle) * r;
-          positions[index + 1] = Math.sin(n * 7.13) * core * (1 - t) * 0.65;
+          positions[index + 1] =
+            Math.sin(n * 7.13 + t * 3.5) * core * (1 - t) * 1.4;
           positions[index + 2] = Math.sin(angle) * r;
         }
     }

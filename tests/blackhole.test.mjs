@@ -1,7 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import T from "../vendor/three.min.cjs";
-import { CampusBlackHole } from "../src/tools/blackhole.js";
+import {
+  CampusBlackHole,
+  BLACK_HOLE_DURATION,
+} from "../src/tools/blackhole.js";
 import { createCampusShockwave } from "../src/effects/shockwave.js";
 
 test("blackhole: lifecycle, cancellation and damage invariants", () => {
@@ -23,7 +26,7 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
     sleep: true,
   }));
   let deformed = false;
-  for (let i = 0; i < 180; i++) {
+  for (let i = 0; i < Math.round((BLACK_HOLE_DURATION - 0.1) * 60); i++) {
     hole.update(1 / 60, camera);
     const f = hole.field();
     if (f)
@@ -110,4 +113,47 @@ test("blackhole: lifecycle, cancellation and damage invariants", () => {
   assert.equal(fronts.length, n);
   assert.equal(completed, 1);
   console.log("Expanding damage front, captured POWER and cancellation passed");
+});
+
+test("blackhole debris orbits and tumbles visibly before capture at 30/60/120 FPS", () => {
+  for (const fps of [30, 60, 120]) {
+    const hole = CampusBlackHole.create(T, new T.Group(), () => {}),
+      camera = new T.PerspectiveCamera(),
+      field = hole.start(new T.Vector3(0, 14, 0), 2),
+      body = {
+        origin: new T.Vector3(21, 8, 0),
+        p: new T.Vector3(21, 8, 0),
+        v: new T.Vector3(),
+        r: new T.Vector3(),
+        spin: new T.Vector3(),
+        mass: 2,
+      };
+    let orbit = 0,
+      previous = 0,
+      capturedAt = 0,
+      spinning = false;
+    for (let i = 0; i < Math.floor((BLACK_HOLE_DURATION - 0.1) * fps); i++) {
+      hole.update(1 / fps, camera);
+      CampusBlackHole.pull(body, field, 1 / fps);
+      if (body.consumed) {
+        capturedAt = field.age;
+        break;
+      }
+      const angle = Math.atan2(body.p.z, body.p.x);
+      orbit += Math.abs(
+        Math.atan2(Math.sin(angle - previous), Math.cos(angle - previous)),
+      );
+      previous = angle;
+      spinning ||= body.r.length() > 1;
+      assert(body.p.toArray().every(Number.isFinite));
+    }
+    assert(orbit > 0.8, `${fps} FPS: fragments must arc around the core`);
+    assert(
+      spinning,
+      "Slabs and walls must tumble instead of translating rigidly",
+    );
+    assert(capturedAt > 1 && capturedAt < BLACK_HOLE_DURATION);
+    assert.equal(field.captured.size, 1);
+    hole.clear();
+  }
 });

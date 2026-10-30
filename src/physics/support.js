@@ -128,13 +128,19 @@ export function createSupportGraph(blocks, detach) {
       changed = false;
       for (const { b, supports, threshold } of graph) {
         if (b.active) continue;
-        const failed = supports.filter((s) => s.active);
-        if (failed.length / supports.length < threshold) continue;
-        const x = failed.reduce((v, s) => v + s.origin.x, 0) / failed.length,
-          z = failed.reduce((v, s) => v + s.origin.z, 0) / failed.length,
-          delay =
-            Math.max(...failed.map((s) => Math.max(0, s.delay || 0))) + 0.12;
-        detach(b, x, z, delay);
+        let failed = 0,
+          x = 0,
+          z = 0,
+          delay = 0;
+        for (const s of supports) {
+          if (!s.active) continue;
+          failed++;
+          x += s.origin.x;
+          z += s.origin.z;
+          delay = Math.max(delay, s.delay || 0);
+        }
+        if (failed / supports.length < threshold) continue;
+        detach(b, x / failed, z / failed, delay + 0.12);
         count++;
         changed = true;
       }
