@@ -2,6 +2,22 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getSchool } from "../src/schools/index.js";
 
+for (const id of ["jinseon", "jbsh"])
+  test(`${id}: entrance stair treads remain above the terrain`, () => {
+    const layout = getSchool(id).createLayout();
+    for (const stair of layout.siteDetails.stairs)
+      for (let i = 0; i < stair.count; i++) {
+        const v = -stair.depth / 2 + ((i + 0.5) * stair.depth) / stair.count;
+        const tread =
+          stair.upperY -
+          ((i + 1) * (stair.upperY - stair.lowerY)) / stair.count;
+        for (const u of [-stair.width * 0.45, 0, stair.width * 0.45]) {
+          const p = layout.point(stair, u, v);
+          assert(layout.elevationAt(p.x, p.z) <= tread, `${id}: step ${i}`);
+        }
+      }
+  });
+
 test("CBSH terraces descend toward the tennis court without burying stair treads", () => {
   const layout = getSchool("cbsh").createLayout();
   assert(layout.buildings[0].baseY > layout.field.height);
@@ -68,6 +84,12 @@ for (const id of [
   "hwasung",
   "hana",
   "dongduk",
+  "haeundae",
+  "jinseon",
+  "cnsh",
+  "ushs",
+  "cnsa",
+  "jbsh",
 ])
   test(`${id}: playing field and building pads match their visible geometry`, () => {
     const l = getSchool(id).createLayout();

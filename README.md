@@ -1,6 +1,6 @@
 # Campus Playground
 
-영재학교 8곳·과학고 15곳·자율형 사립고 4곳·자율형 공립고 1곳·일반고 2곳, 총 30개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 공개 지도, 학교 배치도·시설 사진, 항공사진과 사용자 제공 모형을 참고합니다. 학교와 관계없는 비공식 게임이며, 배치와 치수·외관은 근사입니다.
+영재학교 8곳·과학고 18곳·자율형 사립고 6곳·자율형 공립고 1곳·일반고 3곳, 총 36개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 공개 지도, 학교 배치도·시설 사진, 항공사진과 사용자 제공 모형을 참고합니다. 학교와 관계없는 비공식 게임이며, 배치와 치수·외관은 근사입니다.
 
 선택 화면과 게임 안 학교 전환 메뉴를 학교 유형별로 구분합니다. 외대부고와 선덕고는 자율형 사립고로 표시합니다. 부산과학고(금정구)는 한국과학영재학교·부산일과학고와 별개의 캠퍼스입니다. 새로 추가한 대전동신과고·부산과고·창원과고·제주과고·외대부고·선덕고의 참고 자료와 미확인 범위는 `docs/sources/`에 기록했습니다.
 
@@ -30,41 +30,47 @@ pnpm start         # 이미 빌드한 dist/ 미리보기
 
 빌드 결과는 `dist/`에 생깁니다.
 
-| 파일                      | 용도                        |
-| ------------------------- | --------------------------- |
-| `index.html`              | GitHub Pages 시작 화면      |
-| `Campus-Playground.html`  | 학교를 선택하는 통합판      |
-| `SSHS-Playground.html`    | 서울과고 단독판             |
-| `GSHS-Playground.html`    | 경기과고 단독판             |
-| `ISHS-Playground.html`    | 인천과고 단독판             |
-| `KSA-Playground.html`     | 한국과학영재학교 단독판     |
-| `GSA-Playground.html`     | 광주과고 단독판             |
-| `DGSHS-Playground.html`   | 대구과고 단독판             |
-| `DJSHS-Playground.html`   | 대전과고 단독판             |
-| `HSSH-Playground.html`    | 한성과고 단독판             |
-| `SJSHS-Playground.html`   | 세종과고 단독판             |
-| `BSIS-Playground.html`    | 부산일과고 단독판           |
-| `GBS-Playground.html`     | 경기북과고 단독판           |
-| `IASA-Playground.html`    | 인천과학예술영재학교 단독판 |
-| `KBSH-Playground.html`    | 경북과고 단독판             |
-| `SASA-Playground.html`    | 세종과학예술영재학교 단독판 |
-| `DDSHS-Playground.html`   | 대전동신과학고 단독판       |
-| `BSSH-Playground.html`    | 부산과학고 단독판           |
-| `CSHS-Playground.html`    | 창원과학고 단독판           |
-| `JSHS-Playground.html`    | 제주과학고 단독판           |
-| `GSSH-Playground.html`    | 경산과학고 단독판           |
-| `GNSH-Playground.html`    | 경남과학고 단독판           |
-| `HAFS-Playground.html`    | 외대부고 단독판             |
-| `SUNDUCK-Playground.html` | 선덕고 단독판               |
-| `CBSH-Playground.html`    | 충북과학고 단독판           |
-| `IJSHS-Playground.html`   | 인천진산과학고 단독판       |
-| `DG1S-Playground.html`    | 대구일과학고 단독판         |
-| `UNJEONG-Playground.html` | 운정고 단독판               |
-| `KMLA-Playground.html`    | 민족사관고 단독판           |
-| `HWASUNG-Playground.html` | 화성고 단독판               |
-| `HANA-Playground.html`    | 하나고 단독판               |
-| `DONGDUK-Playground.html` | 동덕여고 단독판             |
-| `build-info.json`         | 포함된 학교와 파일 크기     |
+| 파일                       | 용도                        |
+| -------------------------- | --------------------------- |
+| `index.html`               | GitHub Pages 시작 화면      |
+| `Campus-Playground.html`   | 학교를 선택하는 통합판      |
+| `SSHS-Playground.html`     | 서울과고 단독판             |
+| `GSHS-Playground.html`     | 경기과고 단독판             |
+| `ISHS-Playground.html`     | 인천과고 단독판             |
+| `KSA-Playground.html`      | 한국과학영재학교 단독판     |
+| `GSA-Playground.html`      | 광주과고 단독판             |
+| `DGSHS-Playground.html`    | 대구과고 단독판             |
+| `DJSHS-Playground.html`    | 대전과고 단독판             |
+| `HSSH-Playground.html`     | 한성과고 단독판             |
+| `SJSHS-Playground.html`    | 세종과고 단독판             |
+| `BSIS-Playground.html`     | 부산일과고 단독판           |
+| `GBS-Playground.html`      | 경기북과고 단독판           |
+| `IASA-Playground.html`     | 인천과학예술영재학교 단독판 |
+| `KBSH-Playground.html`     | 경북과고 단독판             |
+| `SASA-Playground.html`     | 세종과학예술영재학교 단독판 |
+| `DDSHS-Playground.html`    | 대전동신과학고 단독판       |
+| `BSSH-Playground.html`     | 부산과학고 단독판           |
+| `CSHS-Playground.html`     | 창원과학고 단독판           |
+| `JSHS-Playground.html`     | 제주과학고 단독판           |
+| `GSSH-Playground.html`     | 경산과학고 단독판           |
+| `GNSH-Playground.html`     | 경남과학고 단독판           |
+| `HAFS-Playground.html`     | 외대부고 단독판             |
+| `SUNDUCK-Playground.html`  | 선덕고 단독판               |
+| `CBSH-Playground.html`     | 충북과학고 단독판           |
+| `IJSHS-Playground.html`    | 인천진산과학고 단독판       |
+| `DG1S-Playground.html`     | 대구일과학고 단독판         |
+| `UNJEONG-Playground.html`  | 운정고 단독판               |
+| `KMLA-Playground.html`     | 민족사관고 단독판           |
+| `HWASUNG-Playground.html`  | 화성고 단독판               |
+| `HANA-Playground.html`     | 하나고 단독판               |
+| `DONGDUK-Playground.html`  | 동덕여고 단독판             |
+| `HAEUNDAE-Playground.html` | 해운대고 단독판             |
+| `JINSEON-Playground.html`  | 진선여고 단독판             |
+| `CNSH-Playground.html`     | 충남과학고 단독판           |
+| `USHS-Playground.html`     | 울산과학고 단독판           |
+| `CNSA-Playground.html`     | 충남삼성고 단독판           |
+| `JBSH-Playground.html`     | 전북과학고 단독판           |
+| `build-info.json`          | 포함된 학교와 파일 크기     |
 
 HTML은 다운로드 후 더블클릭으로 실행할 수 있습니다. 실행 시 인터넷이나 Node.js가 필요하지 않습니다. 개발용 소스 HTML은 직접 열지 말고 `pnpm dev`를 사용하세요. 브라우저의 WebGL 지원이 필요합니다.
 
@@ -115,6 +121,12 @@ src/
     hwasung/              화성고 (일반고)
     hana/                 하나고 (자율형 사립고)
     dongduk/              동덕여고 (일반고)
+    haeundae/                 해운대고 (자율형 사립고)
+    jinseon/                 진선여고 (일반고)
+    cnsh/                 충남과학고
+    ushs/                 울산과학고
+    cnsa/                 충남삼성고 (자율형 사립고)
+    jbsh/                 전북과학고
     categories.js         선택 화면/학교 전환 메뉴의 학교 유형
     shared/               선택적 배치·단차·ground drawing 도우미
 scripts/                  빌드·개발 감시·로컬 서버

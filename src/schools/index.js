@@ -28,6 +28,12 @@ import ijshs from "./ijshs/index.js";
 import cbsh from "./cbsh/index.js";
 import hana from "./hana/index.js";
 import dongduk from "./dongduk/index.js";
+import haeundae from "./haeundae/index.js";
+import jinseon from "./jinseon/index.js";
+import cnsh from "./cnsh/index.js";
+import ushs from "./ushs/index.js";
+import cnsa from "./cnsa/index.js";
+import jbsh from "./jbsh/index.js";
 // Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
@@ -53,13 +59,19 @@ export const schools = [
   dg1s,
   ijshs,
   cbsh,
+  cnsh,
+  ushs,
+  jbsh,
   hafs,
   sunduck,
   kmla,
   hana,
+  haeundae,
+  cnsa,
   unjeong,
   hwasung,
   dongduk,
+  jinseon,
 ];
 export function getSchool(id) {
   const school = schools.find((s) => s.id === id);

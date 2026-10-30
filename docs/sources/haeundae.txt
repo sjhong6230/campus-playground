@@ -1,0 +1,16 @@
+해운대고등학교 (HHS)
+확인: 2026-10-30 ~ 2026-10-31
+공식 홈페이지: https://school.busanedu.net/haeundae-h/main.do
+주요 참고자료: https://school.busanedu.net/images/web/schl/haeundae-h/widg/visual/main/mainVisualDetailFlpth2/img_ae1e3d93-c43e-45a4-8031-8633c42281721733978376932.jpg
+공식 기숙사 안내: https://school.busanedu.net/haeundae-h/na/ntt/selectNttList.do?bbsId=5053646&mi=1003735
+기숙사 사진: https://school.busanedu.net/upload/contents/cntnts/1788937500402_160672961056781982.png
+건물 용도·층수 보조자료: https://namu.moe/w/해운대고등학교
+공식 사진에서 운동장 앞 연분홍 4층 기숙사, 뒤쪽 동해회관, 왼쪽 높은 벽돌 본관을 구분했다.
+잔디 운동장과 왼쪽 농구장, 식당-기숙사 구름다리를 반영했다.
+본관은 지상 5층과 노출된 지하 2층을 7개의 동일 높이 slab으로 단순화했다.
+도서관 위치·구름다리 높이·본관 평면 깊이는 근사이며 해운대중학교 영역은 생략했다.
+
+전체 모형은 게임용 근사이며 측량값이나 건축 도면이 아니다.
+불확실한 방위, 층수, 건물 깊이, 정문·주차장·조경은 실제와 다를 수 있다.
+실내 동선은 재현하지 않고, 사진·배치도·학교 로고 원본을 게임에 포함하지 않는다.
+
