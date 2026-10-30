@@ -18,6 +18,7 @@ import cshs from "./cshs/index.js";
 import hafs from "./hafs/index.js";
 import sunduck from "./sunduck/index.js";
 import jshs from "./jshs/index.js";
+import gssh from "./gssh/index.js";
 // Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
@@ -38,6 +39,7 @@ export const schools = [
   bssh,
   cshs,
   jshs,
+  gssh,
   hafs,
   sunduck,
 ];
