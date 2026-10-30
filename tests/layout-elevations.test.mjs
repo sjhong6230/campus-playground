@@ -2,6 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getSchool } from "../src/schools/index.js";
 
+test("CBSH terraces descend toward the tennis court without burying stair treads", () => {
+  const layout = getSchool("cbsh").createLayout();
+  assert(layout.buildings[0].baseY > layout.field.height);
+  assert(layout.field.height > layout.tennis.height);
+  for (const stair of layout.siteDetails.stairs) {
+    for (let i = 0; i < stair.count; i++) {
+      const z =
+        stair.z - stair.depth / 2 + ((i + 0.5) * stair.depth) / stair.count;
+      const tread =
+        stair.upperY - ((i + 1) * (stair.upperY - stair.lowerY)) / stair.count;
+      assert(layout.elevationAt(stair.x, z) <= tread);
+    }
+  }
+});
+
 test("GSA field is lower and level while every building keeps its foundation height", () => {
   const l = getSchool("gsa").createLayout();
   for (const u of [-l.field.w / 2, 0, l.field.w / 2])
@@ -47,6 +62,7 @@ for (const id of [
   "gnsh",
   "dg1s",
   "ijshs",
+  "cbsh",
   "unjeong",
   "kmla",
   "hwasung",

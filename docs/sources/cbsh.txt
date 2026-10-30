@@ -1,0 +1,20 @@
+충북과학고등학교 (CBSH)
+확인: 2026-10-30
+공식 홈페이지: https://school.cbe.go.kr/cbs-h/
+학교 연혁: https://school.cbe.go.kr/cbs-h/M010202/
+교육청 현대화사업 준공 보도(2023): https://baro.cbe.go.kr/news/na/ntt/selectNttInfo.do?mi=10301&nttSn=1510449
+전경(2024): https://www.fnnews.com/news/202401010959422450
+직접 확인한 이미지: https://image.fnnews.com/resource/media/image/2024/01/01/202401010959421477_l.jpg
+전경(2025): https://www.inews365.com/news/article.html?no=870985
+직접 확인한 이미지: https://www.inews365.com/data/photos/20250624/art_17499717784173.jpg
+기숙사 보조자료: https://mint7539.tistory.com/71
+시설 층수 보조자료(학교 설명회 자료 재게시): https://www.scribd.com/document/912694709/2025-충북과학교-입학설명회-홈페이지
+
+2023년 현대화 이후 전경의 회백색 외벽과 주황색 포인트를 기준으로 구현했다.
+4층 본관, 3층 실험동과 옥상 천문대, 4층 사름학사, 앞쪽 청운학사,
+본관 오른쪽 3층 창의융합동을 배치했다. 청운학사의 3층 표현과 각 동의 평면은 사진 추정이다.
+사진의 잔디 운동장과 앞쪽 낮은 테니스장, 두 구역 사이의 경사·계단을 반영했다.
+실험동의 여러 관측 설비는 하나의 dome으로, 테니스장은 공통 court로 단순화했다.
+정밀 배치도를 확보하지 못했으므로 방위, 동 간 간격, 후면 윤곽, 정문·주차장,
+운동장 치수·높이 및 기숙사별 사진상 위치 대응은 근사다. 내부 동선은 재현하지 않는다.
+사진·학교 로고 원본은 게임에 포함하지 않는다.

@@ -32,6 +32,7 @@ test("school groups keep autonomous high schools separate from science and gifte
       "gnsh",
       "dg1s",
       "ijshs",
+      "cbsh",
     ].sort(),
   );
   assert.deepEqual(
@@ -96,6 +97,7 @@ for (const id of [
   "gnsh",
   "dg1s",
   "ijshs",
+  "cbsh",
   "unjeong",
   "kmla",
   "hwasung",

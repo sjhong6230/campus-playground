@@ -23,6 +23,7 @@ for (const id of [
   "gnsh",
   "dg1s",
   "ijshs",
+  "cbsh",
   "unjeong",
   "kmla",
   "hwasung",
@@ -69,6 +70,7 @@ test("visible observation domes sit on a supporting roof", () => {
     "cshs",
     "gssh",
     "gnsh",
+    "cbsh",
   ]) {
     const layout = getSchool(id).createLayout();
     const dome = layout.observatory;
