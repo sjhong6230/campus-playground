@@ -12,7 +12,13 @@ import gbs from "./gbs/index.js";
 import iasa from "./iasa/index.js";
 import sasa from "./sasa/index.js";
 import kbsh from "./kbsh/index.js";
-// Gifted science academies first; science high schools follow.
+import ddshs from "./ddshs/index.js";
+import bssh from "./bssh/index.js";
+import cshs from "./cshs/index.js";
+import hafs from "./hafs/index.js";
+import sunduck from "./sunduck/index.js";
+import jshs from "./jshs/index.js";
+// Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
   gshs,
@@ -28,6 +34,12 @@ export const schools = [
   bsis,
   gbs,
   kbsh,
+  ddshs,
+  bssh,
+  cshs,
+  jshs,
+  hafs,
+  sunduck,
 ];
 export function getSchool(id) {
   const school = schools.find((s) => s.id === id);

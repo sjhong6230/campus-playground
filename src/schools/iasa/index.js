@@ -3,6 +3,7 @@ import { paintGround } from "./ground.js";
 
 export default {
   id: "iasa",
+  category: "gifted",
   name: "인천과학예술영재학교",
   shortName: "인천영재",
   nickname: "인과영",

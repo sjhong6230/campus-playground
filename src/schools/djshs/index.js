@@ -2,6 +2,7 @@ import { createLayout } from "./layout.js";
 import { paintGround } from "./ground.js";
 export default {
   id: "djshs",
+  category: "gifted",
   name: "대전과학고등학교",
   shortName: "대전과고",
   nickname: "대전과고",

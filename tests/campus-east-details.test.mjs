@@ -13,6 +13,12 @@ for (const id of [
   "iasa",
   "kbsh",
   "sasa",
+  "ddshs",
+  "bssh",
+  "cshs",
+  "hafs",
+  "sunduck",
+  "jshs",
 ]) {
   test(`${id}: site details and roof fittings stay within their support bounds`, () => {
     const layout = getSchool(id).createLayout();
@@ -45,7 +51,16 @@ for (const id of [
 }
 
 test("visible observation domes sit on a supporting roof", () => {
-  for (const id of ["hssh", "sjshs", "bsis", "gbs", "iasa", "kbsh"]) {
+  for (const id of [
+    "hssh",
+    "sjshs",
+    "bsis",
+    "gbs",
+    "iasa",
+    "kbsh",
+    "ddshs",
+    "cshs",
+  ]) {
     const layout = getSchool(id).createLayout();
     const dome = layout.observatory;
     if (!dome && (id === "gbs" || id === "iasa")) continue;

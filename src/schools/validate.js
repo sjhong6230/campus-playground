@@ -1,3 +1,4 @@
+import { schoolCategories } from "./categories.js";
 /** Fail during build instead of shipping an unselectable or broken campus. */
 export function validateSchools(schools) {
   if (!schools.length) throw new Error("Register at least one school");
@@ -6,6 +7,8 @@ export function validateSchools(schools) {
     if (!/^[a-z][a-z0-9-]*$/.test(school.id) || ids.has(school.id))
       throw new Error("Invalid/duplicate school id: " + school.id);
     ids.add(school.id);
+    if (!schoolCategories.some((category) => category.id === school.category))
+      throw new Error(school.id + ": invalid category");
     for (const key of [
       "name",
       "shortName",

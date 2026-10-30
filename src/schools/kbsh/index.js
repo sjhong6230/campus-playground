@@ -2,6 +2,7 @@ import { createLayout } from "./layout.js";
 import { paintGround } from "./ground.js";
 export default {
   id: "kbsh",
+  category: "science",
   name: "경북과학고등학교",
   shortName: "경북과고",
   nickname: "겹곽",

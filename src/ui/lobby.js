@@ -1,37 +1,55 @@
 // The engine is embedded once. Replacing the iframe releases the previous world,
 // WebGL context and animation loop without retaining another campus instance.
 import { initSiteNotice } from "./site-notice.js";
+import { groupSchools } from "../schools/categories.js";
 initSiteNotice();
 const { schools, template } = JSON.parse(
   document.getElementById("campus-data").textContent,
 );
 const $ = (id) => document.getElementById(id),
   selector = $("school"),
-  cards = document.querySelector(".cards");
+  groups = document.querySelector(".school-groups");
 let current = null;
-for (const school of schools) {
-  const option = document.createElement("option");
-  option.value = school.id;
-  option.textContent = school.name;
-  selector.append(option);
-  const button = document.createElement("button");
-  button.className = "card";
-  button.dataset.school = school.id;
-  button.setAttribute("aria-label", school.name + " 시작");
-  for (const [tag, cls, text] of [
-    ["span", "initials", school.abbr],
-    ["strong", "", school.name],
-    ["span", "location", school.location],
-    ["span", "start", "캠퍼스 들어가기 ↗"],
-  ]) {
-    const node = document.createElement(tag);
-    node.className = cls;
-    node.textContent = text;
-    if (cls === "initials") node.style.color = school.accent;
-    button.append(node);
+for (const category of groupSchools(schools)) {
+  const section = document.createElement("section");
+  section.className = "school-group";
+  section.dataset.category = category.id;
+  const heading = document.createElement("h2");
+  heading.id = "category-" + category.id;
+  heading.textContent = `${category.label} · ${category.schools.length}`;
+  section.setAttribute("aria-labelledby", heading.id);
+  const cards = document.createElement("div");
+  cards.className = "cards";
+  section.append(heading, cards);
+  groups.append(section);
+  const optionGroup = document.createElement("optgroup");
+  optionGroup.label = category.label;
+  selector.append(optionGroup);
+  for (const school of category.schools) {
+    const option = document.createElement("option");
+    option.value = school.id;
+    option.textContent = school.cardName || school.name;
+    option.title = school.name;
+    optionGroup.append(option);
+    const button = document.createElement("button");
+    button.className = "card";
+    button.dataset.school = school.id;
+    button.setAttribute("aria-label", school.name + " 시작");
+    for (const [tag, cls, text] of [
+      ["span", "initials", school.abbr],
+      ["strong", "", school.cardName || school.name],
+      ["span", "location", school.location],
+      ["span", "start", "캠퍼스 들어가기 ↗"],
+    ]) {
+      const node = document.createElement(tag);
+      node.className = cls;
+      node.textContent = text;
+      if (cls === "initials") node.style.color = school.accent;
+      button.append(node);
+    }
+    button.addEventListener("click", () => start(school.id));
+    cards.append(button);
   }
-  button.addEventListener("click", () => start(school.id));
-  cards.append(button);
 }
 function start(id) {
   const school = schools.find((s) => s.id === id);

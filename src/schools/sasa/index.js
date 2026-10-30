@@ -2,6 +2,7 @@ import { createLayout } from "./layout.js";
 import { paintGround } from "./ground.js";
 export default {
   id: "sasa",
+  category: "gifted",
   name: "세종과학예술영재학교",
   shortName: "세종영재",
   nickname: "세과영",

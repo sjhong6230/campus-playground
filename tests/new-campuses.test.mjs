@@ -1,23 +1,44 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { getSchool, schools } from "../src/schools/index.js";
+import { groupSchools } from "../src/schools/categories.js";
+import { validateSchools } from "../src/schools/validate.js";
 
-test("the selector places all eight gifted academies before the six science high schools", () => {
-  assert.equal(schools.length, 14);
+test("school groups keep autonomous high schools separate from science and gifted schools", () => {
+  const groups = groupSchools(schools);
   assert.deepEqual(
-    schools
-      .slice(0, 8)
-      .map((school) => school.id)
-      .sort(),
+    groups.map((group) => group.id),
+    ["gifted", "science", "autonomous"],
+  );
+  assert.equal(groups.flatMap((group) => group.schools).length, schools.length);
+  assert.deepEqual(
+    groups[0].schools.map((school) => school.id).sort(),
     ["sshs", "gshs", "ksa", "gsa", "dgshs", "djshs", "iasa", "sasa"].sort(),
   );
   assert.deepEqual(
-    schools
-      .slice(8)
-      .map((school) => school.id)
-      .sort(),
-    ["ishs", "hssh", "sjshs", "bsis", "gbs", "kbsh"].sort(),
+    groups[1].schools.map((school) => school.id).sort(),
+    [
+      "ishs",
+      "hssh",
+      "sjshs",
+      "bsis",
+      "gbs",
+      "kbsh",
+      "ddshs",
+      "bssh",
+      "cshs",
+      "jshs",
+    ].sort(),
   );
+  assert.deepEqual(
+    groups[2].schools.map((school) => school.id),
+    ["hafs", "sunduck"],
+  );
+  assert.throws(
+    () => validateSchools([{ ...getSchool("hafs"), category: "unknown" }]),
+    /invalid category/,
+  );
+  assert.equal(groupSchools([getSchool("hafs")]).length, 1);
 });
 
 function corners(layout, frame) {
@@ -48,7 +69,18 @@ function overlaps(layout, a, b) {
   return true;
 }
 
-for (const id of ["gbs", "iasa", "kbsh", "sasa"])
+for (const id of [
+  "gbs",
+  "iasa",
+  "kbsh",
+  "sasa",
+  "ddshs",
+  "bssh",
+  "cshs",
+  "hafs",
+  "sunduck",
+  "jshs",
+])
   test(`${id}: building and bridge footprints leave the playing field clear`, () => {
     const layout = getSchool(id).createLayout();
     for (const building of layout.buildings)

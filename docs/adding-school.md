@@ -14,6 +14,7 @@ import { paintGround } from "./ground.js";
 
 export default {
   id: "new-school",
+  category: "science",
   name: "새 과학고등학교",
   shortName: "새 과고",
   nickname: "새 과고",
@@ -27,6 +28,8 @@ export default {
 ```
 
 id는 소문자로 시작하는 영문·숫자·하이픈으로 구성하고 중복을 피하세요. id는 저장 키와 단독 배포 파일 이름에 사용하므로 출시 후 변경하면 이전 최고 점수와 분리됩니다.
+
+`category`는 `gifted`(영재학교), `science`(과학고등학교), `autonomous`(자율형 사립고등학교) 중 하나입니다. 공식 학교 유형을 확인해 지정하세요. 선택 화면의 구역과 게임 안 `optgroup`은 이 값으로 생성됩니다. 긴 정식 명칭에는 선택적으로 `cardName`을 지정해 카드에 짧은 통용명을 표시할 수 있습니다. 접근성 이름과 게임 제목은 정식 명칭을 유지합니다.
 
 ## 2. Layout 계약
 

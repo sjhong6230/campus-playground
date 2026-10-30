@@ -37,6 +37,12 @@ for (const id of [
   "iasa",
   "kbsh",
   "sasa",
+  "ddshs",
+  "bssh",
+  "cshs",
+  "hafs",
+  "sunduck",
+  "jshs",
 ])
   test(`${id}: playing field and building pads match their visible geometry`, () => {
     const l = getSchool(id).createLayout();

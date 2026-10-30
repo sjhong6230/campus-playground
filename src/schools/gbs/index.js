@@ -3,6 +3,7 @@ import { paintGround } from "./ground.js";
 
 export default {
   id: "gbs",
+  category: "science",
   name: "경기북과학고등학교",
   shortName: "경기북과고",
   nickname: "경기북과고",

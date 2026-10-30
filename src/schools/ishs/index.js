@@ -3,6 +3,7 @@ import { paintGround } from "./ground.js";
 export default {
   ...{
     id: "ishs",
+    category: "science",
     name: "인천과학고등학교",
     shortName: "인천과고",
     nickname: "인곽",

@@ -1,6 +1,8 @@
 # Campus Playground
 
-서울과고·경기과고·한국과학영재학교·광주과고·대구과고·대전과고·인천과학예술영재학교·인천과고·한성과고·세종과고·부산일과고·경기북과고·경북과고·세종과학예술영재학교, 총 14개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 공개 지도, 학교 배치도·시설 사진, 항공사진과 사용자 제공 모형을 참고합니다. 학교와 관계없는 비공식 게임이며, 배치와 치수·외관은 근사입니다.
+영재학교 8곳·과학고 10곳·자율형 사립고 2곳, 총 20개 학교의 모형을 탐색하고 파괴하는 Three.js 샌드박스입니다. 공개 지도, 학교 배치도·시설 사진, 항공사진과 사용자 제공 모형을 참고합니다. 학교와 관계없는 비공식 게임이며, 배치와 치수·외관은 근사입니다.
+
+선택 화면과 게임 안 학교 전환 메뉴를 학교 유형별로 구분합니다. 외대부고와 선덕고는 자율형 사립고로 표시합니다. 부산과학고(금정구)는 한국과학영재학교·부산일과학고와 별개의 캠퍼스입니다. 새로 추가한 대전동신과고·부산과고·창원과고·제주과고·외대부고·선덕고의 참고 자료와 미확인 범위는 `docs/sources/`에 기록했습니다.
 
 **[웹에서 플레이](https://sjhong6230.github.io/campus-playground/)** · [GitHub 저장소](https://github.com/sjhong6230/campus-playground)
 
@@ -28,25 +30,31 @@ pnpm start         # 이미 빌드한 dist/ 미리보기
 
 빌드 결과는 `dist/`에 생깁니다.
 
-| 파일                     | 용도                        |
-| ------------------------ | --------------------------- |
-| `index.html`             | GitHub Pages 시작 화면      |
-| `Campus-Playground.html` | 학교를 선택하는 통합판      |
-| `SSHS-Playground.html`   | 서울과고 단독판             |
-| `GSHS-Playground.html`   | 경기과고 단독판             |
-| `ISHS-Playground.html`   | 인천과고 단독판             |
-| `KSA-Playground.html`    | 한국과학영재학교 단독판     |
-| `GSA-Playground.html`    | 광주과고 단독판             |
-| `DGSHS-Playground.html`  | 대구과고 단독판             |
-| `DJSHS-Playground.html`  | 대전과고 단독판             |
-| `HSSH-Playground.html`   | 한성과고 단독판             |
-| `SJSHS-Playground.html`  | 세종과고 단독판             |
-| `BSIS-Playground.html`   | 부산일과고 단독판           |
-| `GBS-Playground.html`    | 경기북과고 단독판           |
-| `IASA-Playground.html`   | 인천과학예술영재학교 단독판 |
-| `KBSH-Playground.html`   | 경북과고 단독판             |
-| `SASA-Playground.html`   | 세종과학예술영재학교 단독판 |
-| `build-info.json`        | 포함된 학교와 파일 크기     |
+| 파일                      | 용도                        |
+| ------------------------- | --------------------------- |
+| `index.html`              | GitHub Pages 시작 화면      |
+| `Campus-Playground.html`  | 학교를 선택하는 통합판      |
+| `SSHS-Playground.html`    | 서울과고 단독판             |
+| `GSHS-Playground.html`    | 경기과고 단독판             |
+| `ISHS-Playground.html`    | 인천과고 단독판             |
+| `KSA-Playground.html`     | 한국과학영재학교 단독판     |
+| `GSA-Playground.html`     | 광주과고 단독판             |
+| `DGSHS-Playground.html`   | 대구과고 단독판             |
+| `DJSHS-Playground.html`   | 대전과고 단독판             |
+| `HSSH-Playground.html`    | 한성과고 단독판             |
+| `SJSHS-Playground.html`   | 세종과고 단독판             |
+| `BSIS-Playground.html`    | 부산일과고 단독판           |
+| `GBS-Playground.html`     | 경기북과고 단독판           |
+| `IASA-Playground.html`    | 인천과학예술영재학교 단독판 |
+| `KBSH-Playground.html`    | 경북과고 단독판             |
+| `SASA-Playground.html`    | 세종과학예술영재학교 단독판 |
+| `DDSHS-Playground.html`   | 대전동신과학고 단독판       |
+| `BSSH-Playground.html`    | 부산과학고 단독판           |
+| `CSHS-Playground.html`    | 창원과학고 단독판           |
+| `JSHS-Playground.html`    | 제주과학고 단독판           |
+| `HAFS-Playground.html`    | 외대부고 단독판             |
+| `SUNDUCK-Playground.html` | 선덕고 단독판               |
+| `build-info.json`         | 포함된 학교와 파일 크기     |
 
 HTML은 다운로드 후 더블클릭으로 실행할 수 있습니다. 실행 시 인터넷이나 Node.js가 필요하지 않습니다. 개발용 소스 HTML은 직접 열지 말고 `pnpm dev`를 사용하세요. 브라우저의 WebGL 지원이 필요합니다.
 
@@ -81,6 +89,13 @@ src/
     iasa/                 인천과학예술영재학교: index.js / layout.js / ground.js
     kbsh/                 경북과고 지곡 캠퍼스
     sasa/                 세종과학예술영재학교
+    ddshs/                대전동신과학고
+    bssh/                 부산과학고 (금정구)
+    cshs/                 창원과학고
+    hafs/                 외대부고 (자율형 사립고)
+    sunduck/              선덕고 (자율형 사립고)
+    jshs/                 제주과학고
+    categories.js         선택 화면/학교 전환 메뉴의 학교 유형
     shared/               선택적 배치·단차·ground drawing 도우미
 scripts/                  빌드·개발 감시·로컬 서버
 tests/                    Node test runner + 역사적 비교 fixture
