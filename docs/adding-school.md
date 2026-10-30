@@ -93,3 +93,12 @@ export const schools = [sshs, gshs, ishs, newSchool];
 - `siteDetails.fences`: `{points:[[x,z],...], height, color}` 배열. 옹벽·울타리·정문은 기존 scenery batch에 포함되어 damage·Black hole·Undo를 지원합니다.
 
 각 좌표와 높이는 game units이며 측량값이 아닙니다. 부속을 과도하게 늘리지 말고 가급적 짧은 경로와 공유 palette를 사용하세요. 이전 모형과 달라지는 정확도 수정은 오래된 fixture hash를 재생성해 숨기지 말고, 새 근거와 geometry/복구 invariant를 함께 검증하세요.
+
+## 입체 계단
+
+`siteDetails.stairs`는 상단(-v)에서 하단(+v)으로 내려가는 계단입니다.
+각 항목은 `{x, z, angle, width, depth, count, upperY, lowerY, color}`를 사용합니다.
+`count`는 양의 정수이고 `upperY > lowerY`여야 합니다. 각 단은 기존 scenery
+batch에 포함되어 damage와 Undo를 지원합니다. 학교의 `elevationAt()`은 계단
+footprint 내부에서 구조물을 덮지 않도록 foundation 높이를 제공해야 합니다.
+한성과고는 main entrance와 gym 사이의 단차를 이 방식으로 표현합니다.

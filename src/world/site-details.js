@@ -38,6 +38,36 @@ export function paintSiteDetails({ ctx, X, Z, path, layout }) {
 }
 
 export function addSiteScenery({ layout, terrain, object, framedPart }) {
+  // Stair coordinates run from the upper landing (-v) to the lower one (+v).
+  // Each tread uses the existing scenery damage, ground and Undo lifecycle.
+  for (const stairs of layout.siteDetails?.stairs || []) {
+    const treadDepth = stairs.depth / stairs.count;
+    const rise = (stairs.upperY - stairs.lowerY) / stairs.count;
+    for (let i = 0; i < stairs.count; i++) {
+      const v = -stairs.depth / 2 + (i + 0.5) * treadDepth;
+      const q = layout.point(stairs, 0, v);
+      const top = stairs.upperY - i * rise;
+      const height = top - stairs.lowerY;
+      const step = object(
+        "stair",
+        q.x,
+        q.z,
+        Math.hypot(stairs.width, treadDepth) / 2,
+      );
+      framedPart(
+        step,
+        "bar",
+        stairs,
+        0,
+        stairs.lowerY - terrain.heightAt(q.x, q.z) + height / 2,
+        v,
+        stairs.width,
+        height,
+        treadDepth,
+        stairs.color || "#c5c1b3",
+      );
+    }
+  }
   const g = layout.gate,
     width = g.width || 15,
     height = g.height || 4.8;

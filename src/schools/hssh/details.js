@@ -29,6 +29,18 @@ export function addDetails(layout) {
     sign: "한성과학고등학교",
   };
   layout.siteDetails = {
+    stairs: [
+      {
+        ...layout.point(frame, 22, -7.75),
+        angle: frame.angle,
+        width: 12,
+        depth: 10.5,
+        count: 12,
+        upperY: 10.5,
+        lowerY: 4.5,
+        color: "#c5c1b3",
+      },
+    ],
     retainingWalls: [
       { a: p(-22.5, 25), b: p(8, 25), height: 6.8, color: "#a1a18f" },
       { a: p(10, 2), b: p(10, 23), height: 4.7, color: "#a5a492" },
@@ -58,8 +70,8 @@ export function addDetails(layout) {
           p(-53, -23),
           p(46, -23),
           p(51, -17),
-          p(51, 32),
-          p(-49, 32),
+          p(51, 34),
+          p(-44, 34),
           p(-53, 27),
         ],
         width: 3.2,
@@ -80,7 +92,9 @@ export function addDetails(layout) {
       },
     ],
   };
-  layout.sources.checked = "2026-10-29";
+  layout.sources.checked = "2026-10-30";
+  layout.sources.userCorrection =
+    "2026-10-30: user-labelled map and campus description";
   layout.sources.photos =
     "https://commons.wikimedia.org/wiki/File:Hansung_Science_High_School.jpg";
   return layout;

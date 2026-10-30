@@ -7,7 +7,6 @@ export function paintGround(args) {
       const p = point(campus, u, v);
       return [p.x, p.z];
     });
-  const step = point(campus, -7, -5);
   paintSite(args, {
     surfaces: [{ ...campus, w: 112, d: 65, color: "#b9bda6" }],
     paths: [
@@ -28,7 +27,8 @@ export function paintGround(args) {
           [-53, -23],
           [46, -23],
           [51, -17],
-          [51, 29],
+          [51, 34],
+          [-44, 34],
           [-52, 29],
         ]),
         width: 3.2,
@@ -52,6 +52,5 @@ export function paintGround(args) {
         color: "#d8cdb8",
       },
     ],
-    steps: [{ ...step, angle: campus.angle, w: 27, count: 5 }],
   });
 }

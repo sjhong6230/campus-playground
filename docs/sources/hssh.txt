@@ -42,3 +42,17 @@ No map pixels, illustrated diagram or source prose are bundled with the game.
   Wall/fence heights, court dimensions, frontage subdivisions and all color
   samples are visually estimated. Sources do not provide a surveyed contour plan.
   Photos and map pixels are not distributed.
+
+2026-10-30 user correction (supersedes the tentative rear-block identification)
+- Source: user-supplied annotated map screenshot and written campus description.
+- Donuigwan has six storeys; Taehagwan has four. Main 1F and Donui 4F
+  are at similar elevations, retained as a nine-game-unit foundation difference.
+- The small structures behind the main building are storage/waste sheds and
+  are omitted at this scale. The previous large rear Seohyeon block was wrong.
+- The labelled map places Seohyeon beside the lower dormitory complex; its
+  footprint is moved there. Its four-storey height remains an unverified model
+  assumption; the user supplied no new height for this building.
+- A broad staircase connects the main entrance to the centre of Inwanggwan.
+  Twelve physical treads span the six-game-unit drop. Width, tread count,
+  footprint dimensions and precise placement are modelling approximations.
+- Foreground parking and the service road are adjusted to clear Seohyeon.

@@ -36,15 +36,16 @@ export function createLayout() {
         b("인왕관 · 체육관", 2, 4.5, "#d5ccbb", [
           s(22, 8, 21, 21, { roof: "hip", roofColor: "#829991" }),
         ]),
-        b("돈의관 · 남기숙사", 5, 1.5, "#c5bca8", [
+        b("돈의관 · 남기숙사", 6, 1.5, "#c5bca8", [
           s(-32, 11, 13, 24, { roofColor: "#6d9083" }),
         ]),
-        b("태하관 · 도서관", 5, 1.5, "#c5d0bd", [
+        b("태하관 · 도서관", 4, 1.5, "#c5d0bd", [
           s(-46, 11, 8, 23, { roofColor: "#73988a" }),
         ]),
-        // This small rear block is approximate; the older diagram predates Seohyeon.
-        b("서현관 · 여기숙사", 4, 10.5, "#cbd2c2", [
-          s(27, -29, 20, 7, { roofColor: "#668d7e" }),
+        // User-labelled map places Seohyeon beside the lower dormitory complex.
+        // The tiny rear storage/waste sheds are deliberately omitted.
+        b("서현관 · 여기숙사", 4, 1.5, "#cbd2c2", [
+          s(-29, 28, 20, 7, { roofColor: "#668d7e" }),
         ]),
       ],
       links: [
@@ -63,7 +64,7 @@ export function createLayout() {
       tennis: s(23, 25, 18, 9, { height: 4.5 }),
       courtKind: "basketball",
       gate: { ...p(-48, 29), angle: campus.angle },
-      parking: { ...p(-31, 29), angle: campus.angle },
+      parking: { ...p(-4, 32), angle: campus.angle },
       benches: [p(-18, -6), p(-8, -6), p(2, -6), p(5, 26)].map((q) => [
         q.x,
         q.z,
@@ -88,5 +89,13 @@ export function createLayout() {
       );
     },
   );
+  // A recessed foundation lets the physical treads span the six-unit drop
+  // from the main entrance to the centre of Inwanggwan without buried steps.
+  const elevationAt = layout.elevationAt;
+  layout.elevationAt = (x, z) => {
+    const { u, v } = local(campus, x, z);
+    if (u > 16 && u < 28 && v > -13 && v < -2.5) return 4.5;
+    return elevationAt(x, z);
+  };
   return addDetails(layout);
 }
