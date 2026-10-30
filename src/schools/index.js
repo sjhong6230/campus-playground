@@ -24,6 +24,7 @@ import dg1s from "./dg1s/index.js";
 import unjeong from "./unjeong/index.js";
 import kmla from "./kmla/index.js";
 import hwasung from "./hwasung/index.js";
+import ijshs from "./ijshs/index.js";
 // Category metadata determines the lobby sections and selector optgroups.
 export const schools = [
   sshs,
@@ -47,6 +48,7 @@ export const schools = [
   gssh,
   gnsh,
   dg1s,
+  ijshs,
   hafs,
   sunduck,
   kmla,

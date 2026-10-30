@@ -46,6 +46,7 @@ for (const id of [
   "gssh",
   "gnsh",
   "dg1s",
+  "ijshs",
   "unjeong",
   "kmla",
   "hwasung",
