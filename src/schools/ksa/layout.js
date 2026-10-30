@@ -79,15 +79,16 @@ export function createLayout() {
       },
       {
         name: "견우관",
-        x: 39,
-        z: -6,
+        x: 26,
+        z: -9,
         floors: 6,
         baseY: 6,
         color: "#bf8e79",
         segments: [
+          // The courtyard opens toward Jiknyeo-gwan (+X), not uphill (-Z).
           { x: 26, z: -9, w: 10, d: 26, angle: 0 },
           { x: 42, z: 0, w: 23, d: 9, angle: 0 },
-          { x: 53, z: -9, w: 9, d: 26, angle: 0 },
+          { x: 42, z: -18, w: 23, d: 9, angle: 0 },
         ],
       },
       {
@@ -178,9 +179,9 @@ export function createLayout() {
       },
       {
         name: "본관–생활관 연결부",
-        x: 14,
+        x: 15.25,
         z: -2,
-        w: 10,
+        w: 11.5,
         d: 3,
         angle: 0,
         baseY: 9,

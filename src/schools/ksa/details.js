@@ -135,5 +135,5 @@ export function refineCampus(layout) {
   layout.maxTrees = 74;
   layout.sources.aerialDiagram =
     "https://ksa.hs.kr/Content/images/content/schoolinfo/map_2017.jpg";
-  layout.sources.checked = "2026-10-29";
+  layout.sources.checked = "2026-10-30";
 }

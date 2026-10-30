@@ -58,3 +58,36 @@ test("KSA rear teaching wing and Incheon solar canopy remain inside the campus",
   }
   validateSchools([ksa, ishs]);
 });
+
+test("KSA Gyeonwoo courtyard opens toward Jiknyeo and connects to the main building", () => {
+  const layout = ksa.createLayout();
+  const dorm = layout.buildings.find((b) => b.name === "견우관");
+  const main = layout.buildings.find((b) => b.name === "본관");
+  const jiknyeo = layout.buildings.find((b) => b.name === "직녀관");
+  const contains = (building, x, z) =>
+    building.segments.some((s) => {
+      const dx = x - s.x,
+        dz = z - s.z;
+      return (
+        Math.abs(dx * s.cos - dz * s.sin) <= s.w / 2 + 1e-8 &&
+        Math.abs(dx * s.sin + dz * s.cos) <= s.d / 2 + 1e-8
+      );
+    });
+  // Probe the courtyard approach from the girls' dorm, not just segment angles.
+  for (let x = 36; x < jiknyeo.x - 5; x += 1)
+    assert(
+      !contains(dorm, x, -9),
+      "courtyard entrance toward Jiknyeo stays open",
+    );
+  assert(contains(dorm, 26, -9), "closed side faces the main building");
+  assert(contains(dorm, 42, -18), "uphill wing bounds the courtyard");
+  assert(contains(dorm, 42, 0), "downhill wing bounds the courtyard");
+  const link = layout.links.find((l) => l.name === "본관–생활관 연결부");
+  const start = layout.point(link, -link.w / 2, 0);
+  const end = layout.point(link, link.w / 2, 0);
+  assert(
+    contains(main, start.x, start.z),
+    "bridge starts on the main building",
+  );
+  assert(contains(dorm, end.x, end.z), "bridge meets the dorm's closed side");
+});
