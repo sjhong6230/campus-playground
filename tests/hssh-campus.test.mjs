@@ -17,6 +17,23 @@ test("HSSH follows the user-labelled buildings and hillside floor relationship",
     seohyeon.v > donui.v,
     "Seohyeon belongs beside the lower dormitory complex",
   );
+  const dorm = find("돈의관").segments[0];
+  const girlsDorm = find("서현관").segments[0];
+  assert(
+    seohyeon.u > donui.u + dorm.w / 2 &&
+      seohyeon.u - girlsDorm.w / 2 < donui.u + dorm.w / 2,
+    "Seohyeon straddles Donui's field-side end, rather than its centre",
+  );
+  const field = local(campus, layout.field.x, layout.field.z);
+  const nearEdge = seohyeon.v - girlsDorm.d / 2;
+  assert(nearEdge > field.v + layout.field.d / 2);
+  const wall = layout.siteDetails.retainingWalls[0];
+  for (const [x, z] of [wall.a, wall.b]) {
+    assert(
+      local(campus, x, z).v + 0.55 / 2 < nearEdge,
+      "The field retaining wall must not cut through Seohyeon",
+    );
+  }
   for (const building of layout.buildings)
     for (const s of building.segments)
       assert(

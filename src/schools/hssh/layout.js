@@ -42,10 +42,10 @@ export function createLayout() {
         b("태하관 · 도서관", 4, 1.5, "#c5d0bd", [
           s(-46, 11, 8, 23, { roofColor: "#73988a" }),
         ]),
-        // User-labelled map places Seohyeon beside the lower dormitory complex.
-        // The tiny rear storage/waste sheds are deliberately omitted.
+        // Satellite view places Seohyeon across the field-side end of Donui,
+        // not centred below it. The tiny rear storage/waste sheds are omitted.
         b("서현관 · 여기숙사", 4, 1.5, "#cbd2c2", [
-          s(-29, 28, 20, 7, { roofColor: "#668d7e" }),
+          s(-24, 28, 20, 7, { roofColor: "#668d7e" }),
         ]),
       ],
       links: [

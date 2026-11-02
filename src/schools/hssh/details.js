@@ -42,7 +42,7 @@ export function addDetails(layout) {
       },
     ],
     retainingWalls: [
-      { a: p(-22.5, 25), b: p(8, 25), height: 6.8, color: "#a1a18f" },
+      { a: p(-22.5, 24), b: p(8, 24), height: 6.8, color: "#a1a18f" },
       { a: p(10, 2), b: p(10, 23), height: 4.7, color: "#a5a492" },
       { a: p(-24, -1), b: p(-24, 23), height: 8.6, color: "#aaa795" },
     ],
@@ -92,9 +92,9 @@ export function addDetails(layout) {
       },
     ],
   };
-  layout.sources.checked = "2026-10-30";
+  layout.sources.checked = "2026-11-02";
   layout.sources.userCorrection =
-    "2026-10-30: user-labelled map and campus description";
+    "2026-10-30: user-labelled map and campus description; 2026-11-02: Seohyeon position rechecked against Naver satellite view";
   layout.sources.photos =
     "https://commons.wikimedia.org/wiki/File:Hansung_Science_High_School.jpg";
   return layout;
